@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LessonCard from "./components/LessonCard";
+import { lessons } from "./lessons";
 import Dashboard from "./components/Dashboard";
 import { supabase } from "./lib/supabaseClient";
 import { lessons } from "./lessons";
