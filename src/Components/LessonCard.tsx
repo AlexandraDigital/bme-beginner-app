@@ -1,315 +1,257 @@
-import React, { useState } from "react";
-import { Lesson } from "../lessons";
+import React, { useState } from 'react';
+
+interface Quiz {
+  question: string;
+  options: string[];
+  answer: number;
+  explanation?: string;
+}
+
+interface Lesson {
+  id: string;
+  title: string;
+  tier: string;
+  description: string;
+  keyIdea: string;
+  example: string;
+  quizzes: Quiz[];
+  video?: string;
+}
+
+interface TierConfig {
+  label: string;
+  color: string;
+  bg: string;
+  border: string;
+  gradient: string;
+  glow: string;
+}
 
 interface Props {
   lesson: Lesson;
   isCompleted: boolean;
-  onComplete: (id: string, xp: number) => void;
-  openTutor: (title: string) => void;
+  tier: string;
+  tierConfig: TierConfig;
+  onComplete: (lessonId: string, xp: number) => void;
+  onAskTutor: (topic: string) => void;
 }
 
-const TIER_COLORS = {
-  beginner:     { color: "#22c55e", bg: "rgba(34,197,94,0.12)",    border: "rgba(34,197,94,0.3)"    },
-  intermediate: { color: "#60a5fa", bg: "rgba(96,165,250,0.12)",   border: "rgba(96,165,250,0.3)"   },
-  advanced:     { color: "#a78bfa", bg: "rgba(167,139,250,0.12)",  border: "rgba(167,139,250,0.3)"  },
-};
-
-export default function LessonCard({ lesson, isCompleted, onComplete, openTutor }: Props) {
-  const [expanded, setExpanded]       = useState(false);
-  const [quizStarted, setQuizStarted] = useState(false);
+export default function LessonCard({ lesson, isCompleted, tier, tierConfig, onComplete, onAskTutor }: Props) {
+  const [expanded, setExpanded] = useState(false);
   const [currentQuiz, setCurrentQuiz] = useState(0);
-  const [selected, setSelected]       = useState<number | null>(null);
-  const [answered, setAnswered]       = useState(false);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [quizScore, setQuizScore] = useState(0);
+  const [quizComplete, setQuizComplete] = useState(false);
 
-  const tc       = TIER_COLORS[lesson.tier];
-  const quiz     = lesson.quizzes[currentQuiz];
-  const isLastQ  = currentQuiz === lesson.quizzes.length - 1;
+  const quizzes = lesson.quizzes || [];
+  const quiz = quizzes[currentQuiz];
+
+  const xpReward = tier === 'beginner' ? 10 : tier === 'intermediate' ? 20 : 30;
 
   const handleAnswer = (idx: number) => {
-    if (answered) return;
+    if (selected !== null) return;
     setSelected(idx);
-    setAnswered(true);
-  };
-
-  const handleNext = () => {
-    if (isLastQ) {
-      onComplete(lesson.id, lesson.xpReward);
-      setQuizStarted(false);
-      setCurrentQuiz(0);
-      setSelected(null);
-      setAnswered(false);
-    } else {
-      setCurrentQuiz(c => c + 1);
-      setSelected(null);
-      setAnswered(false);
+    setShowExplanation(true);
+    if (idx === quiz.answer) {
+      setQuizScore((s) => s + 1);
     }
   };
 
-  const startQuiz = () => {
-    setQuizStarted(true);
+  const handleNext = () => {
+    if (currentQuiz < quizzes.length - 1) {
+      setCurrentQuiz((q) => q + 1);
+      setSelected(null);
+      setShowExplanation(false);
+    } else {
+      setQuizComplete(true);
+      if (!isCompleted) {
+        onComplete(lesson.id, xpReward);
+      }
+    }
+  };
+
+  const resetQuiz = () => {
     setCurrentQuiz(0);
     setSelected(null);
-    setAnswered(false);
+    setShowExplanation(false);
+    setQuizScore(0);
+    setQuizComplete(false);
   };
 
   return (
-    <div
-      id={`lesson-${lesson.id}`}
-      className="glass rounded-2xl transition-all duration-300"
-      style={{
-        border: isCompleted ? `1px solid ${tc.border}` : "1px solid rgba(255,255,255,0.1)",
-        boxShadow: isCompleted ? `0 0 20px ${tc.color}18` : "none",
-      }}
-    >
-      {/* ── Card Header ── */}
+    <div className={`rounded-2xl border bg-white/[0.03] backdrop-blur-sm transition-all duration-300 ${
+      isCompleted
+        ? `${tierConfig.border} bg-gradient-to-br from-white/[0.05] to-white/[0.02]`
+        : 'border-white/10 hover:border-white/20 hover:bg-white/[0.05]'
+    }`}>
+      {/* Card header */}
       <button
-        className="w-full p-5 text-left flex items-start gap-4"
-        onClick={() => setExpanded(e => !e)}
+        className="w-full text-left p-5 flex items-start justify-between gap-4"
+        onClick={() => setExpanded(!expanded)}
       >
-        <div
-          className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
-          style={{ background: tc.bg, border: `1px solid ${tc.border}` }}
-        >
-          {lesson.icon}
-        </div>
-
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
-            <span
-              className="text-xs font-bold px-2 py-0.5 rounded-full"
-              style={{ background: tc.bg, color: tc.color }}
-            >
-              {lesson.tier}
-            </span>
-            <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-              {lesson.subject}
-            </span>
-            {isCompleted && (
-              <span
-                className="text-xs font-bold px-2 py-0.5 rounded-full"
-                style={{ background: "rgba(34,197,94,0.15)", color: "#22c55e" }}
-              >
-                ✓ Done
-              </span>
-            )}
+        <div className="flex items-start gap-3 flex-1 min-w-0">
+          {/* Completion indicator */}
+          <div className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 border ${
+            isCompleted
+              ? `bg-gradient-to-br ${tierConfig.gradient} border-transparent`
+              : 'border-white/20'
+          }`}>
+            {isCompleted && <span className="text-white text-xs">✓</span>}
           </div>
-          <h3 className="font-bold text-white text-base leading-snug">{lesson.title}</h3>
-          <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.35)" }}>
-            {lesson.quizzes.length} quizzes · +{lesson.xpReward} XP
-          </p>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <h3 className="text-white font-semibold text-base">{lesson.title}</h3>
+              {isCompleted && (
+                <span className={`text-xs px-2 py-0.5 rounded-full ${tierConfig.bg} ${tierConfig.color} border ${tierConfig.border}`}>
+                  +{xpReward} XP ✓
+                </span>
+              )}
+            </div>
+            <p className="text-gray-400 text-sm line-clamp-2">{lesson.description}</p>
+          </div>
         </div>
-
-        <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "16px", flexShrink: 0, marginTop: "2px" }}>
-          {expanded ? "▴" : "▾"}
-        </span>
+        <div className={`flex-shrink-0 text-gray-400 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </div>
       </button>
 
-      {/* ── Expanded Body ── */}
+      {/* Expanded content */}
       {expanded && (
-        <div className="px-5 pb-5">
-          {/* Description */}
-          <p className="text-sm mb-4 leading-relaxed" style={{ color: "rgba(255,255,255,0.65)" }}>
-            {lesson.description}
-          </p>
-
+        <div className="px-5 pb-5 space-y-4">
           {/* Video */}
           {lesson.video && (
-            <div
-              className="mb-4 rounded-xl overflow-hidden"
-              style={{ border: "1px solid rgba(255,255,255,0.1)" }}
-            >
+            <div className="rounded-xl overflow-hidden border border-white/10 aspect-video">
               <iframe
-                width="100%"
-                height="200"
                 src={`https://www.youtube.com/embed/${lesson.video}`}
                 title={lesson.title}
+                className="w-full h-full"
                 allowFullScreen
-                style={{ border: "none", display: "block" }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               />
             </div>
           )}
 
           {/* Key Idea */}
-          <div
-            className="rounded-xl p-4 mb-3"
-            style={{
-              background: "rgba(102,126,234,0.12)",
-              border: "1px solid rgba(102,126,234,0.25)",
-            }}
-          >
-            <p className="text-xs font-bold mb-1" style={{ color: "#667eea" }}>
-              💡 KEY IDEA
-            </p>
-            <p className="text-sm font-medium text-white">{lesson.keyIdea}</p>
+          <div className={`rounded-xl p-4 border ${tierConfig.border} bg-gradient-to-r from-white/[0.03] to-white/[0.01]`}>
+            <div className={`text-xs font-semibold ${tierConfig.color} mb-1.5 flex items-center gap-1.5`}>
+              <span>💡</span> Key Idea
+            </div>
+            <p className="text-gray-200 text-sm leading-relaxed">{lesson.keyIdea}</p>
           </div>
 
-          {/* BME Example */}
-          <div
-            className="rounded-xl p-4 mb-4"
-            style={{
-              background: "rgba(240,147,251,0.1)",
-              border: "1px solid rgba(240,147,251,0.2)",
-            }}
-          >
-            <p className="text-xs font-bold mb-1" style={{ color: "#f093fb" }}>
-              🔬 BME EXAMPLE
-            </p>
-            <p className="text-sm" style={{ color: "rgba(255,255,255,0.7)" }}>
-              {lesson.example}
-            </p>
+          {/* Example */}
+          <div className="rounded-xl p-4 border border-white/10 bg-white/[0.02]">
+            <div className="text-xs font-semibold text-orange-400 mb-1.5 flex items-center gap-1.5">
+              <span>🔬</span> Real-World Example
+            </div>
+            <p className="text-gray-300 text-sm leading-relaxed">{lesson.example}</p>
           </div>
-
-          {/* Connected Concepts */}
-          {lesson.connections.length > 0 && (
-            <div className="mb-4">
-              <p className="text-xs font-bold mb-2" style={{ color: "rgba(255,255,255,0.35)" }}>
-                🔗 CONNECTS TO
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {lesson.connections.map(conn => (
-                  <span
-                    key={conn}
-                    className="text-xs px-2.5 py-1 rounded-full"
-                    style={{
-                      background: "rgba(255,255,255,0.06)",
-                      color: "rgba(255,255,255,0.5)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    {conn.replace(/-/g, " ")}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ── Quiz Section ── */}
-          {isCompleted ? (
-            <div
-              className="rounded-2xl p-4 text-center mb-3"
-              style={{
-                background: "rgba(34,197,94,0.1)",
-                border: "1px solid rgba(34,197,94,0.25)",
-              }}
-            >
-              <p className="text-2xl mb-1">🎉</p>
-              <p className="font-bold text-white">Lesson Complete!</p>
-              <p className="text-sm mt-0.5" style={{ color: "#22c55e" }}>
-                +{lesson.xpReward} XP earned
-              </p>
-            </div>
-          ) : !quizStarted ? (
-            <button
-              className="glow-btn w-full py-3 rounded-xl text-sm font-bold text-white mb-3"
-              onClick={startQuiz}
-            >
-              🧠 Take Quiz ({lesson.quizzes.length} questions)
-            </button>
-          ) : (
-            <div
-              className="rounded-2xl p-4 mb-3"
-              style={{
-                background: "rgba(0,0,0,0.3)",
-                border: "1px solid rgba(255,255,255,0.08)",
-              }}
-            >
-              {/* Progress dots */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold" style={{ color: "rgba(255,255,255,0.45)" }}>
-                  Question {currentQuiz + 1} / {lesson.quizzes.length}
-                </span>
-                <div className="flex gap-1.5">
-                  {lesson.quizzes.map((_, i) => (
-                    <div
-                      key={i}
-                      className="w-2 h-2 rounded-full"
-                      style={{
-                        background:
-                          i < currentQuiz
-                            ? "#22c55e"
-                            : i === currentQuiz
-                            ? "#667eea"
-                            : "rgba(255,255,255,0.15)",
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Question */}
-              <p className="text-sm font-semibold text-white mb-3">{quiz.question}</p>
-
-              {/* Options */}
-              <div className="flex flex-col gap-2 mb-3">
-                {quiz.options.map((opt, idx) => {
-                  let cls = "option-btn";
-                  if (answered) {
-                    if (idx === quiz.answer) cls = "option-correct";
-                    else if (idx === selected) cls = "option-wrong";
-                  }
-                  return (
-                    <button
-                      key={idx}
-                      className={`${cls} w-full px-4 py-2.5 rounded-xl text-sm text-left text-white font-medium`}
-                      onClick={() => handleAnswer(idx)}
-                      disabled={answered}
-                    >
-                      <span className="opacity-50 mr-2">{["A", "B", "C", "D"][idx]}.</span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Explanation + Next */}
-              {answered && (
-                <>
-                  <div
-                    className="rounded-xl p-3 mb-3"
-                    style={{
-                      background:
-                        selected === quiz.answer
-                          ? "rgba(34,197,94,0.1)"
-                          : "rgba(239,68,68,0.1)",
-                      border: `1px solid ${
-                        selected === quiz.answer
-                          ? "rgba(34,197,94,0.35)"
-                          : "rgba(239,68,68,0.35)"
-                      }`,
-                    }}
-                  >
-                    <p
-                      className="text-xs font-bold mb-1"
-                      style={{ color: selected === quiz.answer ? "#22c55e" : "#ef4444" }}
-                    >
-                      {selected === quiz.answer ? "✓ Correct!" : "✗ Not quite!"}
-                    </p>
-                    <p className="text-xs" style={{ color: "rgba(255,255,255,0.65)" }}>
-                      {quiz.explanation}
-                    </p>
-                  </div>
-                  <button
-                    className="glow-btn w-full py-2.5 rounded-xl text-sm font-bold text-white"
-                    onClick={handleNext}
-                  >
-                    {isLastQ ? "🎉 Complete Lesson" : "Next Question →"}
-                  </button>
-                </>
-              )}
-            </div>
-          )}
 
           {/* Ask AI Tutor */}
           <button
-            className="w-full py-2.5 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-80"
-            style={{
-              background: "rgba(102,126,234,0.15)",
-              border: "1px solid rgba(102,126,234,0.25)",
-            }}
-            onClick={() => openTutor(lesson.title)}
+            onClick={() => onAskTutor(lesson.title)}
+            className="w-full flex items-center gap-2 px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-sm text-gray-300 hover:bg-white/[0.06] hover:text-white hover:border-white/20 transition-all"
           >
-            🤖 Ask AI Tutor about this lesson
+            <span>🤖</span>
+            Ask AI Tutor about "{lesson.title}"
+            <span className="ml-auto text-gray-500">→</span>
           </button>
+
+          {/* Quiz section */}
+          {quizzes.length > 0 && (
+            <div className="rounded-xl border border-white/10 bg-white/[0.02] overflow-hidden">
+              <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between">
+                <span className="text-sm font-semibold text-white flex items-center gap-2">
+                  <span>🧪</span> Quiz
+                </span>
+                {!quizComplete && (
+                  <span className="text-xs text-gray-500">
+                    {currentQuiz + 1} / {quizzes.length}
+                  </span>
+                )}
+              </div>
+
+              {quizComplete ? (
+                <div className="p-5 text-center">
+                  <div className="text-4xl mb-3">{quizScore === quizzes.length ? '🏆' : quizScore >= quizzes.length * 0.7 ? '🎉' : '📚'}</div>
+                  <div className="text-white font-semibold text-lg mb-1">
+                    {quizScore}/{quizzes.length} correct
+                  </div>
+                  <div className="text-gray-400 text-sm mb-4">
+                    {quizScore === quizzes.length
+                      ? 'Perfect score! Outstanding!'
+                      : quizScore >= quizzes.length * 0.7
+                      ? 'Great job! Lesson complete.'
+                      : 'Keep studying — you got this!'}
+                  </div>
+                  <button
+                    onClick={resetQuiz}
+                    className={`px-5 py-2.5 rounded-xl bg-gradient-to-r ${tierConfig.gradient} text-white text-sm font-medium hover:opacity-90 transition-all`}
+                  >
+                    Retake Quiz
+                  </button>
+                </div>
+              ) : (
+                <div className="p-4 space-y-3">
+                  {/* Quiz progress bar */}
+                  <div className="h-1 rounded-full bg-white/10 mb-3 overflow-hidden">
+                    <div
+                      className={`h-full bg-gradient-to-r ${tierConfig.gradient} transition-all`}
+                      style={{ width: `${((currentQuiz) / quizzes.length) * 100}%` }}
+                    />
+                  </div>
+
+                  <p className="text-white text-sm font-medium leading-relaxed">{quiz.question}</p>
+
+                  <div className="space-y-2 mt-3">
+                    {quiz.options.map((opt, i) => {
+                      const isSelected = selected === i;
+                      const isCorrect = i === quiz.answer;
+                      let style = 'border-white/10 bg-white/[0.03] text-gray-300 hover:border-white/20 hover:bg-white/[0.06]';
+                      if (selected !== null) {
+                        if (isCorrect) style = 'border-emerald-500/50 bg-emerald-500/10 text-emerald-300';
+                        else if (isSelected) style = 'border-red-500/50 bg-red-500/10 text-red-300';
+                        else style = 'border-white/5 bg-white/[0.01] text-gray-500';
+                      }
+
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => handleAnswer(i)}
+                          disabled={selected !== null}
+                          className={`w-full text-left px-4 py-2.5 rounded-lg border text-sm transition-all ${style}`}
+                        >
+                          <span className="font-medium mr-2">{String.fromCharCode(65 + i)}.</span>
+                          {opt}
+                          {selected !== null && isCorrect && <span className="float-right">✅</span>}
+                          {selected !== null && isSelected && !isCorrect && <span className="float-right">❌</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {showExplanation && quiz.explanation && (
+                    <div className="mt-2 p-3 rounded-lg bg-white/[0.04] border border-white/10 text-gray-300 text-xs leading-relaxed">
+                      <span className="text-cyan-400 font-semibold">💬 </span>
+                      {quiz.explanation}
+                    </div>
+                  )}
+
+                  {selected !== null && (
+                    <button
+                      onClick={handleNext}
+                      className={`w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r ${tierConfig.gradient} text-white text-sm font-medium hover:opacity-90 transition-all`}
+                    >
+                      {currentQuiz < quizzes.length - 1 ? 'Next Question →' : 'Finish Quiz ✓'}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
