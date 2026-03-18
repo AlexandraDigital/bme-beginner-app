@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AITutor from "./AI Tutor";
+import AITutor from "./AITutor";
 import { supabase } from "../lib/supabaseClient";
 
 interface Props {
@@ -36,7 +36,7 @@ const LessonCard = ({
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
   const [result, setResult] = useState("");
-  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const isCompleted = completedLessons.includes(title);
 
@@ -44,7 +44,11 @@ const LessonCard = ({
     setQuizCompleted(true);
     setXp(xp + 10);
     setCompletedLessons([...completedLessons, title]);
-    await supabase.from("progress").upsert({ lesson: title, xp: 10 });
+    try {
+      await supabase.from("progress").upsert({ lesson: title, xp: 10 });
+    } catch (e) {
+      console.error("Supabase save error:", e);
+    }
   };
 
   const handleQuiz = (i: number) => {
@@ -74,31 +78,47 @@ const LessonCard = ({
         <span className="lesson-badge px-2 py-1 rounded-full text-white">+10 XP</span>
       </div>
 
-      {/* Content */}
-      <p className="text-sm leading-relaxed" style={{color: 'rgba(255,255,255,0.7)'}}>{content}</p>
+      {/* Expand/Collapse */}
+      <button
+        className="text-left text-sm font-medium py-1"
+        style={{color: 'rgba(255,255,255,0.5)'}}
+        onClick={() => setOpen(!open)}
+      >
+        {open ? '▲ Hide lesson' : '▼ View lesson'}
+      </button>
 
-      {/* Video - only show if video ID is provided */}
-      {video && (
-        <div className="rounded-xl overflow-hidden" style={{border: '1px solid rgba(255,255,255,0.1)'}}>
-          <iframe
-            className="w-full h-44"
-            src={`https://www.youtube.com/embed/${video}`}
-            allowFullScreen
-          ></iframe>
-        </div>
+      {open && (
+        <>
+          {/* Content */}
+          <p className="text-sm leading-relaxed" style={{color: 'rgba(255,255,255,0.7)'}}>{content}</p>
+
+          {/* Video */}
+          {video && (
+            <div className="rounded-xl overflow-hidden" style={{border: '1px solid rgba(255,255,255,0.1)'}}>
+              <iframe
+                className="w-full h-44"
+                src={`https://www.youtube.com/embed/${video}`}
+                allowFullScreen
+              ></iframe>
+            </div>
+          )}
+
+          {/* Key Idea & Example */}
+          <div className="grid grid-cols-1 gap-3">
+            <div className="p-3 rounded-xl" style={{background: 'rgba(102,126,234,0.12)', border: '1px solid rgba(102,126,234,0.2)'}}>
+              <p className="text-xs font-semibold mb-1" style={{color: '#a78bfa'}}>💡 Key Idea</p>
+              <p className="text-sm" style={{color: 'rgba(255,255,255,0.75)'}}>{keyIdea}</p>
+            </div>
+            <div className="p-3 rounded-xl" style={{background: 'rgba(56,239,125,0.08)', border: '1px solid rgba(56,239,125,0.15)'}}>
+              <p className="text-xs font-semibold mb-1" style={{color: '#38ef7d'}}>🌍 Real World Example</p>
+              <p className="text-sm" style={{color: 'rgba(255,255,255,0.75)'}}>{example}</p>
+            </div>
+          </div>
+
+          {/* AI Tutor */}
+          <AITutor lessonTitle={title} />
+        </>
       )}
-
-      {/* Key Idea & Example */}
-      <div className="grid grid-cols-1 gap-3">
-        <div className="p-3 rounded-xl" style={{background: 'rgba(102,126,234,0.12)', border: '1px solid rgba(102,126,234,0.2)'}}>
-          <p className="text-xs font-semibold mb-1" style={{color: '#a78bfa'}}>💡 Key Idea</p>
-          <p className="text-sm" style={{color: 'rgba(255,255,255,0.75)'}}>{keyIdea}</p>
-        </div>
-        <div className="p-3 rounded-xl" style={{background: 'rgba(56,239,125,0.08)', border: '1px solid rgba(56,239,125,0.15)'}}>
-          <p className="text-xs font-semibold mb-1" style={{color: '#38ef7d'}}>🌍 Real World Example</p>
-          <p className="text-sm" style={{color: 'rgba(255,255,255,0.75)'}}>{example}</p>
-        </div>
-      </div>
 
       {/* Quiz */}
       {!isCompleted && (
@@ -133,9 +153,6 @@ const LessonCard = ({
           <p className="text-sm font-semibold text-green-400">🎉 Lesson complete! You earned 10 XP</p>
         </div>
       )}
-
-      {/* AI Tutor */}
-      <AITutor lessonTitle={title} />
     </div>
   );
 };
