@@ -12,13 +12,19 @@ interface Props {
   setCompletedLessons: Function;
   xp: number;
   setXp: Function;
+  question: string;
+  options: string[];
+  answer: number;
 }
 
 const LessonCard = ({
   title, video, content, keyIdea, example,
-  completedLessons, setCompletedLessons, xp, setXp
+  completedLessons, setCompletedLessons, xp, setXp,
+  question, options, answer
 }: Props) => {
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [result, setResult] = useState("");
 
   const completeLesson = async () => {
     setQuizCompleted(true);
@@ -31,6 +37,16 @@ const LessonCard = ({
     });
   };
 
+  const handleQuiz = (i: number) => {
+    setSelected(i);
+    if (i === answer) {
+      setResult("✅ Correct!");
+      completeLesson();
+    } else {
+      setResult("❌ Try again!");
+    }
+  };
+
   return (
     <div className="card">
       <h3 className="text-xl font-semibold">{title}</h3>
@@ -40,7 +56,16 @@ const LessonCard = ({
       <p><b>🌍 Example:</b> {example}</p>
 
       {!quizCompleted && (
-        <button className="mt-2" onClick={completeLesson}>Complete Lesson (+10 XP)</button>
+        <>
+          <h4 className="mt-2 font-semibold">Quiz</h4>
+          <p>{question}</p>
+          {options.map((opt, i) => (
+            <button key={i} className="mr-2 mt-1" onClick={() => handleQuiz(i)}>
+              {opt}
+            </button>
+          ))}
+          <p className="mt-1">{result}</p>
+        </>
       )}
 
       <AITutor lessonTitle={title} />
