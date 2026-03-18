@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AITutor from "./AITutor";
+import AITutor from "./AI Tutor";
 import { supabase } from "../lib/supabaseClient";
 
 // ✅ Props interface defines everything LessonCard needs

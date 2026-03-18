@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import LessonCard from "./components/LessonCard";
+import LessonCard from "./Components/LessonCard";
 import { lessons } from "./lessons";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./Components/Dashboard";
 import { supabase } from "./lib/supabaseClient";
-import { lessons } from "./lessons";
 
 export default function App() {
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
@@ -53,4 +52,3 @@ export default function App() {
     </div>
   );
 }
-    
