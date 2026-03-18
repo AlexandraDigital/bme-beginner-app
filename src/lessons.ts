@@ -7,7 +7,7 @@ export const lessons = [
     example: "Examples include MRI machines, prosthetic limbs, and pacemakers.",
     question: "What does Biomedical Engineering combine?",
     options: ["Engineering and cooking", "Engineering and medical/biological sciences", "Medicine and art", "Biology and chemistry only"],
-    answer: "Engineering and medical/biological sciences"
+    answer: 1
   },
   {
     title: "Biomaterials",
@@ -17,7 +17,7 @@ export const lessons = [
     example: "Titanium is used in bone implants; silicone is used in breast implants.",
     question: "What does biocompatible mean?",
     options: ["The material is cheap", "The material does not harm the body", "The material is made from nature", "The material is flexible"],
-    answer: "The material does not harm the body"
+    answer: 1
   },
   {
     title: "Medical Imaging",
@@ -27,7 +27,7 @@ export const lessons = [
     example: "An X-ray can detect broken bones; an MRI can image soft tissue like the brain.",
     question: "Which of these is a medical imaging technique?",
     options: ["Blood test", "MRI", "Surgery", "Biopsy"],
-    answer: "MRI"
+    answer: 1
   },
   {
     title: "Bioinstrumentation",
@@ -37,7 +37,7 @@ export const lessons = [
     example: "An ECG (electrocardiogram) measures the electrical activity of the heart.",
     question: "What does an ECG measure?",
     options: ["Brain waves", "Blood sugar", "Electrical activity of the heart", "Oxygen levels"],
-    answer: "Electrical activity of the heart"
+    answer: 2
   },
   {
     title: "Tissue Engineering",
@@ -47,6 +47,6 @@ export const lessons = [
     example: "Skin grafts grown in a lab can be used to treat severe burns.",
     question: "What are the three main components of tissue engineering?",
     options: ["Cells, water, and heat", "Cells, scaffolds, and growth factors", "Proteins, DNA, and RNA", "Bone, muscle, and fat"],
-    answer: "Cells, scaffolds, and growth factors"
+    answer: 1
   }
 ];
