@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { supabase } from "./lib/supabaseClient"; // relative path from the file
 import LessonCard from "./components/LessonCard";
 import Dashboard from "./components/Dashboard";
 import { supabase } from "./lib/supabaseClient";
