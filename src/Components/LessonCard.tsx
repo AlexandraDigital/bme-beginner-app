@@ -5,7 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 interface Props {
   index: number;
   title: string;
-  video: string;
+  video?: string;
   content: string;
   keyIdea: string;
   example: string;
@@ -77,14 +77,16 @@ const LessonCard = ({
       {/* Content */}
       <p className="text-sm leading-relaxed" style={{color: 'rgba(255,255,255,0.7)'}}>{content}</p>
 
-      {/* Video */}
-      <div className="rounded-xl overflow-hidden" style={{border: '1px solid rgba(255,255,255,0.1)'}}>
-        <iframe
-          className="w-full h-44"
-          src={`https://www.youtube.com/embed/${video}`}
-          allowFullScreen
-        ></iframe>
-      </div>
+      {/* Video - only show if video ID is provided */}
+      {video && (
+        <div className="rounded-xl overflow-hidden" style={{border: '1px solid rgba(255,255,255,0.1)'}}>
+          <iframe
+            className="w-full h-44"
+            src={`https://www.youtube.com/embed/${video}`}
+            allowFullScreen
+          ></iframe>
+        </div>
+      )}
 
       {/* Key Idea & Example */}
       <div className="grid grid-cols-1 gap-3">

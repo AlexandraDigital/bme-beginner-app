@@ -4,6 +4,7 @@ export interface Lesson {
   description: string;
   keyIdea: string;
   example: string;
+  video?: string;
   quiz: {
     question: string;
     options: string[];
@@ -18,6 +19,7 @@ export const lessons: Lesson[] = [
     description: "Biomedical Engineering (BME) sits at the crossroads of engineering, biology, and medicine. BME engineers design tools, devices, and systems that improve human health — from pacemakers to prosthetic limbs to MRI machines.",
     keyIdea: "BME combines engineering principles with biological and medical sciences to solve healthcare problems.",
     example: "A biomedical engineer might design an artificial heart valve using fluid mechanics, material science, and an understanding of human cardiovascular physiology.",
+    video: "ht1fyLgBJQk",
     quiz: {
       question: "Which best describes Biomedical Engineering?",
       options: [
@@ -35,6 +37,7 @@ export const lessons: Lesson[] = [
     description: "Mechanics is the branch of physics that studies how forces affect the motion of objects. In BME, mechanics helps us understand how bones handle stress, how blood flows through vessels, and how prosthetics move.",
     keyIdea: "Newton's 3 Laws: (1) Objects at rest stay at rest. (2) Force = Mass × Acceleration. (3) Every action has an equal and opposite reaction.",
     example: "When a person walks, ground reaction forces travel up through the leg bones. BME engineers use mechanics to design implants that can withstand these forces without breaking.",
+    video: "ZM8ECpBuQYE",
     quiz: {
       question: "What does Newton's Second Law state?",
       options: [
@@ -52,6 +55,7 @@ export const lessons: Lesson[] = [
     description: "Electricity and magnetism are foundational to medical devices like ECG machines, defibrillators, and MRI scanners. Understanding voltage, current, and magnetic fields is essential for BME.",
     keyIdea: "Ohm's Law: Voltage (V) = Current (I) × Resistance (R). The body conducts electricity through ions in tissues and fluids.",
     example: "An ECG (electrocardiogram) measures the tiny electrical signals produced by the heart. BME engineers design the electrodes and amplifiers that detect these microvolt-level signals.",
+    video: "X_crE-unkFk",
     quiz: {
       question: "What does an ECG machine measure?",
       options: [

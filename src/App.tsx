@@ -78,12 +78,12 @@ export default function App() {
                 index={i}
                 title={lesson.title}
                 video={lesson.video}
-                content={lesson.content}
-                keyIdea={lesson.key}
+                content={lesson.description}
+                keyIdea={lesson.keyIdea}
                 example={lesson.example}
-                question={lesson.question}
-                options={lesson.options}
-                answer={lesson.answer}
+                question={lesson.quiz.question}
+                options={lesson.quiz.options}
+                answer={lesson.quiz.answer}
                 completedLessons={completedLessons}
                 setCompletedLessons={setCompletedLessons}
                 xp={xp}
