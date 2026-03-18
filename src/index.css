@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 body {
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -11,91 +12,109 @@ body {
   color: #fff;
 }
 
+/* ── Glass card ───────────────────────────────────────────────────────────── */
 .glass {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
 }
 
+/* ── Buttons ──────────────────────────────────────────────────────────────── */
 .glow-btn {
   background: linear-gradient(135deg, #667eea, #764ba2);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
 }
-
-.glow-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+.glow-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(102, 126, 234, 0.55);
+}
+.glow-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .glow-btn-green {
   background: linear-gradient(135deg, #11998e, #38ef7d);
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(56, 239, 125, 0.3);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(56, 239, 125, 0.28);
 }
-
 .glow-btn-green:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(56, 239, 125, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(56, 239, 125, 0.45);
 }
 
+/* ── XP bar ───────────────────────────────────────────────────────────────── */
 .xp-bar-fill {
   background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
   transition: width 0.8s ease;
 }
 
+/* ── Quiz option buttons ──────────────────────────────────────────────────── */
 .option-btn {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.18s ease;
+  cursor: pointer;
 }
-
-.option-btn:hover {
-  background: rgba(102, 126, 234, 0.3);
-  border-color: #667eea;
-  transform: translateX(4px);
+.option-btn:hover:not(:disabled) {
+  background: rgba(102, 126, 234, 0.22);
+  border-color: rgba(102, 126, 234, 0.55);
+  transform: translateX(3px);
+}
+.option-btn:disabled {
+  cursor: default;
 }
 
 .option-correct {
-  background: rgba(56, 239, 125, 0.2) !important;
-  border-color: #38ef7d !important;
+  background: rgba(34, 197, 94, 0.18) !important;
+  border: 1px solid rgba(34, 197, 94, 0.45) !important;
 }
-
 .option-wrong {
-  background: rgba(239, 68, 68, 0.2) !important;
-  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.18) !important;
+  border: 1px solid rgba(239, 68, 68, 0.45) !important;
 }
 
+/* ── AI input ─────────────────────────────────────────────────────────────── */
 .ai-input {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: white;
   transition: all 0.2s ease;
 }
-
 .ai-input:focus {
   outline: none;
   border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.18);
 }
-
 .ai-input::placeholder {
-  color: rgba(255,255,255,0.4);
+  color: rgba(255, 255, 255, 0.35);
 }
 
+/* ── Badges ───────────────────────────────────────────────────────────────── */
 .lesson-badge {
   background: linear-gradient(135deg, #667eea, #764ba2);
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.completed-tag {
-  background: linear-gradient(135deg, #11998e, #38ef7d);
-  color: #0a2a1f;
-  font-weight: 600;
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
+/* ── Slide-in animation for AI Tutor drawer ───────────────────────────────── */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0);    }
+}
+.slide-in-right {
+  animation: slideInRight 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ── Fade in ──────────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
 }
