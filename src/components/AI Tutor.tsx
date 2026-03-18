@@ -44,7 +44,7 @@ const AITutor = ({ lessonTitle }: Props) => {
         onChange={e => setQuestion(e.target.value)}
         placeholder="Ask a question..."
       />
-      <button className="mt-1" onClick={askAI}>Ask AI</button>
+      <button className="mt-1 px-3 py-1 bg-green-600 text-white rounded" onClick={askAI}>Ask AI</button>
       {answer && <div className="ai-response mt-1 p-2 bg-blue-50 rounded">{answer}</div>}
     </div>
   );
