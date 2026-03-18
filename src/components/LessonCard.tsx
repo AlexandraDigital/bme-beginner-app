@@ -8,19 +8,19 @@ interface Props {
   content: string;
   keyIdea: string;
   example: string;
+  question: string;
+  options: string[];
+  answer: number;
   completedLessons: string[];
   setCompletedLessons: Function;
   xp: number;
   setXp: Function;
-  question: string;
-  options: string[];
-  answer: number;
 }
 
 const LessonCard = ({
   title, video, content, keyIdea, example,
-  completedLessons, setCompletedLessons, xp, setXp,
-  question, options, answer
+  question, options, answer,
+  completedLessons, setCompletedLessons, xp, setXp
 }: Props) => {
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
@@ -48,7 +48,7 @@ const LessonCard = ({
   };
 
   return (
-    <div className="card">
+    <div className="card p-4 bg-white rounded shadow">
       <h3 className="text-xl font-semibold">{title}</h3>
       <p>{content}</p>
       <iframe className="w-full h-48 mt-2" src={`https://www.youtube.com/embed/${video}`} />
@@ -60,7 +60,11 @@ const LessonCard = ({
           <h4 className="mt-2 font-semibold">Quiz</h4>
           <p>{question}</p>
           {options.map((opt, i) => (
-            <button key={i} className="mr-2 mt-1" onClick={() => handleQuiz(i)}>
+            <button
+              key={i}
+              className="mr-2 mt-1 px-3 py-1 bg-blue-600 text-white rounded"
+              onClick={() => handleQuiz(i)}
+            >
               {opt}
             </button>
           ))}
