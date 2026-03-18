@@ -38,7 +38,7 @@ const AITutor = ({ lessonTitle }: Props) => {
     <div className="mt-3">
       <h4 className="font-semibold">🤖 Ask the AI Tutor</h4>
       <input
-        className="mt-1"
+        className="mt-1 p-1 border rounded w-full"
         type="text"
         value={question}
         onChange={e => setQuestion(e.target.value)}
