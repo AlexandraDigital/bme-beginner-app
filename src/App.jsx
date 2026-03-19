@@ -23,31 +23,31 @@ const STYLES = `
   .nav-mobile-btn.active { background:rgba(34,211,238,0.08); color:#22d3ee; }
 
   /* HERO */
-  .hero-section { min-height:76vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:80px 24px 56px; }
-  .hero-content { position:relative; z-index:1; max-width:640px; width:100%; text-align:center; margin:0 auto; }
-  .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.72rem; font-weight:500; margin-bottom:18px; }
-  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.6rem,2.6vw,2.4rem); font-weight:800; line-height:1.22; margin-bottom:14px; letter-spacing:-0.02em; word-break:break-word; }
+  .hero-section { display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:72px 24px 36px; }
+  .hero-content { position:relative; z-index:1; max-width:600px; width:100%; text-align:center; margin:0 auto; }
+  .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.72rem; font-weight:500; margin-bottom:14px; }
+  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.5rem,2.2vw,2rem); font-weight:800; line-height:1.2; margin-bottom:12px; letter-spacing:-0.02em; word-break:break-word; }
   .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
-  .hero-p { color:rgba(255,255,255,0.45); font-size:0.92rem; max-width:480px; margin:0 auto 22px; line-height:1.65; }
-  .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
+  .hero-p { color:rgba(255,255,255,0.45); font-size:0.88rem; max-width:440px; margin:0 auto 18px; line-height:1.6; }
+  .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:18px; }
   .hero-tags { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
   .hero-tag { padding:4px 11px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); font-size:0.72rem; white-space:nowrap; }
 
   /* STATS */
   .stats-bar { border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.015); }
-  .stats-grid { max-width:800px; margin:0 auto; padding:20px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; }
-  .stat-val { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
-  .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.72rem; margin-top:3px; }
+  .stats-grid { max-width:760px; margin:0 auto; padding:18px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; }
+  .stat-val { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; }
+  .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.7rem; margin-top:2px; }
 
   /* SECTIONS */
-  .section-title { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:800; margin-bottom:4px; }
-  .section-sub { color:rgba(255,255,255,0.38); font-size:0.8rem; }
-  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
-  .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
-  .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
-  .mod-card { border-radius:14px; padding:18px; cursor:pointer; transition:transform 0.2s; }
+  .section-title { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; margin-bottom:4px; }
+  .section-sub { color:rgba(255,255,255,0.38); font-size:0.78rem; }
+  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+  .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+  .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px; }
+  .mod-card { border-radius:14px; padding:16px; cursor:pointer; transition:transform 0.2s; }
   .mod-card:hover { transform:scale(1.025); }
-  .cta-title { font-family:'Syne',sans-serif; font-size:1.35rem; font-weight:800; margin-bottom:10px; word-break:break-word; }
+  .cta-title { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; word-break:break-word; }
 
   /* LESSONS / QUIZ */
   .lesson-row { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:11px; background:rgba(255,255,255,0.02); transition:all 0.18s; }
@@ -61,52 +61,52 @@ const STYLES = `
   .msg { animation:fadeIn 0.22s ease forwards; }
 
   /* BUTTONS */
-  .btn-primary { padding:10px 20px; border-radius:12px; background:linear-gradient(135deg,#22d3ee,#3b82f6); color:white; border:none; cursor:pointer; font-weight:600; font-size:0.88rem; box-shadow:0 0 28px rgba(34,211,238,0.2); font-family:'DM Sans',sans-serif; white-space:nowrap; }
-  .btn-secondary { padding:10px 20px; border-radius:12px; background:rgba(255,255,255,0.04); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:0.88rem; font-family:'DM Sans',sans-serif; white-space:nowrap; }
+  .btn-primary { padding:9px 20px; border-radius:12px; background:linear-gradient(135deg,#22d3ee,#3b82f6); color:white; border:none; cursor:pointer; font-weight:600; font-size:0.86rem; box-shadow:0 0 28px rgba(34,211,238,0.2); font-family:'DM Sans',sans-serif; white-space:nowrap; }
+  .btn-secondary { padding:9px 20px; border-radius:12px; background:rgba(255,255,255,0.04); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:0.86rem; font-family:'DM Sans',sans-serif; white-space:nowrap; }
 
   /* MOBILE */
   @media (max-width: 768px) {
     .nav-links { display:none; }
     .hamburger { display:flex; }
-    .hero-section { min-height:auto; padding:72px 16px 36px; }
+    .hero-section { padding:66px 16px 28px; }
     .hero-content { width:100%; }
-    .hero-title { font-size:clamp(1.5rem,6.5vw,2.2rem); line-height:1.22; margin-bottom:10px; }
-    .hero-p { font-size:0.83rem; margin-bottom:14px; }
-    .hero-badge { font-size:0.68rem; padding:4px 10px; margin-bottom:12px; }
-    .hero-btns { flex-direction:row; justify-content:center; gap:8px; margin-bottom:14px; }
-    .hero-btns .btn-primary, .hero-btns .btn-secondary { padding:9px 15px; font-size:0.8rem; }
+    .hero-title { font-size:clamp(1.4rem,6vw,1.9rem); line-height:1.2; margin-bottom:8px; }
+    .hero-p { font-size:0.82rem; margin-bottom:12px; }
+    .hero-badge { font-size:0.68rem; padding:4px 10px; margin-bottom:10px; }
+    .hero-btns { flex-direction:row; justify-content:center; gap:8px; margin-bottom:12px; }
+    .hero-btns .btn-primary, .hero-btns .btn-secondary { padding:8px 14px; font-size:0.79rem; }
     .hero-tags { gap:5px; }
-    .hero-tag { font-size:0.68rem; padding:3px 9px; }
-    .stats-grid { grid-template-columns:repeat(2,1fr); padding:14px; gap:8px; }
-    .stat-val { font-size:1.2rem; }
-    .stat-lbl { font-size:0.68rem; }
+    .hero-tag { font-size:0.67rem; padding:3px 9px; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); padding:12px 16px; gap:8px; }
+    .stat-val { font-size:1.15rem; }
+    .stat-lbl { font-size:0.67rem; }
     .module-grid { grid-template-columns:1fr; gap:10px; }
     .feature-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
     .lesson-title { white-space:normal; }
-    .cta-title { font-size:1.1rem; }
+    .cta-title { font-size:1rem; }
     .tutor-wrap { padding:14px 12px; }
     .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
-    .mod-card { padding:14px; }
-    .section-title { font-size:1rem; }
+    .mod-card { padding:13px; }
+    .section-title { font-size:0.95rem; }
   }
 
   @media (max-width: 390px) {
-    .hero-title { font-size:clamp(1.35rem,6vw,1.9rem); }
+    .hero-title { font-size:clamp(1.25rem,5.5vw,1.7rem); }
     .stat-val { font-size:1rem; }
   }
 
   @media (max-height: 500px) and (orientation: landscape) {
-    .hero-section { padding:68px 20px 20px; }
-    .hero-title { font-size:clamp(1rem,3vw,1.4rem); margin-bottom:6px; }
-    .hero-p { margin-bottom:10px; font-size:0.8rem; }
-    .hero-btns { margin-bottom:10px; }
+    .hero-section { padding:62px 20px 16px; }
+    .hero-title { font-size:clamp(1rem,3vw,1.3rem); margin-bottom:5px; }
+    .hero-p { margin-bottom:8px; font-size:0.78rem; }
+    .hero-btns { margin-bottom:8px; }
     .hero-tags { display:none; }
   }
 
   @media (min-width: 769px) and (max-width: 1024px) {
     .stats-grid { grid-template-columns:repeat(4,1fr); }
     .module-grid { grid-template-columns:repeat(2,1fr); }
-    .hero-title { font-size:clamp(1.6rem,2.8vw,2.2rem); }
+    .hero-title { font-size:clamp(1.5rem,2.4vw,1.9rem); }
   }
 `;
 
@@ -210,29 +210,29 @@ function Home({xp,done,quizLog,setPage}){
         <div key={l}><div className="stat-val" style={{background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</div><div className="stat-lbl">{l}</div></div>
       ))}
     </div></div>
-    <section style={{maxWidth:960,margin:"0 auto",padding:"40px 20px"}}>
+    <section style={{maxWidth:920,margin:"0 auto",padding:"28px 20px"}}>
       <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap"}}>View all →</button></div>
       <div className="module-grid">{MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}</div>
     </section>
-    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"40px 20px",background:"rgba(255,255,255,0.01)"}}>
-      <div style={{maxWidth:880,margin:"0 auto"}}>
-        <h2 className="section-title" style={{textAlign:"center",marginBottom:5}}>How It Works</h2>
-        <p className="section-sub" style={{textAlign:"center",marginBottom:24}}>Everything you need to master biomedical engineering</p>
+    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"28px 20px",background:"rgba(255,255,255,0.01)"}}>
+      <div style={{maxWidth:860,margin:"0 auto"}}>
+        <h2 className="section-title" style={{textAlign:"center",marginBottom:4}}>How It Works</h2>
+        <p className="section-sub" style={{textAlign:"center",marginBottom:20}}>Everything you need to master biomedical engineering</p>
         <div className="feature-grid">
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
             <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:14}}>
-              <div style={{width:36,height:36,borderRadius:9,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1rem",marginBottom:8}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:3,fontSize:"0.85rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
-              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.76rem",lineHeight:1.5}}>{f.d}</p>
+              <div style={{width:34,height:34,borderRadius:9,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.95rem",marginBottom:7}}>{f.e}</div>
+              <h3 style={{fontWeight:700,marginBottom:3,fontSize:"0.83rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
+              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.74rem",lineHeight:1.5}}>{f.d}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-    <section style={{padding:"56px 20px",textAlign:"center"}}>
+    <section style={{padding:"36px 20px",textAlign:"center"}}>
       <h2 className="cta-title">The Future of Medicine Needs Engineers</h2>
-      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 22px",maxWidth:440,fontSize:"0.85rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
-      <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"11px 26px",fontSize:"0.9rem"}}>Get Started Free →</button>
+      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 18px",maxWidth:420,fontSize:"0.83rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
+      <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"10px 24px",fontSize:"0.88rem"}}>Get Started Free →</button>
     </section>
   </div>);
 }
@@ -244,7 +244,7 @@ function Courses({done,quizLog,completeLesson,logQuiz}){
   if(view==="quiz"&&activeMod)return<Quiz mod={activeMod} qs={quizState} setQs={setQuizState} logQuiz={logQuiz} onBack={()=>setView("module")} onDone={()=>{setView("module");setQuizState(null);}}/>;
   if(view==="module"&&activeMod){const mql=quizLog.filter(q=>q.moduleId===activeMod.id);return<ModDetail mod={activeMod} done={done} completeLesson={completeLesson} quizLog={mql} onBack={()=>setView("list")} onStartQuiz={()=>{setQuizState({idx:0,answers:[],score:0,selected:null,done:false});setView("quiz");}}/>;
   }
-  return(<div style={{maxWidth:960,margin:"0 auto",padding:"36px 20px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:5}}>All Courses</h1><p className="section-sub" style={{marginBottom:24}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
+  return(<div style={{maxWidth:920,margin:"0 auto",padding:"28px 20px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.3rem",fontWeight:800,marginBottom:4}}>All Courses</h1><p className="section-sub" style={{marginBottom:20}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
 }
 
 function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
@@ -318,5 +318,5 @@ function Tutor({chat,saveChat}){
 
 function MindMap(){
   const topics=[{cat:"Medical Imaging",color:"#22d3ee",items:["MRI Physics","CT Reconstruction","Ultrasound","PET/SPECT","X-Ray","Fluoroscopy","Contrast Agents","Image Segmentation"]},{cat:"Biomechanics",color:"#34d399",items:["Young's Modulus","Bone Fracture","Joint Kinematics","Gait Analysis","Prosthetics","Orthotics","Fluid Mechanics","Viscoelasticity"]},{cat:"Tissue Engineering",color:"#a78bfa",items:["Stem Cells","Scaffolds","Bioprinting","Organoids","Bioreactors","Growth Factors","CRISPR","Biocompatibility"]},{cat:"Neural Engineering",color:"#60a5fa",items:["Action Potentials","EEG/ECoG","BCIs","DBS Therapy","Cochlear Implants","Retinal Implants","Neural Probes","Optogenetics"]},{cat:"Biosensors & Devices",color:"#fb923c",items:["Glucose Sensors","Wearables","Lab-on-Chip","Microfluidics","Impedance Spectroscopy","Optical Biosensors","Point-of-Care","FDA Regulation"]},{cat:"Bioinformatics",color:"#f472b6",items:["Genomics","Proteomics","Protein Folding","Sequence Alignment","ML in BME","Drug Discovery","Systems Biology","CRISPR/Cas9"]},{cat:"Rehab Engineering",color:"#facc15",items:["Exoskeletons","Powered Prosthetics","Functional Stimulation","AFOs","Motor Rehab","EMG Control","Upper Limb","Lower Limb"]},{cat:"Regulatory & Ethics",color:"#94a3b8",items:["FDA PMA","510(k) Clearance","ISO 13485","Clinical Trials","Bioethics","Data Privacy","IP in BME","Post-Market"]}];
-  return(<div style={{maxWidth:1060,margin:"0 auto",padding:"36px 16px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:4}}>🗺️ Mind Map</h1><p className="section-sub" style={{marginBottom:24}}>All biomedical engineering topics at a glance</p><div className="module-grid">{topics.map(t=>(<div key={t.cat} style={{borderRadius:12,border:`1px solid ${t.color}20`,background:`${t.color}06`,padding:14}}><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.85rem",color:t.color,marginBottom:8}}>{t.cat}</h3><div style={{display:"flex",flexWrap:"wrap",gap:5}}>{t.items.map(item=>(<span key={item} style={{padding:"3px 9px",borderRadius:20,background:`${t.color}10`,border:`1px solid ${t.color}25`,color:"rgba(255,255,255,0.62)",fontSize:"0.7rem"}}>{item}</span>))}</div></div>))}</div></div>);
+  return(<div style={{maxWidth:1060,margin:"0 auto",padding:"28px 16px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.3rem",fontWeight:800,marginBottom:4}}>🗺️ Mind Map</h1><p className="section-sub" style={{marginBottom:20}}>All biomedical engineering topics at a glance</p><div className="module-grid">{topics.map(t=>(<div key={t.cat} style={{borderRadius:12,border:`1px solid ${t.color}20`,background:`${t.color}06`,padding:14}}><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.85rem",color:t.color,marginBottom:8}}>{t.cat}</h3><div style={{display:"flex",flexWrap:"wrap",gap:5}}>{t.items.map(item=>(<span key={item} style={{padding:"3px 9px",borderRadius:20,background:`${t.color}10`,border:`1px solid ${t.color}25`,color:"rgba(255,255,255,0.62)",fontSize:"0.7rem"}}>{item}</span>))}</div></div>))}</div></div>);
 }
