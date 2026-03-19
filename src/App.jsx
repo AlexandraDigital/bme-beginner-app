@@ -59,7 +59,7 @@ const STYLES = `
   .feature-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
 
   /* CARDS */
-  .mod-card { border-radius:12px; padding:11px; cursor:pointer; transition:transform 0.2s; }
+  .mod-card { border-radius:12px; padding:9px; cursor:pointer; transition:transform 0.2s; }
   .mod-card:hover { transform:scale(1.02); }
   .cta-title { font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:8px; letter-spacing:-0.01em; }
 
@@ -202,10 +202,10 @@ function ModCard({mod,done,onClick}){
   const n=mod.lessons.filter(l=>done.includes(l.id)).length;
   const pct=Math.round(n/mod.lessons.length*100);
   return(<div onClick={onClick} className="mod-card" style={{border:`1px solid ${mod.color}22`,background:`linear-gradient(135deg,${mod.color}10,${mod.color}05)`}}>
-    <div style={{display:"inline-flex",padding:"3px 8px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.65rem",fontWeight:700,marginBottom:6}}>{mod.level}</div>
-    <div className="mod-emoji" style={{fontSize:"1.6rem",marginBottom:5}}>{mod.emoji}</div>
-    <h3 style={{fontWeight:700,fontSize:"0.85rem",marginBottom:6,fontFamily:"'DM Sans',sans-serif"}}>{mod.title}</h3>
-    <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:5,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
+    <div style={{display:"inline-flex",padding:"3px 8px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.65rem",fontWeight:700,marginBottom:4}}>{mod.level}</div>
+    <div className="mod-emoji" style={{fontSize:"1.2rem",marginBottom:3}}>{mod.emoji}</div>
+    <h3 style={{fontWeight:700,fontSize:"0.82rem",marginBottom:4,fontFamily:"'DM Sans',sans-serif"}}>{mod.title}</h3>
+    <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:4,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
     <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.68rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length}</span><span>{pct}%</span></div>
   </div>);
 }
@@ -246,9 +246,9 @@ function Home({xp,done,quizLog,setPage}){
         <p className="section-sub" style={{textAlign:"center",marginBottom:14}}>Everything you need to master biomedical engineering</p>
         <div className="feature-grid">
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
-            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:12}}>
-              <div style={{width:28,height:28,borderRadius:8,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.85rem",marginBottom:6}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.76rem",fontFamily:"'DM Sans',sans-serif"}}>{f.t}</h3>
+            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:9}}>
+              <div style={{width:22,height:22,borderRadius:7,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",marginBottom:4}}>{f.e}</div>
+              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.82rem",fontFamily:"'DM Sans',sans-serif"}}>{f.t}</h3>
               <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.71rem",lineHeight:1.5}}>{f.d}</p>
             </div>
           ))}
