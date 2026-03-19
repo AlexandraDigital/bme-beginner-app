@@ -9,8 +9,6 @@ interface AITutorProps {
   initialTopic?: string;
 }
 
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY as string;
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
 
 const SYSTEM_PROMPT = `You are BioMedAI Tutor, an expert biomedical engineering educator. 
@@ -67,15 +65,10 @@ export default function AITutor({ initialTopic }: AITutorProps) {
     setError(null);
 
     try {
-      if (!GROQ_API_KEY) {
-        throw new Error("Groq API key not configured. Please add VITE_GROQ_API_KEY to GitHub Secrets.");
-      }
-
-      const response = await fetch(GROQ_API_URL, {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${GROQ_API_KEY}`,
         },
         body: JSON.stringify({
           model: MODEL,
@@ -122,7 +115,7 @@ export default function AITutor({ initialTopic }: AITutorProps) {
         // Inline bold: replace **text** anywhere in line
         const boldFormatted = line.replace(/\*\*(.+?)\*\*/g, '<strong style="color:#f0f9ff">$1</strong>');
         if (boldFormatted !== line) return <p key={i} style={{ margin: "0.2rem 0" }} dangerouslySetInnerHTML={{ __html: boldFormatted }} />;
-        if (line.startsWith("- ") || line.startsWith("• ")) return (
+        if (line.startsWith("- ") || line.startsWith("\u2022 ")) return (
           <div key={i} style={{ display: "flex", gap: "0.5rem", marginTop: "0.25rem" }}>
             <span style={{ color: "#06b6d4", flexShrink: 0 }}>•</span>
             <span>{line.slice(2)}</span>
@@ -186,9 +179,9 @@ export default function AITutor({ initialTopic }: AITutorProps) {
         <div style={{
           marginLeft: "auto",
           width: 10, height: 10, borderRadius: "50%",
-          background: GROQ_API_KEY ? "#10b981" : "#ef4444",
-          boxShadow: GROQ_API_KEY ? "0 0 8px #10b981" : "0 0 8px #ef4444",
-        }} title={GROQ_API_KEY ? "Connected" : "API key missing"} />
+          background: "#10b981",
+          boxShadow: "0 0 8px #10b981",
+        }} title="Connected" />
       </div>
 
       {/* Messages */}
