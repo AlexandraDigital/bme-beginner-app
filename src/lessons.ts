@@ -15,13 +15,10 @@ export interface Lesson {
   keyIdea: string;
   example: string;
   video?: string;
-  videoUrl?: string;
   quizzes: QuizQuestion[];
-  connections?: string[];
-  xpReward?: number;
-  
+  connections: string[];
+  xpReward: number;
 }
-
 
 export const lessons: Lesson[] = [
   // ─────────────────────────────────────────────────────────────────────────
@@ -39,7 +36,7 @@ export const lessons: Lesson[] = [
       'BME applies engineering principles to solve medical problems and improve patient outcomes.',
     example:
       'BME engineers designed the artificial heart valve, a mechanical device that replaces damaged cardiac valves and can last decades inside the human body.',
-    videoUrl: 'ht1fyLgBJQk',
+    video: 'ht1fyLgBJQk',
     connections: ['physics-mechanics', 'biology-cells', 'chemistry-basics'],
     xpReward: 10,
     quizzes: [
@@ -122,7 +119,7 @@ export const lessons: Lesson[] = [
       "Newton's laws govern how biological structures withstand and respond to force.",
     example:
       'Analyzing the forces acting on the knee joint during walking allows engineers to design prosthetics and implants that match natural loading conditions.',
-    videoUrl: 'ZM8ECpBuQYE',
+    video: 'ZM8ECpBuQYE',
     connections: ['biomechanics', 'physics-em', 'diff-equations'],
     xpReward: 10,
     quizzes: [
@@ -195,7 +192,7 @@ export const lessons: Lesson[] = [
       'Chemical bonds determine how biological molecules interact and how materials behave in the body.',
     example:
       'Ionic bonds between calcium and phosphate ions give hydroxyapatite — the mineral in bone — its remarkable compressive strength.',
-    videoUrl: 'FSyAehMdpyI',
+    video: 'FSyAehMdpyI',
     connections: ['organic-chem', 'bio-molecules', 'biomaterials'],
     xpReward: 10,
     quizzes: [
@@ -274,7 +271,7 @@ export const lessons: Lesson[] = [
       'The cell is the basic unit of life and the primary design target of tissue engineering and drug delivery.',
     example:
       'Understanding how the phospholipid cell membrane controls molecular transport helps engineers design drug-delivery nanoparticles that fuse with or cross the membrane.',
-    videoUrl: 'cj8dDTHGJBY',
+    video: 'cj8dDTHGJBY',
     connections: ['biochemistry', 'anatomy', 'tissue-engineering'],
     xpReward: 10,
     quizzes: [
@@ -347,7 +344,7 @@ export const lessons: Lesson[] = [
       'Derivatives describe rates of change — like how fast a drug concentration drops over time in the bloodstream.',
     example:
       'Integral calculus is used to calculate the Area Under the Curve (AUC) in pharmacokinetics, which represents total drug exposure and determines dosing regimens.',
-    videoUrl: 'N2PpRnFqnqY',
+    video: 'N2PpRnFqnqY',
     connections: ['linear-algebra', 'diff-equations', 'signals-intro'],
     xpReward: 10,
     quizzes: [
@@ -410,7 +407,7 @@ export const lessons: Lesson[] = [
       'Proteins are molecular machines — their three-dimensional shape determines their biological function.',
     example:
       'Collagen, the most abundant protein in the body, provides tensile strength to tendons, skin, and bone, making it the inspiration for many biomaterial scaffolds in tissue engineering.',
-    videoUrl: 'QnQe0xW_JY4',
+    video: 'QnQe0xW_JY4',
     connections: ['biochemistry', 'drug-delivery', 'bioinformatics'],
     xpReward: 10,
     quizzes: [
@@ -489,7 +486,7 @@ export const lessons: Lesson[] = [
       'Code is the language used to process biomedical data and build algorithms that extract clinical insight.',
     example:
       'A Python script can load a raw ECG recording, apply a bandpass filter, detect R-peaks using threshold algorithms, and automatically classify arrhythmia patterns — all in under 50 lines of code.',
-    videoUrl: 'LfaMVlDaQ24',
+    video: 'LfaMVlDaQ24',
     connections: ['signals-intro', 'bioinformatics', 'medical-imaging'],
     xpReward: 10,
     quizzes: [
@@ -629,7 +626,7 @@ export const lessons: Lesson[] = [
       'Biological cells are electrochemical systems — the body runs on ion gradients and transmembrane voltage differences.',
     example:
       'Modeling a neuron\'s membrane as an RC circuit (resistor-capacitor) — the Hodgkin-Huxley model — explains how action potentials propagate along nerve fibers at speeds up to 120 m/s.',
-    videoUrl: 'X_crE-unkFk',
+    video: 'X_crE-unkFk',
     connections: ['bioelectronics', 'medical-imaging', 'signals-intro'],
     xpReward: 20,
     quizzes: [
@@ -707,7 +704,7 @@ export const lessons: Lesson[] = [
       'Functional groups determine chemical behavior — they are the structural keys to understanding molecular design in biology and medicine.',
     example:
       'Polyethylene glycol (PEG), modified with hydroxyl (-OH) groups, is highly biocompatible and used to coat drug nanoparticles, preventing immune recognition and extending circulation time in the bloodstream.',
-    videoUrl: 'PmvLB5dIEp8',
+    video: 'PmvLB5dIEp8',
     connections: ['biochemistry', 'drug-delivery', 'biomaterials'],
     xpReward: 20,
     quizzes: [
@@ -859,7 +856,7 @@ export const lessons: Lesson[] = [
       'Engineering solutions for the human body must account for anatomical constraints, geometric variability, and multi-scale structure.',
     example:
       'Hip implant (total hip arthroplasty) design requires precise matching of femoral head geometry, load distribution through the acetabulum, and understanding of trabecular bone architecture to prevent stress shielding.',
-    videoUrl: 'uBGl2BujkPQ',
+    video: 'uBGl2BujkPQ',
     connections: ['physiology', 'biomechanics', 'medical-devices'],
     xpReward: 20,
     quizzes: [
@@ -943,7 +940,7 @@ export const lessons: Lesson[] = [
       'Homeostasis is the body\'s engineering feedback control system — using sensors, controllers, and effectors to maintain stable internal conditions.',
     example:
       'The artificial pancreas system continuously senses blood glucose (sensor), computes the required insulin dose (controller algorithm), and drives an insulin pump (effector) — a closed-loop feedback control system mimicking pancreatic function.',
-    videoUrl: 'X9ZZ6tcxArI',
+    video: 'X9ZZ6tcxArI',
     connections: ['bioelectronics', 'drug-delivery', 'tissue-engineering'],
     xpReward: 20,
     quizzes: [
@@ -1022,7 +1019,7 @@ export const lessons: Lesson[] = [
       'Images are matrices — linear algebra is how computers process, transform, and reconstruct medical images from raw data.',
     example:
       'MRI image reconstruction uses the 2D Fourier transform (a linear operation on k-space data matrices) to convert raw frequency-domain measurements into the spatial images clinicians view.',
-    videoUrl: 'kjBOesZCoqc',
+    video: 'kjBOesZCoqc',
     connections: ['medical-imaging', 'bioinformatics', 'signals-intro'],
     xpReward: 20,
     quizzes: [
@@ -1106,7 +1103,7 @@ export const lessons: Lesson[] = [
       'Most biological processes — growth, decay, oscillation, and diffusion — are described by differential equations.',
     example:
       'Drug concentration in the bloodstream after an IV bolus follows a first-order ODE: dC/dt = −kC, yielding exponential decay C(t) = C₀e^(−kt), where k is the elimination rate constant.',
-    videoUrl: '6o7b9yyhH7k',
+    video: '6o7b9yyhH7k',
     connections: ['signals-intro', 'biomechanics', 'drug-delivery'],
     xpReward: 20,
     quizzes: [
@@ -1556,7 +1553,7 @@ export const lessons: Lesson[] = [
         ],
         answer: 1,
         explanation:
-          'Spike sorting first threshold-detects candidate spikes, aligns them, and extracts waveforms (e.g., 64 samples each). PCA rotates into directions of maximum variance — the first 2-3 PCs capture most waveform shape variability. Clustering algorithms (k-means, Gaussian mixture) then separate clusters in PC space, each cluster representing a single neuron spike waveform template.',
+          'Spike sorting first threshold-detects candidate spikes, aligns them, and extracts waveforms (e.g., 64 samples each). PCA rotates into directions of maximum variance — the first 2-3 PCs capture most waveform shape variability. Clustering algorithms (k-means, Gaussian mixture) then separate clusters in PC space, each cluster representing a single neuron's spike waveform template.',
       },
       {
         question: 'Which patch-clamp configuration provides the highest signal quality for measuring whole-cell ionic currents?',
