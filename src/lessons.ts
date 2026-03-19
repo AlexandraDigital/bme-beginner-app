@@ -1415,581 +1415,539 @@ export const lessons: Lesson[] = [
   },
 
   // ─────────────────────────────────────────────────────────────────────────
+
   // ADVANCED TIER
   // ─────────────────────────────────────────────────────────────────────────
   {
-    id: 'medical-imaging',
-    title: 'Medical Imaging: Seeing Inside the Body',
+    id: 'medical-imaging-physics',
+    title: 'Medical Imaging Physics: CT, MRI & PET',
     tier: 'advanced',
     subject: 'Imaging',
     icon: '🩻',
     description:
-      'Medical imaging technologies allow clinicians to visualize internal anatomy and physiology non-invasively. X-ray, CT, MRI, ultrasound, and PET exploit different physical interactions with tissue to produce images with varying resolution, contrast, speed, and radiation risk. BME engineers design the hardware, algorithms, and processing pipelines that make these modalities possible.',
+      'Medical imaging is built on the physics of how energy interacts with tissue. CT uses Beer-Lambert attenuation and filtered back-projection to reconstruct 3D density maps from X-ray projections. MRI exploits nuclear magnetic resonance — proton spins precess at the Larmor frequency in a static B₀ field; RF pulses flip magnetization, and gradient fields encode spatial information in k-space. PET detects coincident 511 keV photon pairs from positron-electron annihilation to map metabolic activity. Each modality trades off resolution, contrast, dose, and acquisition speed.',
     keyIdea:
-      'Each imaging modality exploits a different physical interaction between energy and tissue — choosing the right modality requires understanding these trade-offs.',
+      'MRI spatial encoding lives in k-space: the 2D Fourier transform of k-space data produces the image. Sampling the center of k-space gives contrast; the periphery gives resolution. Undersampling enables fast imaging (EPI, compressed sensing).',
     example:
-      'MRI uses magnetic resonance of hydrogen nuclei to generate images with exceptional soft-tissue contrast and no ionizing radiation, making it the gold standard for brain and joint imaging.',
-    connections: ['medical-devices', 'bioinformatics'],
-    xpReward: 30,
+      'A 3T MRI scanner has a Larmor frequency of 127 MHz (ω₀ = γB₀, γ = 42.58 MHz/T). A spin-echo sequence applies a 90° excitation pulse, then a 180° refocusing pulse after TE/2. Tissues with short T2 (cortical bone ~1 ms) appear dark; CSF with long T2 (~2000 ms) appears bright on T2-weighted images.',
     quizzes: [
       {
-        question:
-          'CT (computed tomography) images are based on differences in tissue X-ray attenuation, measured in Hounsfield Units (HU). Which tissue has HU values near +1000?',
+        question: 'In MRI, the Larmor frequency is determined by which equation?',
         options: [
-          'Fat (HU ≈ −100)',
-          'Water (HU = 0)',
-          'Cortical bone (HU ≈ +1000)',
-          'Air (HU ≈ −1000)',
+          'ω₀ = γ · B₀',
+          'f = E / h',
+          'λ = c / f',
+          'ω = 2πkT',
         ],
-        answer: 2,
+        answer: 0,
         explanation:
-          'Cortical bone strongly attenuates X-rays (HU ≈ +1000), while air attenuates minimally (HU ≈ −1000). Soft tissues cluster around 0–100 HU. Understanding HU values guides window/level settings to optimize CT image contrast for specific tissues.',
+          'The Larmor equation ω₀ = γ·B₀ defines the precession frequency of proton spins in a static magnetic field. γ for protons is 42.58 MHz/T, so a 3T scanner operates at ~127 MHz. This is the fundamental resonance condition for RF excitation and signal detection in MRI.',
       },
       {
-        question:
-          'Ultrasound imaging uses acoustic waves. The axial resolution of an ultrasound image is primarily determined by:',
+        question: 'What does filtered back-projection accomplish in CT reconstruction?',
         options: [
-          'Transducer aperture width',
-          'Sound speed in tissue',
-          'Pulse duration (spatial pulse length)',
-          'Patient body habitus',
-        ],
-        answer: 2,
-        explanation:
-          'Axial resolution = spatial pulse length / 2 = (n × λ) / 2, where n is the number of cycles per pulse and λ is wavelength. Shorter pulses (higher bandwidth) give better axial resolution. This is why high-frequency transducers (≥10 MHz) are used for superficial structures needing fine detail.',
-      },
-      {
-        question:
-          'PET (Positron Emission Tomography) uses ¹⁸F-FDG (fluorodeoxyglucose). Tumors appear as "hot spots" because:',
-        options: [
-          'Tumors have increased blood flow relative to normal tissue',
-          'Cancer cells have upregulated glucose transporters and high glycolytic activity',
-          'FDG is selectively toxic to cancer cells and accumulates as they die',
-          'Tumors have lower temperature and retain FDG longer',
+          'It removes patient motion artifacts using prospective gating',
+          'It reconstructs 2D cross-sections from a set of 1D X-ray projection profiles',
+          'It converts Hounsfield units to tissue density maps without a filter',
+          'It applies a Kalman filter to reduce photon noise in the sinogram',
         ],
         answer: 1,
         explanation:
-          'The Warburg effect: cancer cells preferentially use aerobic glycolysis even when oxygen is available, consuming large amounts of glucose. ¹⁸F-FDG is a glucose analogue that is trapped in cells after phosphorylation, creating high-signal regions on PET images corresponding to metabolically active tumors.',
+          'Filtered back-projection (FBP) takes the sinogram — a set of 1D projections at many angles — and mathematically inverts the Radon transform. The "filter" (ramp filter in frequency domain) corrects for the blurring that back-projection alone introduces. Modern scanners often use iterative reconstruction instead for lower-dose imaging.',
       },
       {
-        question:
-          'Image reconstruction in CT uses filtered backprojection (FBP). The "ramp filter" applied in FBP is needed to:',
+        question: 'In PET imaging, what physical event produces the two coincident photons detected?',
         options: [
-          'Remove motion artifacts from breathing',
-          'Correct for the blurring caused by backprojection alone',
-          'Convert frequency-domain data to the time domain',
-          'Remove low-frequency noise from detector electronics',
-        ],
-        answer: 1,
-        explanation:
-          'Simple backprojection creates a blurred image because each projection smears intensity across the reconstruction. The ramp filter (|f| weighting in frequency domain) deblurs by emphasizing high-frequency edges. FBP is the classic CT reconstruction algorithm, though iterative methods are increasingly used to reduce noise at lower radiation doses.',
-      },
-      {
-        question:
-          'A radiologist needs to image soft tissue tumors near the spinal cord with maximum soft-tissue contrast and no ionizing radiation. Which modality is most appropriate?',
-        options: [
-          'Plain X-ray',
-          'CT with contrast',
-          'MRI with gadolinium contrast',
-          'Nuclear bone scan',
+          'Compton scattering of a single 511 keV gamma ray',
+          'Characteristic X-ray emission from a heavy radioisotope',
+          'Positron-electron annihilation producing two back-to-back 511 keV photons',
+          'Nuclear decay of F-18 via alpha emission',
         ],
         answer: 2,
         explanation:
-          'MRI provides superior soft tissue contrast without ionizing radiation, making it ideal for spinal cord and paraspinal soft tissue evaluation. Gadolinium contrast enhances vascular and tumor tissue. CT delivers ionizing radiation and has inferior soft tissue contrast compared to MRI.',
+          'A positron emitted by F-18 (or other PET tracers) travels a short distance, then annihilates with a nearby electron. Conservation of energy and momentum produces two 511 keV photons traveling in exactly opposite directions (180° apart). Detecting these in coincidence within a timing window (~few nanoseconds) localizes the annihilation event along a line of response.',
+      },
+      {
+        question: 'In k-space MRI, what region primarily determines image contrast?',
+        options: [
+          'The high-frequency periphery of k-space',
+          'The DC component only (k = 0)',
+          'The central low-frequency region of k-space',
+          'Contrast is uniformly determined across all k-space locations',
+        ],
+        answer: 2,
+        explanation:
+          'The center of k-space contains low-spatial-frequency information — bulk signal intensity and tissue contrast (T1/T2 differences). The periphery encodes high-spatial-frequency edges and fine detail. This is why fast imaging sequences like RARE/FSE acquire the center of k-space during the most T2-weighted echo to control contrast.',
+      },
+      {
+        question: 'Which CT artifact appears as streaks between two high-density objects (e.g., metal implants)?',
+        options: [
+          'Ring artifact from a faulty detector element',
+          'Partial volume artifact from thick slices',
+          'Beam-hardening artifact causing cupping and streaks',
+          'Gibbs ringing from Fourier truncation',
+        ],
+        answer: 2,
+        explanation:
+          'Beam hardening occurs because X-ray beams are polychromatic — lower-energy photons are preferentially absorbed, hardening the remaining beam. Between dense objects, the beam hardens non-uniformly, causing dark streaks and a "cupping" artifact. Metal artifact reduction (MAR) algorithms interpolate projections in the affected regions to suppress this.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=djAxjtN_7VE',
   },
-
   {
-    id: 'bioelectronics',
-    title: 'Bioelectrical Signals: ECG, EEG, EMG',
+    id: 'hodgkin-huxley-bioelectronics',
+    title: 'Hodgkin-Huxley Model & Neural Signal Processing',
     tier: 'advanced',
     subject: 'Signals',
-    icon: '💓',
+    icon: '⚡',
     description:
-      'Every heartbeat, brain thought, and muscle contraction generates measurable electrical signals. Bioelectronics engineers design electrode systems, differential amplifiers, and signal processing pipelines to record, amplify, and interpret these signals for diagnosis and closed-loop therapeutic control. ECG, EEG, and EMG are the three most clinically important bioelectric modalities.',
+      'The Hodgkin-Huxley (HH) model (Nobel Prize 1963) provides a conductance-based description of action potential generation. The membrane is modeled as a capacitor in parallel with voltage-gated Na⁺ and K⁺ conductances and a leak conductance. Gating variables m, h (Na⁺) and n (K⁺) follow first-order kinetics driven by voltage-dependent rate constants α and β. In recording systems, differential amplifiers with high CMRR (>80 dB) and high input impedance (>1 GΩ for patch clamp) reject common-mode noise while preserving the microvolt-to-millivolt bioelectric signals.',
     keyIdea:
-      'Every heartbeat, brain thought, and muscle contraction produces a measurable electrical signal — detecting and decoding these signals is the core of clinical bioelectronics.',
+      'The HH membrane equation: Cm·(dV/dt) = Iext − gNa·m³h·(V−ENa) − gK·n⁴·(V−EK) − gL·(V−EL). Depolarization activates fast Na⁺ inward current (m gates open, h gates initially open); repolarization is driven by slow K⁺ outward current (n gates open) plus Na⁺ inactivation (h gates close).',
     example:
-      'A 12-lead ECG records the heart\'s electrical activity from 12 different angles simultaneously, allowing spatial localization of myocardial infarction (heart attack) by identifying which leads show ST-elevation.',
-    connections: ['medical-devices', 'neural-engineering'],
-    xpReward: 30,
+      'Patch clamp in whole-cell configuration holds a neuron at −70 mV. A 10 mV voltage step activates a fast inward current (INa peak ~−1 nA, τ ~0.5 ms) followed by sustained outward IK. TTX (tetrodotoxin) blocks Na⁺ channels selectively, isolating IK; TEA blocks K⁺ channels, isolating INa. This pharmacological dissection confirmed the HH model.',
     quizzes: [
       {
-        question:
-          'The resting membrane potential of a typical neuron is approximately:',
-        options: ['+70 mV', '0 mV', '−70 mV', '−120 mV'],
-        answer: 2,
-        explanation:
-          'Resting membrane potential is ~−70 mV (inside relative to outside), maintained by the sodium-potassium ATPase and selective K⁺ permeability. This baseline is critical for neuronal excitability — depolarization above threshold triggers an action potential.',
-      },
-      {
-        question:
-          'In a standard 12-lead ECG, the P wave represents:',
+        question: 'In the Hodgkin-Huxley model, what do the gating variables m, h, and n represent?',
         options: [
-          'Ventricular depolarization',
-          'Atrial repolarization',
-          'Atrial depolarization',
-          'Ventricular repolarization',
+          'm = Na⁺ activation, h = Na⁺ inactivation, n = K⁺ activation',
+          'm = K⁺ activation, h = Ca²⁺ inactivation, n = Na⁺ activation',
+          'm = membrane capacitance fraction, h = Na⁺ conductance, n = leak',
+          'm = Na⁺ activation, h = K⁺ activation, n = leak conductance',
         ],
-        answer: 2,
+        answer: 0,
         explanation:
-          'The P wave results from atrial depolarization originating at the sinoatrial (SA) node spreading through the atria. The QRS complex represents ventricular depolarization, and the T wave represents ventricular repolarization.',
+          'm is the Na⁺ channel activation gate (opens rapidly on depolarization, raised to the 3rd power), h is the Na⁺ inactivation gate (closes slowly after activation), and n is the K⁺ activation gate (opens slowly, raised to 4th power). The interplay of these gates produces the stereotyped action potential waveform with overshoot and undershoot.',
       },
       {
-        question:
-          'Differential amplifiers are used in bioelectric recording systems. Their key advantage for ECG recording is:',
+        question: 'Why is common-mode rejection ratio (CMRR) critical in bioelectric recording?',
         options: [
-          'They amplify both common-mode and differential signals equally',
-          'They have high common-mode rejection ratio (CMRR), eliminating shared noise (e.g., 60 Hz interference)',
-          'They increase the impedance of the electrode-skin interface',
-          'They convert analog signals to digital without an ADC',
+          'It sets the amplifier gain for small signals like ECG (~1 mV)',
+          'It allows the amplifier to cancel environmental noise (e.g., 60 Hz) appearing equally on both differential inputs',
+          'It determines the electrode impedance needed for patch clamp recording',
+          'It controls the sampling rate of the analog-to-digital converter',
         ],
         answer: 1,
         explanation:
-          'Differential amplifiers amplify the voltage difference between two inputs while rejecting signals common to both (common-mode signals like 60 Hz noise). A high CMRR (>80 dB) is essential for clean bioelectric recordings where the signal (μV–mV) is tiny compared to environmental noise.',
+          'Bioelectric signals (ECG ~1 mV, EEG ~10-100 μV) are dwarfed by 60/50 Hz power line interference. A differential amplifier rejects signals that appear identically on both inputs (common-mode) while amplifying the difference. CMRR = 20·log(ADiff/ACM); values >80–100 dB are needed for clean EEG recordings, meaning common-mode noise is rejected by a factor of 10,000–100,000.',
       },
       {
-        question:
-          'EMG (electromyography) signals recorded during a maximum voluntary contraction of the biceps will show:',
+        question: 'What is the physical basis of the Nernst potential for K⁺ in neurons?',
         options: [
-          'A single, isolated motor unit action potential (MUAP)',
-          'No electrical activity since muscles are fully shortened',
-          'Dense interference pattern of many overlapping MUAPs at high firing rates',
-          'A regular sinusoidal signal at 10 Hz',
+          'The temperature at which K⁺ channels open maximally',
+          'The equilibrium voltage at which the electrical force on K⁺ exactly balances its concentration diffusion force',
+          'The voltage that maximizes the K⁺ gating variable n in the HH model',
+          'The resting membrane potential averaged across all ion species',
+        ],
+        answer: 1,
+        explanation:
+          'The Nernst equation EK = (RT/zF)·ln([K⁺]out/[K⁺]in). Intracellular [K⁺] is high (~140 mM); extracellular is low (~5 mM). K⁺ diffuses outward down its concentration gradient, leaving negative charge inside. This builds an electric field that opposes further K⁺ efflux. At EK (~−90 mV), these forces balance — net K⁺ flux is zero.',
+      },
+      {
+        question: 'In spike sorting from multi-electrode arrays, what is the principal purpose of principal component analysis (PCA)?',
+        options: [
+          'To reconstruct the original spike waveform from compressed data',
+          'To reduce the high-dimensional spike waveform to a low-dimensional feature space for clustering',
+          'To detect and remove 60 Hz artifacts from the raw broadband signal',
+          'To compute the firing rate histogram across all recorded units',
+        ],
+        answer: 1,
+        explanation:
+          'Spike sorting first threshold-detects candidate spikes, aligns them, and extracts waveforms (e.g., 64 samples each). PCA rotates into directions of maximum variance — the first 2-3 PCs capture most waveform shape variability. Clustering algorithms (k-means, Gaussian mixture) then separate clusters in PC space, each cluster representing a single neuron's spike waveform template.',
+      },
+      {
+        question: 'Which patch-clamp configuration provides the highest signal quality for measuring whole-cell ionic currents?',
+        options: [
+          'Cell-attached (on-cell) configuration',
+          'Inside-out excised patch',
+          'Whole-cell configuration after membrane rupture',
+          'Loose-patch (suction electrode) configuration',
         ],
         answer: 2,
         explanation:
-          'During maximum voluntary contraction, many motor units fire rapidly and nearly simultaneously. The surface EMG captures a dense "interference pattern" of superimposed MUAPs. EMG amplitude and frequency content are used to assess neuromuscular function and fatigue.',
-      },
-      {
-        question:
-          'An implantable cardiac defibrillator (ICD) continuously monitors a patient\'s heart rhythm via intracardiac electrograms. When ventricular fibrillation is detected, the device delivers a ~30–40 J shock. The detection algorithm must minimize:',
-        options: [
-          'True positives (correctly identified VF)',
-          'True negatives (correctly identified normal rhythm)',
-          'False positives (shock delivered when VF is NOT present)',
-          'The number of monitoring channels',
-        ],
-        answer: 2,
-        explanation:
-          'False positive shock delivery is dangerous and painful — delivering a high-energy shock during normal sinus rhythm can itself induce arrhythmia. ICD detection algorithms carefully balance sensitivity (catching all true VF) against specificity (avoiding false positives in fast normal rhythms or T-wave oversensing).',
+          'Whole-cell configuration ruptures the membrane patch under the pipette, providing electrical access to the entire cell interior. This allows voltage-clamp of the whole-cell membrane and measurement of total ionic currents (INa, IK, ICa). Access resistance (Ra ~5–20 MΩ) causes series resistance errors that must be compensated. Cell-attached and inside-out patches measure single-channel currents from a small membrane area.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=oa6rvUJlg7o',
   },
-
   {
-    id: 'tissue-engineering',
-    title: 'Tissue Engineering & Regenerative Medicine',
+    id: 'computational-biomechanics',
+    title: 'Computational Biomechanics & Finite Element Analysis',
     tier: 'advanced',
-    subject: 'Advanced BME',
-    icon: '🌱',
+    subject: 'Mechanics',
+    icon: '🦴',
     description:
-      'Tissue engineering combines scaffolds, cells, and bioreactor systems to create functional living replacements for damaged organs and tissues. This transformative field bridges cell biology, biomaterials, and engineering to address the critical shortage of donor organs. Key challenges include vascularization, immune tolerance, and regulatory approval.',
+      'Biological tissues exhibit nonlinear, anisotropic, viscoelastic mechanical behavior that linear engineering models cannot capture. Soft tissues (arteries, cartilage, tendons) are hyperelastic — described by strain energy density functions (Mooney-Rivlin, Ogden, Fung exponential models). Bone is anisotropic composite: cortical bone has E ~17 GPa along the diaphysis, far exceeding trabecular bone (~0.1–5 GPa). Finite element analysis (FEA) discretizes these geometries (from CT/MRI segmentation) into elements, applies constitutive laws, and solves the equilibrium equations to predict stress distributions, failure modes, and implant loading.',
     keyIdea:
-      'Tissue engineering aims to grow functional living tissue outside the body by combining cells, scaffolds, and bioactive signals — then implant it to restore organ function.',
+      'The FEA equilibrium equation in matrix form: [K]{u} = {F}, where [K] is the assembled stiffness matrix (incorporates material properties and element geometry), {u} is the nodal displacement vector, and {F} is the applied force vector. Solving for {u} gives the deformation field; strains and stresses are recovered via the strain-displacement and constitutive relations.',
     example:
-      '3D bioprinted tracheal scaffolds seeded with patient-derived stem cells have been implanted in patients with tracheal cancer — using the patient\'s own cells avoids immune rejection without lifetime immunosuppression.',
-    connections: ['medical-devices'],
-    xpReward: 30,
+      'Patient-specific FEA of hip replacement: CT of the femur is segmented, meshed into ~200,000 tetrahedral elements. Bone material properties are mapped from CT Hounsfield units (E = 6,950·ρ^1.49 ash). A peak hip contact force of 2.5× body weight is applied. Stress concentrations at the stem tip predict areas of stress shielding and potential aseptic loosening over time.',
     quizzes: [
       {
-        question:
-          'The extracellular matrix (ECM) in a tissue engineering scaffold serves primarily to:',
+        question: 'What distinguishes a hyperelastic constitutive model from a linear elastic model for soft tissue?',
         options: [
-          'Provide electrical conductivity to the construct',
-          'Deliver mechanical support, guide cell behavior, and provide biochemical signals for adhesion and differentiation',
-          'Prevent vascularization of the implant',
-          'Accelerate immune rejection',
+          'Hyperelastic models have a constant Young\'s modulus but non-zero Poisson\'s ratio',
+          'Hyperelastic models are defined by a strain energy density function that produces nonlinear, large-deformation stress-strain behavior',
+          'Hyperelastic models account for viscous dissipation and time-dependent creep',
+          'Hyperelastic models assume isotropic behavior only and cannot model fiber-reinforced tissues',
         ],
         answer: 1,
         explanation:
-          'The ECM (natural or synthetic) provides structural support and contains bioactive ligands (fibronectin, laminin) that guide cell adhesion, migration, and differentiation. Scaffolds that mimic native ECM biochemistry and mechanics dramatically improve cell viability and tissue maturation.',
+          'Hyperelastic models (Mooney-Rivlin, Ogden, Fung) define a strain energy density function W(invariants of C). Stress is derived as σ = ∂W/∂ε. This produces the "toe-heel" J-shaped stress-strain curve typical of connective tissues, where collagen fibers gradually recruit and the tissue stiffens at large strains. Linear elasticity (σ = Eε) is only valid for small strains in stiff, linear materials.',
       },
       {
-        question:
-          'Induced pluripotent stem cells (iPSCs) are produced by:',
+        question: 'In FEA, what is "stress shielding" in the context of orthopedic implants?',
         options: [
-          'Extracting stem cells from the inner cell mass of embryos',
-          'Reprogramming adult somatic cells by introducing transcription factors (Oct4, Sox2, Klf4, c-Myc)',
-          'Treating adult cells with CRISPR to activate dormant stem cell genes',
-          'Fusing egg cells with adult tissue cells',
+          'The phenomenon where the implant surface stress exceeds yield strength of bone',
+          'The reduction in bone stress caused by a stiffer implant load-sharing, leading to bone resorption via Wolff\'s law',
+          'The amplification of cyclic stress at implant-bone interfaces causing fatigue failure',
+          'The protective effect of cancellous bone absorbing impact energy in falls',
         ],
         answer: 1,
         explanation:
-          'Yamanaka\'s Nobel Prize-winning discovery showed that somatic cells can be reprogrammed to pluripotency by expressing four transcription factors (OSKM). iPSCs can be derived from a patient\'s own cells, enabling autologous tissue engineering that avoids immune rejection.',
+          'Wolff\'s law states bone remodels in response to the mechanical loads it carries. When a stiff metal stem (E ~110 GPa for Ti-6Al-4V) shares load with bone (E ~17 GPa), the bone is stress-shielded — it experiences less stress than it would naturally. Mechanosensory osteocytes sense reduced strain and trigger osteoclast-mediated resorption, causing bone loss and eventual implant loosening.',
       },
       {
-        question:
-          'The critical challenge of vascularization in thick tissue constructs arises because:',
+        question: 'What is the role of mesh convergence testing in FEA?',
         options: [
-          'Blood vessels prevent cell proliferation',
-          'Oxygen diffusion from the surface only reaches ~200 μm into tissue, causing necrosis in deeper regions',
-          'Vascularized constructs cannot be transplanted surgically',
-          'Blood vessels increase immune rejection',
+          'It ensures the FEA solver converges to the correct numerical solution',
+          'It verifies that the computed results (e.g., peak stress) no longer change significantly as the mesh is refined',
+          'It tests whether the material constitutive law is thermodynamically consistent',
+          'It checks that the boundary conditions match in-vivo loading conditions',
         ],
         answer: 1,
         explanation:
-          'Oxygen diffusion is limited to ~100–200 μm from a blood vessel. Tissues thicker than this threshold develop a necrotic core unless they contain a vascular network. Creating pre-vascularized scaffolds or inducing angiogenesis post-implantation is the primary bottleneck in engineering thick organs.',
+          'FEA is a numerical approximation — finer meshes give more accurate results at greater computational cost. Mesh convergence testing systematically refines the mesh and monitors a quantity of interest (e.g., peak von Mises stress). When this quantity changes by less than ~5% on further refinement, the mesh is considered converged and the solution trustworthy.',
       },
       {
-        question:
-          'A bioreactor used in tissue engineering provides:',
+        question: 'Which material property model best captures the time-dependent creep behavior of articular cartilage?',
         options: [
-          'Only a sterile container for cell storage',
-          'A controlled environment with appropriate mechanical stimulation, nutrient delivery, and gas exchange to mature engineered tissue',
-          'A high-temperature environment to sterilize scaffolds',
-          'An electromagnetic field to eliminate contaminating microbes',
+          'Linear elastic model (Hookean spring)',
+          'Purely viscous Newtonian fluid model',
+          'Biphasic or viscoelastic model (e.g., Maxwell or Kelvin-Voigt spring-dashpot)',
+          'Rigid body model with Coulomb friction at the joint surface',
         ],
-        answer: 1,
+        answer: 2,
         explanation:
-          'Bioreactors mimic the in vivo physiological environment — providing appropriate shear stress (for vascular grafts), cyclic mechanical stretch (for cardiac tissue), nutrient perfusion, and controlled gas exchange (O₂/CO₂). Mechanical stimulation is critical for developing mature, functional tissue.',
+          'Cartilage is biphasic (solid matrix + interstitial fluid) and viscoelastic. Under sustained load, fluid exudes from the solid matrix, causing creep (increasing deformation over time). Spring-dashpot models (Maxwell: spring + dashpot in series; Kelvin-Voigt: in parallel) capture stress relaxation and creep mathematically. The full biphasic model (Mow et al.) is most accurate but computationally expensive.',
       },
       {
-        question:
-          'Under FDA regulations, a cell-based tissue engineered product is classified as a(n):',
+        question: 'In patient-specific FEA from CT data, how are spatially varying bone material properties typically assigned to finite elements?',
         options: [
-          'Class I medical device (510(k) exempt)',
-          'Biological product regulated under the Public Health Service Act (PHS Act 351)',
-          'Drug regulated under a New Drug Application (NDA)',
-          'Class II medical device requiring 510(k) clearance',
+          'A single isotropic E value is assigned to all bone elements based on average bone density',
+          'CT Hounsfield units are converted to apparent density, then to elastic modulus via empirical power-law relationships (e.g., E = a·ρ^b)',
+          'MRI T1 signal intensity is used directly as a proxy for bone Young\'s modulus',
+          'Material properties are copied from a standard musculoskeletal model database regardless of patient',
         ],
         answer: 1,
         explanation:
-          'Cell-based and tissue-engineered products are regulated as biologics under the PHS Act Section 351, requiring a Biologics License Application (BLA) — the most stringent regulatory pathway. Combined device-drug-biologic products may require combination product review by multiple FDA centers.',
+          'CT Hounsfield units (HU) are linearly related to tissue density. Empirical relations convert HU → ash density → elastic modulus (e.g., for cortical bone E ≈ 6,950·ρash^1.49 MPa, Morgan et al.). Each element receives a local E value based on the CT voxel data it maps to, giving a continuous, spatially heterogeneous material distribution that captures osteoporotic regions, trabeculae density gradients, and cortical-cancellous transitions.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=GHjopp47vvQ',
   },
-
   {
-    id: 'drug-delivery',
-    title: 'Drug Delivery Systems & Pharmacokinetics',
+    id: 'nanomedicine-drug-delivery',
+    title: 'Nanomedicine: Targeted Drug Delivery & PK/PD Modeling',
     tier: 'advanced',
     subject: 'Advanced BME',
     icon: '💊',
     description:
-      'Drug delivery engineering designs systems that control when, where, and how fast a drug is released in the body. From biodegradable polymer nanoparticles to implantable pumps, these systems dramatically improve therapeutic efficacy while reducing side effects. Pharmacokinetics (PK) provides the mathematical framework for predicting drug concentration profiles in the body.',
+      'Nanomedicine engineers drug-loaded nanoparticles (10–500 nm) that exploit the enhanced permeability and retention (EPR) effect in tumor vasculature, extend circulation half-life, and enable active targeting via surface ligands. PLGA (poly-lactic-co-glycolic acid) nanoparticles degrade by hydrolysis at tunable rates set by the lactide:glycolide ratio. Liposomes (lipid bilayer vesicles) encapsulate both hydrophilic (core) and hydrophobic (bilayer) drugs. Pharmacokinetic (PK) compartment models mathematically describe drug absorption, distribution, metabolism, and elimination (ADME) to optimize dosing regimens for therapeutic effect without toxicity.',
     keyIdea:
-      'Controlled release delivers the right drug dose to the right place at the right time — overcoming the limitations of conventional bolus dosing.',
+      'Two-compartment PK model: drug distributes between central (blood/plasma) and peripheral (tissue) compartments. ODEs: dC1/dt = (Dose·ka − CL·C1 − Q·C1 + Q·C2/Vd2)/Vd1; dC2/dt = (Q·C1/Vd1 − Q·C2/Vd2). AUC (area under the concentration-time curve) is proportional to total drug exposure; t1/2 = 0.693/ke.',
     example:
-      'PEGylated liposomal doxorubicin (Doxil) exploits the Enhanced Permeability and Retention (EPR) effect — tumor vasculature leakiness allows nanoparticles to accumulate selectively in tumor tissue, increasing efficacy and reducing cardiac toxicity.',
-    connections: ['medical-devices'],
-    xpReward: 30,
+      'Doxorubicin-loaded PEGylated liposomes (Doxil) have a circulation half-life of ~85 h vs ~10 min for free doxorubicin. PEG chains (stealth effect) prevent opsonization and phagocytosis by the mononuclear phagocyte system. Tumor accumulation via EPR increases from ~1% to ~8% of injected dose, greatly reducing cardiotoxicity while maintaining anti-tumor efficacy.',
     quizzes: [
       {
-        question:
-          'Bioavailability (F) of an orally administered drug is defined as the fraction of administered dose that reaches systemic circulation unchanged. If an oral drug has F = 0.3, how does its oral dose compare to an equivalent IV dose?',
+        question: 'What is the EPR (enhanced permeability and retention) effect in cancer nanomedicine?',
         options: [
-          'Oral dose is 30% of IV dose',
-          'Oral dose is 3.3× (1/0.3) the IV dose',
-          'Oral dose is identical to IV dose',
-          'Oral dose is 70% of IV dose',
+          'The ability of nanoparticles to cross the blood-brain barrier via active transport',
+          'The accumulation of macromolecules in tumor tissue due to leaky vasculature and poor lymphatic drainage',
+          'The selective binding of antibody-conjugated nanoparticles to cancer cell surface receptors',
+          'The pH-triggered drug release from nanoparticles in acidic lysosomes',
         ],
         answer: 1,
         explanation:
-          'To achieve the same systemic exposure (AUC), oral dose = IV dose / F = IV dose / 0.3 = 3.3× the IV dose. First-pass hepatic metabolism, gut wall metabolism, and incomplete absorption reduce oral bioavailability. Formulation engineering aims to maximize F.',
+          'Tumor angiogenesis produces blood vessels with large endothelial gaps (200–2000 nm) — far larger than normal vasculature (~8 nm). Combined with dysfunctional lymphatics, this causes macromolecules and nanoparticles to accumulate passively in tumor interstitium. This EPR effect is the mechanistic basis for passive targeting, though its clinical relevance varies significantly across tumor types and patients.',
       },
       {
-        question:
-          'PLGA nanoparticles release their drug payload primarily by which mechanism(s)?',
+        question: 'In PLGA nanoparticles, what controls the drug release rate?',
         options: [
-          'Thermal melting of the polymer at body temperature',
-          'Diffusion through the polymer matrix and hydrolytic degradation of the PLGA backbone',
-          'pH-triggered burst release in the bloodstream',
-          'Enzymatic cleavage by blood proteases',
+          'Electrostatic charge of the drug molecule relative to PLGA surface charge',
+          'The lactide:glycolide ratio, molecular weight, and particle size determine hydrolysis rate and thus drug release kinetics',
+          'The concentration gradient of drug between the nanoparticle and plasma only',
+          'The melting temperature of PLGA, which is always 37°C in physiological conditions',
         ],
         answer: 1,
         explanation:
-          'PLGA nanoparticles release drugs by two mechanisms: (1) diffusion through the polymer matrix (early release) and (2) erosion as ester bonds hydrolyze and the polymer degrades into lactic and glycolic acid. The PLGA ratio (e.g., 50:50 vs 75:25) determines degradation rate.',
+          'PLGA degrades by bulk hydrolysis of ester bonds — water penetrates the particle and cleaves the polymer backbone into lactic and glycolic acid. Higher glycolide content → faster degradation (PLGA 50:50 degrades in ~1–2 months; PLGA 85:15 in ~5–6 months). Smaller particles degrade faster (higher surface area:volume). This tunability allows sustained release from days to months.',
       },
       {
-        question:
-          'The volume of distribution (Vd) of a drug is 100 L in a 70 kg patient. This large Vd suggests the drug:',
+        question: 'In a one-compartment PK model with IV bolus dosing, what is the plasma concentration at time t?',
         options: [
-          'Stays almost entirely in the bloodstream (plasma volume ~3 L)',
-          'Is extensively distributed into tissues (far exceeds plasma volume)',
-          'Has very high bioavailability',
-          'Has a long half-life',
+          'C(t) = C₀ · (1 − e^(−ke·t))',
+          'C(t) = C₀ · e^(−ke·t)',
+          'C(t) = Dose/(Vd · t)',
+          'C(t) = C₀ / (1 + ke·t)',
         ],
         answer: 1,
         explanation:
-          'A Vd of 100 L far exceeds total body water (~42 L), indicating extensive tissue binding (lipophilic drugs sequester in fat, muscle, or organ tissue). High Vd drugs have lower plasma concentrations for a given dose — an important dosing consideration.',
+          'With IV bolus, drug instantaneously distributes into the volume of distribution (Vd), giving C₀ = Dose/Vd. First-order elimination: dC/dt = −ke·C, solution: C(t) = C₀·e^(−ke·t). Half-life t½ = ln(2)/ke ≈ 0.693/ke. This exponential decay is the foundation of dosing interval calculations to keep drug concentration within the therapeutic window.',
       },
       {
-        question:
-          'Active targeting of nanoparticles to cancer cells is achieved by:',
+        question: 'What is the "stealth" mechanism by which PEGylated nanoparticles evade immune clearance?',
         options: [
-          'Increasing nanoparticle size to >500 nm for enhanced EPR effect',
-          'Conjugating targeting ligands (e.g., antibodies, folate, aptamers) to nanoparticle surfaces that bind overexpressed receptors on cancer cells',
-          'Making nanoparticles cationic so they bind anionic cancer cell membranes',
-          'Loading nanoparticles with iron oxide for magnetic targeting',
+          'PEG coatings absorb plasma opsonins (IgG, complement) to actively destroy macrophages',
+          'PEG creates a hydrophilic steric barrier that prevents opsonin adsorption, reducing recognition by macrophage Fc receptors and extending circulation half-life',
+          'PEG mimics the glycocalyx of red blood cells by displaying "don\'t-eat-me" signals',
+          'PEG forms covalent bonds with albumin, making the particle invisible to the immune system',
         ],
         answer: 1,
         explanation:
-          'Active targeting uses ligands conjugated to nanoparticle surfaces (e.g., anti-HER2 antibodies, folate for folate receptor-overexpressing cancers) to selectively bind receptors overexpressed on tumor cells. This increases drug accumulation in tumors while sparing normal tissue.',
+          'Opsonization — adsorption of IgG and complement proteins — marks nanoparticles for phagocytosis by liver Kupffer cells and spleen macrophages. PEG (polyethylene glycol) is hydrophilic and creates an excluded volume/steric repulsion cloud that prevents opsonins from adsorbing. This dramatically extends blood half-life from minutes (bare particles) to hours or days, increasing tumor accumulation via EPR.',
       },
       {
-        question:
-          'A patient requires a drug that must maintain plasma concentration between 10–20 ng/mL (therapeutic window). If the drug\'s half-life is 8 hours, what is the appropriate dosing interval using the target trough concentration approach?',
+        question: 'What does the therapeutic index (TI) quantify in drug development?',
         options: [
-          '1 hour (very frequent dosing)',
-          'One half-life (8 hours) to prevent trough below 10 ng/mL',
-          '24 hours (once daily)',
-          'The half-life is irrelevant to dosing interval',
+          'TI = AUC(tumor) / AUC(plasma) — the ratio of tumor to plasma drug exposure',
+          'TI = LD₅₀ / ED₅₀ — the ratio of the toxic dose to the effective dose, quantifying the safety margin',
+          'TI = Cmax / MIC — the ratio of peak concentration to minimum inhibitory concentration',
+          'TI = t½ / τ — the ratio of drug half-life to dosing interval',
         ],
         answer: 1,
         explanation:
-          'Dosing every one half-life means plasma concentration falls by 50% between doses. To maintain concentrations within a narrow therapeutic window with a 2:1 peak-to-trough ratio (20:10 ng/mL), dosing at one half-life (8 hours) is rational. This ensures steady-state concentrations stay within the therapeutic range.',
+          'The therapeutic index (or therapeutic window) TI = TD₅₀/ED₅₀ (or LD₅₀/ED₅₀ in animals) measures how much the toxic dose exceeds the effective dose. Drugs with narrow TI (e.g., digoxin, warfarin, aminoglycosides) require careful therapeutic drug monitoring and PK/PD modeling to stay above the minimum effective concentration while avoiding toxicity.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=AeGGBFbzSuo',
   },
-
   {
-    id: 'medical-devices',
-    title: 'Medical Device Design & FDA Regulation',
+    id: 'crispr-gene-therapy',
+    title: 'CRISPR-Cas9 & Viral Gene Therapy',
     tier: 'advanced',
     subject: 'Advanced BME',
-    icon: '🏥',
+    icon: '🧬',
     description:
-      'Designing medical devices requires more than engineering skill — it demands mastery of regulatory pathways, risk management, biocompatibility testing, and clinical evidence generation. The FDA classifies devices into three risk-based classes, each with different approval requirements. Understanding this landscape is essential for every BME professional bringing products to patients.',
+      'CRISPR-Cas9 is a programmable endonuclease system derived from bacterial adaptive immunity. The single guide RNA (sgRNA) directs Cas9 to a complementary genomic sequence adjacent to a PAM (protospacer adjacent motif: 5′-NGG-3′ for SpCas9). Cas9 creates a double-strand break (DSB); repair by NHEJ introduces indels (frameshifts) for gene knockout, or by HDR with a donor template for precise gene correction. Viral vectors — particularly adeno-associated virus (AAV) — deliver therapeutic transgenes in vivo. AAV serotypes differ in tissue tropism: AAV9 crosses the blood-brain barrier; AAV8 transduces liver efficiently.',
     keyIdea:
-      'Medical devices must be proven both safe AND effective through rigorous design controls, testing, and regulatory review before reaching patients.',
+      'Three pillars of CRISPR specificity: (1) 20-nt spacer matching (base-pairing thermodynamics), (2) PAM recognition, (3) seed region (8–12 nt adjacent to PAM) — mismatches here are most intolerable. Off-target cleavage at similar sequences causes unintended mutations; mitigated by high-fidelity Cas9 variants (eSpCas9, HiFi Cas9), truncated guides (17-nt), or Cas9 nickases.',
     example:
-      'A new coronary artery stent must pass ISO 10993 biocompatibility testing, fatigue and fracture mechanics bench testing, animal studies, and finally randomized controlled clinical trials before FDA PMA approval.',
-    connections: ['bioinformatics', 'neural-engineering'],
-    xpReward: 30,
+      'In vivo liver-directed gene editing for transthyretin (TTR) amyloidosis: LNP-encapsulated sgRNA+Cas9 mRNA targets hepatocyte TTR gene. NTLA-2001 clinical trial showed 87% reduction in serum TTR after single IV dose — near-complete knockdown sustained at 12 months. CRISPR editing success confirmed by next-generation sequencing showing ~97% indel frequency in liver biopsies.',
     quizzes: [
       {
-        question:
-          'The FDA classifies medical devices into Classes I, II, and III based on risk level. Which class includes the highest-risk devices, such as implantable cardiac defibrillators?',
+        question: 'What role does the PAM sequence play in CRISPR-Cas9 genome editing?',
         options: [
-          'Class I',
-          'Class II',
-          'Class III',
-          'Class IV',
-        ],
-        answer: 2,
-        explanation:
-          'Class III devices (e.g., ICDs, heart valves, cochlear implants) present the highest patient risk and require a Premarket Approval (PMA) — the most rigorous FDA review requiring valid scientific evidence of safety and effectiveness, typically from clinical trials.',
-      },
-      {
-        question:
-          'A 510(k) premarket notification is appropriate when a new device is "substantially equivalent" to a predicate device already on the market. Substantial equivalence means:',
-        options: [
-          'The new device is identical in every way to the predicate',
-          'The new device has the same intended use and same or equivalent technological characteristics as the predicate',
-          'The new device is cheaper than the predicate',
-          'The new device has been used in fewer than 1,000 patients',
+          'It is the region on the sgRNA that base-pairs with the target DNA strand',
+          'It is a short DNA motif (5′-NGG-3′ for SpCas9) adjacent to the target site required for Cas9 DNA binding and cleavage',
+          'It encodes the Cas9 nuclear localization signal for efficient nuclear import',
+          'It determines which DNA repair pathway (NHEJ vs HDR) is activated after the double-strand break',
         ],
         answer: 1,
         explanation:
-          '510(k) clearance requires demonstrating that the new device has the same intended use and same (or different but non-safety-compromising) technology as a cleared predicate device. 510(k) does not require clinical data in most cases — making it much faster than PMA.',
+          'Cas9 first scans DNA for PAM sequences; without a PAM, Cas9 will not unwind the helix for sgRNA base-pairing. For SpCas9, the PAM is 5′-NGG-3′ on the non-template strand, immediately 3′ of the 20-nt protospacer. This requirement limits targetable sites to ~1 per 8 bp of genome on average, but also serves as a safeguard since the Cas9 genome itself lacks PAM sites adjacent to matching sequences.',
       },
       {
-        question:
-          'Design controls, required by FDA 21 CFR Part 820 for Class II and III devices, include which of the following?',
+        question: 'What is the key difference between NHEJ and HDR as DNA repair pathways after Cas9 cleavage?',
         options: [
-          'Only aesthetic and manufacturing considerations',
-          'Design input requirements, outputs, verification, validation, and design reviews',
-          'Marketing and sales strategy documentation',
-          'Patient consent forms for each device sold',
+          'NHEJ is error-free and inserts the donor template precisely; HDR introduces random indels',
+          'NHEJ is error-prone and introduces indels (useful for gene knockout); HDR uses a donor template for precise sequence changes but requires cell division',
+          'NHEJ occurs only in dividing cells; HDR is active in all cell cycle phases',
+          'NHEJ repairs single-strand nicks; HDR repairs only double-strand breaks',
         ],
         answer: 1,
         explanation:
-          'FDA design controls require a formal design and development process: design inputs (requirements), outputs (specifications and drawings), verification (does the design meet requirements?), validation (does the device meet user needs in real conditions?), and design reviews at each phase.',
+          'NHEJ (non-homologous end joining) ligates broken ends directly — fast but imprecise, generating insertions/deletions (indels) that often cause frameshift mutations and gene knockout. HDR (homology-directed repair) uses a provided donor template with homology arms flanking the cut site to introduce specific sequences — enabling precise correction. HDR efficiency is higher in S/G2 phase (when a sister chromatid is available as repair template), making it challenging in post-mitotic cells.',
       },
       {
-        question:
-          'ISO 14971 is the international standard for medical device risk management. The risk of a device hazard is calculated as:',
+        question: 'Why do different AAV serotypes (e.g., AAV9 vs AAV8) have different tissue tropisms?',
         options: [
-          'Risk = Severity of harm only',
-          'Risk = Probability of harm × Severity of harm',
-          'Risk = Number of users × Device cost',
-          'Risk = Time to failure / Device price',
+          'Different serotypes carry different transgene promoters that drive expression in specific cell types',
+          'The capsid protein sequence differs between serotypes, determining which cell-surface receptors/co-receptors mediate entry and thus tissue targeting',
+          'Different serotypes integrate into different chromosomal locations near tissue-specific genes',
+          'AAV8 and AAV9 have different genome sizes, limiting the transgene capacity for tissue-specific promoters',
         ],
         answer: 1,
         explanation:
-          'ISO 14971 defines risk = probability of occurrence of harm × severity of harm. Risk management involves identifying hazards, estimating risk, implementing risk controls, and verifying controls reduce risk to an acceptable level — a mandatory process for all medical devices.',
+          'AAV capsid proteins (VP1/VP2/VP3) mediate receptor binding. AAV2 uses heparan sulfate proteoglycans (broadly expressed). AAV8 uses laminin receptor (highly expressed in liver, muscle). AAV9 uses galactose on cell surfaces and efficiently crosses the blood-brain barrier and transduces CNS neurons and cardiac muscle. Engineered capsids (AAV-PHP.eB, AAV.CAP-B10) further enhance CNS targeting for neurological disease gene therapy.',
       },
       {
-        question:
-          'A randomized controlled trial (RCT) for a new cardiac device assigns patients randomly to the new device or standard care. The primary purpose of randomization is to:',
+        question: 'Base editing (BE3, ABE) differs from standard CRISPR-Cas9 cutting in what fundamental way?',
         options: [
-          'Ensure the device is tested only in healthy patients',
-          'Eliminate confounding variables by distributing known and unknown patient characteristics equally between groups',
-          'Reduce the sample size needed for statistical significance',
-          'Allow the company to choose which patients receive the new device',
+          'Base editors use two Cas9 molecules to create larger deletions for gene regulation',
+          'Base editors use a catalytically impaired Cas9 (nickase or dCas9) fused to a deaminase enzyme to chemically convert one base to another without creating double-strand breaks',
+          'Base editing requires a donor DNA template for HDR just like standard CRISPR but with higher efficiency',
+          'Base editors target RNA rather than genomic DNA to avoid permanent genetic changes',
         ],
         answer: 1,
         explanation:
-          'Randomization distributes patient characteristics (age, comorbidities, disease severity) equally between treatment groups, eliminating selection bias and confounding. This allows differences in outcomes to be attributed causally to the device — the gold standard for clinical evidence.',
+          'Cytosine base editors (CBEs, e.g., BE3) fuse dCas9-nickase to APOBEC deaminase, converting C→U (read as T) within an ~4-nt editing window. Adenine base editors (ABEs, e.g., ABE8e) use an engineered adenosine deaminase to convert A→I (read as G). This achieves C·G → T·A or A·T → G·C transition mutations without DSBs, dramatically reducing indels and chromosomal rearrangements — critical for therapeutic use.',
+      },
+      {
+        question: 'What is the main delivery challenge for in vivo CRISPR therapeutics targeting non-liver tissues?',
+        options: [
+          'CRISPR components are too large for any viral or non-viral delivery vehicle',
+          'Efficient, specific delivery to target cell types while avoiding immune responses to Cas9 protein and the delivery vehicle, and minimizing off-target editing',
+          'CRISPR cannot edit post-mitotic cells such as neurons and cardiomyocytes',
+          'The editing window in the genome is too short for clinically meaningful gene correction rates',
+        ],
+        answer: 1,
+        explanation:
+          'LNPs (lipid nanoparticles) efficiently reach the liver (as in FDA-approved inclisiran) but poorly transfect brain, lung, or muscle. AAV vectors can target CNS (AAV9) or muscle (AAV1/6) but have limited packaging capacity (~4.7 kb — insufficient for the full SpCas9 ~4.2 kb + sgRNA + promoters). Pre-existing anti-AAV antibodies in humans limit re-dosing. Smaller Cas9 orthologs (SaCas9, CjCas9) and split-intein systems address packaging constraints.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=jAhjPd4uNFY',
   },
-
   {
-    id: 'bioinformatics',
-    title: 'Bioinformatics & Genomic Engineering',
+    id: 'organ-on-chip-bioprinting',
+    title: 'Organ-on-a-Chip, Organoids & 3D Bioprinting',
     tier: 'advanced',
     subject: 'Advanced BME',
-    icon: '🧫',
+    icon: '🫀',
     description:
-      'Modern genomics generates terabytes of biological data that cannot be analyzed by hand. Bioinformatics applies computer science, statistics, and mathematics to decode the genome, identify disease genes, and design targeted interventions. CRISPR-Cas9 gene editing — designed using bioinformatics tools — has opened a new era of precision medicine.',
+      'Organ-on-a-chip (OoC) devices use microfluidic channels lined with human cells to recapitulate organ-level physiology with fluid flow, mechanical strain, and co-culture — in a format that is controllable and high-throughput. Organoids are self-organizing 3D cell aggregates derived from stem cells (iPSCs or adult tissue stem cells) that recapitulate organ architecture ex vivo. 3D bioprinting deposits cell-laden bioinks (hydrogels + cells) layer by layer to build vascularized tissue constructs. Together, these microphysiological systems (MPS) are transforming drug development by replacing animal models for toxicity screening.',
     keyIdea:
-      'Genomic data is biological big data — computational algorithms are essential to extract meaning from DNA sequences and design precision therapies.',
+      'In microfluidics, flow is governed by the Navier-Stokes equations simplified for low Reynolds number (Re = ρvL/μ ≪ 1, typically Re < 0.01 in microchannels). At low Re, flow is laminar — no turbulence. Pressure-driven flow in a rectangular channel follows Poiseuille law: Q = ΔP·w·h³/(12μL) for h ≪ w. Wall shear stress τ = 6μQ/(wh²) directly stimulates endothelial mechanobiology.',
     example:
-      'CRISPR-Cas9 gene editing relies on computational guide RNA design tools to identify a 20-nucleotide sequence that precisely targets the disease-causing mutation while minimizing off-target edits elsewhere in the genome.',
-    connections: ['neural-engineering'],
-    xpReward: 30,
+      'Lung-on-a-chip (Wyss Institute): a PDMS device with two parallel microchannels separated by a thin porous PDMS membrane. Lung epithelial cells on top, pulmonary endothelial cells below. Cyclic vacuum applied to side chambers stretches the membrane 10% at 0.2 Hz — mimicking breathing. This recapitulates pulmonary edema in response to IL-2 better than static cultures, and correctly predicted that GSK anti-inflammatory drug TRPV4 inhibitor would prevent edema.',
     quizzes: [
       {
-        question:
-          'Next-generation sequencing (NGS) produces millions of short DNA "reads." After sequencing, the first step in a standard bioinformatics pipeline is:',
+        question: 'Why is laminar flow dominant in organ-on-a-chip microfluidic devices?',
         options: [
-          'Variant calling to identify mutations',
-          'Aligning reads to a reference genome',
-          'RNA differential expression analysis',
-          'Protein structure prediction',
+          'Microfluidic pumps cannot generate turbulent flow velocities',
+          'At microscale channel dimensions and physiological flow rates, the Reynolds number is much less than 1, making viscous forces dominate over inertial forces',
+          'PDMS channel walls absorb turbulence energy before it can develop',
+          'Physiological cell media have much higher viscosity than water, suppressing all turbulence',
         ],
         answer: 1,
         explanation:
-          'After sequencing, raw reads are quality-filtered, then aligned (mapped) to a reference genome using tools like BWA or STAR. Only after alignment can downstream analyses (variant calling, expression quantification) be performed.',
+          'Reynolds number Re = ρvL/μ. In a microchannel with L = 200 μm, v = 100 μm/s, ρ = 1000 kg/m³, μ = 10⁻³ Pa·s: Re ≈ 0.02. Turbulence requires Re > 2300. At Re ≪ 1, viscous dissipation dominates completely — flow is perfectly laminar, enabling precise concentration gradient generation, minimal shear stress, and stable co-culture conditions. This is fundamental to designing reliable diffusion-controlled drug gradients in OoC devices.',
       },
       {
-        question:
-          'BLAST (Basic Local Alignment Search Tool) is used to:',
+        question: 'What is the primary advantage of iPSC-derived organoids over traditional 2D cell culture for drug testing?',
         options: [
-          'Predict protein secondary structure from amino acid sequence',
-          'Find regions of similarity between a query sequence and sequences in a database',
-          'Design guide RNAs for CRISPR editing',
-          'Assemble short sequencing reads into a complete genome',
+          '2D cultures are too expensive while organoids reduce costs by >1000× per assay',
+          'Organoids recapitulate 3D tissue architecture, cell-cell/cell-matrix interactions, and gene expression patterns closer to in vivo organ physiology, improving predictive validity',
+          'iPSC-derived organoids are immortalized and can proliferate indefinitely unlike primary cells',
+          'Organoids are optically transparent enabling super-resolution microscopy impossible in 2D cultures',
         ],
         answer: 1,
         explanation:
-          'BLAST searches nucleotide or protein sequence databases for similar sequences, scoring alignments using substitution matrices. It is used to identify unknown genes, infer function by homology, and find evolutionary relationships — the most widely used bioinformatics tool.',
+          'In 2D monolayers, cells lose tissue-specific architecture and many differentiated functions. Liver organoids (hepatocyte-like cells) express CYP450 enzymes relevant to drug metabolism; gut organoids maintain enterocyte-goblet-Paneth cell diversity; brain organoids develop cortical-like layered structure. This 3D context dramatically improves drug toxicity prediction — 2D hepatotoxicity screens miss ~70% of compounds that fail in vivo.',
       },
       {
-        question:
-          'The CRISPR-Cas9 system requires two components to create a double-strand DNA break: the Cas9 nuclease and a(n):',
+        question: 'In extrusion-based 3D bioprinting, what is the primary trade-off in choosing bioink hydrogel crosslink density?',
         options: [
-          'Restriction enzyme recognition sequence',
-          'Single guide RNA (sgRNA) complementary to the target DNA sequence',
-          'DNA methyltransferase',
-          'Zinc finger nuclease',
+          'Higher crosslink density improves print resolution but decreases cell viability due to mechanical confinement and reduced nutrient diffusion',
+          'Lower crosslink density improves electrical conductivity of the bioink for neural applications',
+          'Higher crosslink density improves optical clarity for confocal imaging but reduces UV crosslinking efficiency',
+          'Crosslink density only affects bioink shelf life, not cell behavior post-printing',
         ],
-        answer: 1,
+        answer: 0,
         explanation:
-          'The sgRNA provides sequence specificity — its 20-nucleotide spacer region base-pairs with the target DNA, directing Cas9 to create a double-strand break at that precise location. The guide RNA is designed computationally to minimize off-target effects.',
+          'High crosslink density (e.g., high-concentration GelMA, alginate) gives better mechanical integrity and print fidelity but creates a dense mesh that (1) mechanically compresses cells causing membrane stress, and (2) limits diffusion of oxygen, nutrients, and waste products. Low crosslink density improves cell survival and proliferation but the bioink is too soft to hold printed structure. Optimal bioinks balance these — typically 5-10% GelMA with UV crosslinking gives G\' ~1-10 kPa, matching soft tissue stiffness.',
       },
       {
-        question:
-          'Differential gene expression analysis between cancer and normal tissue RNA-seq samples uses statistical testing to identify genes that are significantly up- or down-regulated. The false discovery rate (FDR) correction (e.g., Benjamini-Hochberg) is applied to:',
+        question: 'What is the vascularization challenge in thick bioprinted tissue constructs (>500 μm)?',
         options: [
-          'Increase the statistical power of the test',
-          'Control the expected proportion of false positive significant results when testing thousands of genes simultaneously',
-          'Remove low-quality sequencing reads from the dataset',
-          'Normalize read counts across different sequencing depths',
+          'Blood vessel formation is only possible from embryonic stem cells, not adult iPSCs',
+          'Cells beyond ~200 μm from a nutrient source become hypoxic and necrotic because passive O₂ diffusion cannot reach them without a vascular network',
+          'Printed blood vessel channels collapse under the weight of overlying tissue layers during culture',
+          'Immune rejection of vascular endothelial cells prevents vascular integration in all 3D constructs',
         ],
         answer: 1,
         explanation:
-          'Testing 20,000 genes simultaneously at p<0.05 would yield ~1,000 false positives by chance alone. FDR correction (adjusted p-values/q-values) controls the fraction of false discoveries among all significant results — essential for genomic discovery studies.',
+          'Oxygen has a diffusion limit of ~100–200 μm in tissue — beyond that, pO₂ drops below the threshold for oxidative metabolism and cells undergo hypoxic necrosis. In native tissue, capillaries are never more than ~50–100 μm from any cell. Bioprinted constructs > 500 μm thick require pre-formed vascular channels (sacrificial templating with Pluronic F-127, or embedded coaxial printing of hollow channels) that can be seeded with endothelial cells to support perfusion and oxygen delivery.',
       },
       {
-        question:
-          'Machine learning models trained on genomic data for cancer diagnosis must be validated on an independent test set to assess:',
+        question: 'How does wall shear stress in microfluidic OoC devices affect vascular endothelial cell phenotype?',
         options: [
-          'Training accuracy on the samples used to build the model',
-          'Generalizability to new, unseen patient data (avoiding overfitting)',
-          'The speed of the sequencing machine',
-          'The statistical significance of individual gene variants',
+          'Shear stress above 0.1 Pa triggers apoptosis in all endothelial cell lines',
+          'Physiological shear stress (~0.5–2 Pa) aligns endothelial cells in the flow direction, upregulates anti-inflammatory genes (eNOS, KLF2), and maintains barrier function',
+          'Shear stress has no effect on endothelial cells unless it exceeds 10 Pa (far above physiological levels)',
+          'Shear stress activates P-selectin expression, increasing leukocyte adhesion regardless of magnitude',
         ],
         answer: 1,
         explanation:
-          'Overfitting occurs when a model memorizes training data patterns without generalizing. Validation on an independent test set (never used in training or hyperparameter tuning) estimates real-world diagnostic performance — essential before clinical deployment of AI/ML diagnostic tools.',
+          'Vascular endothelial cells are mechanosensors. Physiological arterial shear stress (0.5–2.5 Pa) activates mechanosensors (PECAM-1, VE-cadherin, integrins, PIEZO1 ion channels), triggering KLF2/KLF4 transcription factors that upregulate eNOS (NO production → vasodilation), suppress inflammation (lower NF-κB, VCAM-1, ICAM-1), and elongate cells in the flow direction. Disturbed flow (oscillatory, low shear < 0.4 Pa at bifurcations) is pro-atherogenic — upregulates oxidative stress and inflammatory adhesion molecules.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=ck__9QKSD0A',
   },
-
   {
-    id: 'neural-engineering',
-    title: 'Neural Engineering & Brain-Computer Interfaces',
+    id: 'brain-computer-interfaces',
+    title: 'Brain-Computer Interfaces & Neural Decoding',
     tier: 'advanced',
     subject: 'Advanced BME',
     icon: '🧠',
     description:
-      'Neural engineering applies engineering principles to understand, interface with, and repair the nervous system. Brain-computer interfaces (BCIs) record neural signals and translate them into control commands for assistive devices, prosthetics, or computers — restoring communication and motor function to paralyzed patients. Deep brain stimulation (DBS) modulates pathological neural circuits to treat Parkinson\'s disease and depression.',
+      'Brain-computer interfaces (BCIs) create a direct communication pathway between neural tissue and external devices, bypassing damaged efferent pathways. Invasive BCIs (Utah array, ECoG grids) record single-unit spikes or local field potentials (LFPs) with high spatial resolution. Non-invasive BCIs (EEG, fNIRS) sacrifice resolution for safety. Neural decoding transforms population activity patterns into motor commands, speech, or cognitive states. The Kalman filter is the dominant real-time decoder for continuous 2D/3D cursor control — it optimally combines a noisy neural observation model with a smooth movement dynamics model. Deep learning decoders (RNNs, transformers) increasingly outperform linear decoders for complex kinematic reconstruction.',
     keyIdea:
-      'Brain-computer interfaces decode neural activity patterns to restore lost function in paralyzed patients — turning thought into action through engineering.',
+      'Kalman filter decoder: State equation x(t) = Ax(t−1) + w(t) (movement dynamics, w ~ N(0,Q)). Observation equation z(t) = Hx(t) + q(t) (neural firing rates observe state, q ~ N(0,R)). Two-step update: (1) Predict: x̂⁻ = Ax̂(t−1); (2) Update: x̂ = x̂⁻ + K[z−Hx̂⁻], where Kalman gain K = P⁻Hᵀ(HP⁻Hᵀ+R)⁻¹. Provides optimal minimum-variance state estimates under Gaussian noise assumptions.',
     example:
-      'The BrainGate BCI implants a microelectrode array (Utah Array) in motor cortex — when the patient imagines moving their hand, recorded neural firing patterns are decoded in real time to control a computer cursor or robotic arm.',
-    connections: [],
-    xpReward: 30,
+      'BrainGate2 trial (Simeral et al. 2021): A 96-channel Utah array implanted in motor cortex of a tetraplegic patient decoded 2D cursor velocity from single-unit spike trains using a Kalman filter decoder. Patient achieved 12.1 bits/min information throughput using imagined hand movements after 1,000 days post-implant — demonstrating long-term recording stability. The Kalman decoder was trained on brief calibration blocks then operated continuously in closed-loop.',
     quizzes: [
       {
-        question:
-          'During an action potential, the initial rapid depolarization is caused by:',
+        question: 'What is the fundamental advantage of invasive (intracortical) BCIs over non-invasive EEG BCIs?',
         options: [
-          'Opening of voltage-gated K⁺ channels',
-          'Closing of leak Na⁺ channels',
-          'Opening of voltage-gated Na⁺ channels (fast Na⁺ influx)',
-          'Activation of the Na⁺/K⁺ ATPase pump',
-        ],
-        answer: 2,
-        explanation:
-          'When membrane potential reaches threshold (~−55 mV), voltage-gated Na⁺ channels open rapidly, allowing Na⁺ to rush in down its electrochemical gradient, depolarizing the membrane to ~+40 mV. Subsequent K⁺ channel opening drives repolarization.',
-      },
-      {
-        question:
-          'The Utah Electrode Array (UEA), used in BrainGate BCIs, consists of 100 penetrating silicon electrodes arranged in a 10×10 grid. It records signals at what level of neural organization?',
-        options: [
-          'Local field potentials only (population-level activity)',
-          'Single-unit action potentials and multi-unit activity from individual neurons',
-          'EEG-level signals through the skull',
-          'Axon conduction velocity of long-distance pathways',
+          'Intracortical BCIs are safer because they avoid electromagnetic interference from scalp muscles',
+          'Intracortical recordings have ~1,000× higher spatial resolution and can record single neuron spikes, providing far more information per unit time for high-performance decoding',
+          'EEG requires general anesthesia for electrode placement while intracortical does not',
+          'Intracortical BCIs can record from the entire cortex simultaneously while EEG only captures frontal lobe activity',
         ],
         answer: 1,
         explanation:
-          'Penetrating microelectrodes like the Utah Array record single-unit (individual neuron) and multi-unit action potentials at the tip of each electrode (within ~150 μm). This single-neuron resolution provides the highest-bandwidth neural control signals for BCIs.',
+          'EEG records volume-conducted summations of millions of neurons through skull and scalp (~1 cm² spatial resolution, no single-unit activity). Utah arrays (10×10, 96 active electrodes, 400 μm pitch) record single-unit spikes and LFPs within ~50–140 μm of each electrode tip. This provides information about the firing of individual neurons — the fundamental computational currency of the brain — enabling higher degrees of freedom for prosthetic control (e.g., individual finger movements).',
       },
       {
-        question:
-          'Spike sorting is a signal processing step in BCI systems that:',
+        question: 'In the Kalman filter neural decoder, what does the "observation model" H represent?',
         options: [
-          'Removes electrical noise from recorded signals',
-          'Assigns individual action potentials to their source neurons based on waveform shape features',
-          'Converts analog neural signals to digital format',
-          'Selects which electrode channels to record from',
+          'The dynamics of how cursor velocity smoothly transitions between time steps',
+          'The linear mapping from the decoded kinematic state (velocity, position) to expected neural firing rates',
+          'The covariance of the process noise in the movement dynamics model',
+          'The recursive update equation that corrects the state estimate using new spike observations',
         ],
         answer: 1,
         explanation:
-          'A single electrode may record signals from multiple nearby neurons. Spike sorting uses clustering algorithms (e.g., k-means, Gaussian mixture models) to classify each detected spike to its source neuron based on waveform shape. This determines the "vocabulary" of neural units available for decoding.',
+          'The observation equation z(t) = Hx(t) + q models how the neural signal (e.g., firing rates across all recorded neurons) relates to the true kinematic state x(t) (cursor velocity, position). H is the N_neurons × N_states tuning matrix — estimated from calibration data (linear regression of neural responses vs. true movements). Each row of H encodes the "tuning curve" of one neuron — cosine tuning to movement direction is typical for motor cortex neurons.',
       },
       {
-        question:
-          'Deep brain stimulation (DBS) for Parkinson\'s disease delivers high-frequency (130–180 Hz) electrical pulses to the subthalamic nucleus (STN). The therapeutic mechanism is thought to be:',
+        question: 'What is neural population vector coding in motor cortex and how does it relate to BCI decoding?',
         options: [
-          'Permanently destroying the overactive STN neurons',
-          'Providing dopamine to compensate for substantia nigra loss',
-          'Disrupting pathological synchronized oscillations in the basal ganglia circuit',
-          'Activating the motor cortex directly',
-        ],
-        answer: 2,
-        explanation:
-          'Parkinson\'s disease is characterized by pathological beta-band (13–30 Hz) synchronization in the basal ganglia-thalamo-cortical circuit. High-frequency DBS is thought to disrupt this pathological synchrony, effectively "jamming" the oscillation that causes bradykinesia and tremor — similar to how dithering randomizes a stuck system.',
-      },
-      {
-        question:
-          'A linear decoder (e.g., population vector algorithm or Wiener filter) in a BCI system predicts intended hand velocity from neural firing rates. The primary limitation of linear decoders compared to nonlinear approaches is:',
-        options: [
-          'They are too slow to run in real time',
-          'They cannot capture complex nonlinear relationships between neural activity and intended movement',
-          'They require more training data than nonlinear models',
-          'They cannot be implemented on implanted hardware',
+          'Each neuron fires maximally for one specific discrete movement target, and population voting determines the most likely movement',
+          'Each motor cortex neuron has a preferred direction and fires proportionally to the cosine of the angle between actual movement and its preferred direction; the population vector — weighted sum of preferred directions — predicts movement',
+          'All neurons encode the same movement direction redundantly to increase signal-to-noise ratio',
+          'Motor cortex population coding uses Gabor wavelets that can be decoded with matched filter templates',
         ],
         answer: 1,
         explanation:
-          'Motor cortex neural activity encodes movement in complex, nonlinear ways. Linear decoders assume a linear mapping from neural firing rates to movement, which is an approximation that degrades for complex movements or during neural adaptation. Recurrent neural networks (RNNs) and deep learning decoders better capture these nonlinearities in high-performance BCIs.',
+          'Georgopoulos et al. showed that individual motor cortex neurons have a broad cosine tuning: r(θ) = b₀ + b₁·cos(θ − θ_preferred). The population vector P = Σᵢ rᵢ·cᵢ (weighted sum of preferred directions cᵢ with firing rate weights rᵢ) accurately predicts the direction of arm movement. This biological finding directly motivated linear decoding approaches in BCIs — the Kalman filter H matrix essentially learns these tuning curves from data.',
+      },
+      {
+        question: 'What is ECoG (electrocorticography) and why is it a compelling intermediate BCI approach?',
+        options: [
+          'ECoG records LFPs from deep subcortical structures via stereotaxic implantation of depth electrodes',
+          'ECoG places electrode arrays on the cortical surface (subdural or epidural), providing higher resolution than EEG without penetrating neural tissue, offering a compromise between invasiveness and signal quality',
+          'ECoG uses carbon nanotube electrodes implanted inside individual neurons for single-cell recording',
+          'ECoG is a non-invasive technique using high-density EEG combined with MRI-guided source localization',
+        ],
+        answer: 1,
+        explanation:
+          'ECoG grids (8×8 to 16×16 platinum electrodes, 4–10 mm pitch) lie on the cortical surface without piercing tissue, avoiding the immune/foreign-body response that degrades Utah array recordings over years. ECoG captures high-gamma (70–200 Hz) LFPs that encode fine motor and speech information with millimeter-scale spatial resolution — far better than EEG but less invasive than Utah arrays. ECoG-based speech BCIs (Chang Lab, UCSF) have decoded up to 250 words/min from motor speech cortex.',
+      },
+      {
+        question: 'What is the "neural manifold" hypothesis and its significance for BCI decoder design?',
+        options: [
+          'Motor cortex neurons fire independently and their activity can only be decoded neuron by neuron',
+          'Neural population activity during behavior lives on a low-dimensional manifold — coordinated patterns constrain the high-dimensional space — and decoders that respect this structure outperform those that ignore it',
+          'The manifold represents the geometric shape of the cortical surface that determines electrode placement',
+          'Neural manifolds are only relevant for visual cortex BCIs, not motor prosthetics',
+        ],
+        answer: 1,
+        explanation:
+          'Dimensionality reduction (PCA, GPFA, LFADS) of motor cortex population activity reveals that despite recording from 100s of neurons, the effective dimensionality of movement-related activity is ~10–20. This "neural manifold" reflects the circuit-level constraints on coordinated muscle activation patterns. Decoders that project to/from the manifold (latent factor models) are more robust to neuron turnover and recording non-stationarities, and generalize better — critical for stable long-term BCI performance.',
       },
     ],
+    videoUrl: 'https://www.youtube.com/watch?v=lMVB5aeH3wM',
   },
 ];
