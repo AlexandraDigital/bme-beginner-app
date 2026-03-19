@@ -45,7 +45,7 @@ const STYLES = `
   .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
   .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
   .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px; }
-  .mod-card { border-radius:14px; padding:16px; cursor:pointer; transition:transform 0.2s; }
+  .mod-card { border-radius:14px; padding:14px; cursor:pointer; transition:transform 0.2s; }
   .mod-card:hover { transform:scale(1.025); }
   .cta-title { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; word-break:break-word; }
 
@@ -80,19 +80,22 @@ const STYLES = `
     .stats-grid { grid-template-columns:repeat(2,1fr); padding:12px 16px; gap:8px; }
     .stat-val { font-size:1.15rem; }
     .stat-lbl { font-size:0.67rem; }
-    .module-grid { grid-template-columns:1fr; gap:10px; }
+    .module-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
     .feature-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
     .lesson-title { white-space:normal; }
     .cta-title { font-size:1rem; }
     .tutor-wrap { padding:14px 12px; }
     .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
-    .mod-card { padding:13px; }
+    .mod-card { padding:10px; }
+    .mod-card .mod-emoji { font-size:1.3rem !important; margin-bottom:4px !important; }
     .section-title { font-size:0.95rem; }
   }
 
   @media (max-width: 390px) {
     .hero-title { font-size:clamp(1.25rem,5.5vw,1.7rem); }
     .stat-val { font-size:1rem; }
+    .module-grid { grid-template-columns:repeat(2,1fr); gap:6px; }
+    .mod-card { padding:8px; }
   }
 
   @media (max-height: 500px) and (orientation: landscape) {
@@ -178,11 +181,11 @@ function ModCard({mod,done,onClick}){
   const n=mod.lessons.filter(l=>done.includes(l.id)).length;
   const pct=Math.round(n/mod.lessons.length*100);
   return(<div onClick={onClick} className="mod-card" style={{border:`1px solid ${mod.color}22`,background:`linear-gradient(135deg,${mod.color}10,${mod.color}05)`}}>
-    <div style={{display:"inline-flex",padding:"3px 10px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.7rem",fontWeight:700,marginBottom:8}}>{mod.level}</div>
-    <div style={{fontSize:"1.7rem",marginBottom:6}}>{mod.emoji}</div>
-    <h3 style={{fontWeight:700,fontSize:"0.9rem",marginBottom:8,fontFamily:"Syne,sans-serif"}}>{mod.title}</h3>
-    <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:6,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
-    <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.7rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length} lessons</span><span>{pct}%</span></div>
+    <div style={{display:"inline-flex",padding:"3px 8px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.65rem",fontWeight:700,marginBottom:6}}>{mod.level}</div>
+    <div className="mod-emoji" style={{fontSize:"1.6rem",marginBottom:5}}>{mod.emoji}</div>
+    <h3 style={{fontWeight:700,fontSize:"0.85rem",marginBottom:6,fontFamily:"Syne,sans-serif"}}>{mod.title}</h3>
+    <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:5,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
+    <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.68rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length}</span><span>{pct}%</span></div>
   </div>);
 }
 
@@ -210,28 +213,28 @@ function Home({xp,done,quizLog,setPage}){
         <div key={l}><div className="stat-val" style={{background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</div><div className="stat-lbl">{l}</div></div>
       ))}
     </div></div>
-    <section style={{maxWidth:920,margin:"0 auto",padding:"28px 20px"}}>
+    <section style={{maxWidth:920,margin:"0 auto",padding:"24px 16px"}}>
       <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap"}}>View all →</button></div>
       <div className="module-grid">{MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}</div>
     </section>
-    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"28px 20px",background:"rgba(255,255,255,0.01)"}}>
+    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"24px 16px",background:"rgba(255,255,255,0.01)"}}>
       <div style={{maxWidth:860,margin:"0 auto"}}>
         <h2 className="section-title" style={{textAlign:"center",marginBottom:4}}>How It Works</h2>
-        <p className="section-sub" style={{textAlign:"center",marginBottom:20}}>Everything you need to master biomedical engineering</p>
+        <p className="section-sub" style={{textAlign:"center",marginBottom:16}}>Everything you need to master biomedical engineering</p>
         <div className="feature-grid">
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
-            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:14}}>
-              <div style={{width:34,height:34,borderRadius:9,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.95rem",marginBottom:7}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:3,fontSize:"0.83rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
-              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.74rem",lineHeight:1.5}}>{f.d}</p>
+            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:12}}>
+              <div style={{width:30,height:30,borderRadius:8,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.9rem",marginBottom:6}}>{f.e}</div>
+              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.8rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
+              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.72rem",lineHeight:1.5}}>{f.d}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-    <section style={{padding:"36px 20px",textAlign:"center"}}>
+    <section style={{padding:"28px 16px",textAlign:"center"}}>
       <h2 className="cta-title">The Future of Medicine Needs Engineers</h2>
-      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 18px",maxWidth:420,fontSize:"0.83rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
+      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 16px",maxWidth:420,fontSize:"0.82rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
       <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"10px 24px",fontSize:"0.88rem"}}>Get Started Free →</button>
     </section>
   </div>);
