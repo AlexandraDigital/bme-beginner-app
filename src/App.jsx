@@ -24,7 +24,9 @@ const STYLES = `
 
   /* HERO */
   .hero-section { display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:72px 24px 36px; }
-  .hero-content { position:relative; z-index:1; max-width:600px; width:100%; text-align:center; margin:0 auto; }
+  .hero-inner { position:relative; z-index:1; width:100%; max-width:940px; display:flex; align-items:center; gap:48px; flex-direction:column; }
+  .hero-content { width:100%; text-align:center; }
+  .hero-visual { display:none; flex-shrink:0; border-radius:18px; padding:22px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); }
   .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.72rem; font-weight:500; margin-bottom:14px; }
   .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.5rem,2.2vw,2rem); font-weight:800; line-height:1.2; margin-bottom:12px; letter-spacing:-0.02em; word-break:break-word; }
   .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
@@ -106,10 +108,23 @@ const STYLES = `
     .hero-tags { display:none; }
   }
 
+  @media (min-width: 769px) {
+    .hero-inner { flex-direction:row; }
+    .hero-content { flex:1; text-align:left; }
+    .hero-p { margin-left:0; margin-right:0; }
+    .hero-btns { justify-content:flex-start; }
+    .hero-tags { justify-content:flex-start; }
+    .hero-visual { display:block; width:260px; }
+  }
   @media (min-width: 769px) and (max-width: 1024px) {
     .stats-grid { grid-template-columns:repeat(4,1fr); }
     .module-grid { grid-template-columns:repeat(2,1fr); }
     .hero-title { font-size:clamp(1.5rem,2.4vw,1.9rem); }
+    .hero-visual { width:230px; }
+  }
+  @media (min-width: 1025px) {
+    .hero-title { font-size:clamp(1.8rem,2.2vw,2.2rem); }
+    .hero-section { padding:80px 40px 44px; }
   }
 `;
 
@@ -195,16 +210,28 @@ function Home({xp,done,quizLog,setPage}){
   return(<div style={{overflowX:"hidden",width:"100%"}}>
     <section className="hero-section">
       <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 70% 50% at 30% 20%,rgba(34,211,238,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 70% 80%,rgba(59,130,246,0.06) 0%,transparent 60%)",pointerEvents:"none"}}/>
-      <div className="hero-content">
-        <div className="hero-badge">⭐ AI-Powered Biomedical Engineering Platform</div>
-        <h1 className="hero-title"><span>Master </span><span className="gradient-text">Biomedical</span><br/><span>Engineering</span></h1>
-        <p className="hero-p">Explore MRI physics, tissue engineering, neural BCIs, and more — guided by an AI tutor in real time.</p>
-        <div className="hero-btns">
-          <button className="btn-primary" onClick={()=>setPage("courses")}>Explore Courses →</button>
-          <button className="btn-secondary" onClick={()=>setPage("tutor")}>🤖 AI Tutor</button>
+      <div className="hero-inner">
+        <div className="hero-content">
+          <div className="hero-badge">⭐ AI-Powered Biomedical Engineering Platform</div>
+          <h1 className="hero-title">Master <span className="gradient-text">Biomedical Engineering</span></h1>
+          <p className="hero-p">Explore MRI physics, tissue engineering, neural BCIs, and more — guided by an AI tutor in real time.</p>
+          <div className="hero-btns">
+            <button className="btn-primary" onClick={()=>setPage("courses")}>Explore Courses →</button>
+            <button className="btn-secondary" onClick={()=>setPage("tutor")}>🤖 AI Tutor</button>
+          </div>
+          <div className="hero-tags">
+            {["🩻 Medical Imaging","🦴 Biomechanics","🧬 Tissue Engineering","🧠 Neural Engineering","📡 Biosensors","💻 Bioinformatics"].map(t=>(<span key={t} className="hero-tag">{t}</span>))}
+          </div>
         </div>
-        <div className="hero-tags">
-          {["🩻 Medical Imaging","🦴 Biomechanics","🧬 Tissue Engineering","🧠 Neural Engineering","📡 Biosensors","💻 Bioinformatics"].map(t=>(<span key={t} className="hero-tag">{t}</span>))}
+        <div className="hero-visual">
+          <div style={{fontSize:"0.65rem",color:"rgba(255,255,255,0.35)",fontWeight:700,letterSpacing:"0.08em",marginBottom:14,textTransform:"uppercase"}}>Your Progress</div>
+          {[[xp.toLocaleString(),"XP Earned","#facc15"],[`${done.length}/${total}`,"Lessons Done","#22d3ee"],[quizLog.length,"Quizzes","#a78bfa"],[`${pct}%`,"Progress","#34d399"]].map(([v,l,c])=>(
+            <div key={l} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
+              <span style={{fontSize:"0.75rem",color:"rgba(255,255,255,0.4)"}}>{l}</span>
+              <span style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"1.05rem",background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</span>
+            </div>
+          ))}
+          <button className="btn-primary" onClick={()=>setPage("courses")} style={{width:"100%",marginTop:14,textAlign:"center",display:"block"}}>Start Learning →</button>
         </div>
       </div>
     </section>
