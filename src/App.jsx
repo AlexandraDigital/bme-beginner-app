@@ -256,7 +256,7 @@ function Home({xp,done,quizLog,setPage}){
     </div></section>
 
     <section className="page-section"><div className="content-wrap">
-      <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap"}}>View all →</button></div>
+      <div style={{textAlign:"center",marginBottom:18}}><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap",marginTop:6}}>View all →</button></div>
       <div className="module-grid">{MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}</div>
     </div></section>
 
