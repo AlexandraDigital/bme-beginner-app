@@ -11,7 +11,7 @@ interface AITutorProps {
 
 const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY as string;
 const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "llama3-70b-8192";
+const MODEL = "llama-3.3-70b-versatile";
 
 const SYSTEM_PROMPT = `You are BioMedAI Tutor, an expert biomedical engineering educator. 
 You help students understand biomedical engineering concepts from beginner through graduate level.
@@ -119,7 +119,9 @@ export default function AITutor({ initialTopic }: AITutorProps) {
       .map((line, i) => {
         if (line.startsWith("### ")) return <h3 key={i} style={{ color: "#67e8f9", fontWeight: 700, marginTop: "0.75rem", fontSize: "1.05rem" }}>{line.slice(4)}</h3>;
         if (line.startsWith("## ")) return <h2 key={i} style={{ color: "#67e8f9", fontWeight: 700, marginTop: "1rem", fontSize: "1.15rem" }}>{line.slice(3)}</h2>;
-        if (line.startsWith("**") && line.endsWith("**")) return <strong key={i} style={{ color: "#e2e8f0" }}>{line.slice(2, -2)}</strong>;
+        // Inline bold: replace **text** anywhere in line
+        const boldFormatted = line.replace(/\*\*(.+?)\*\*/g, '<strong style="color:#f0f9ff">$1</strong>');
+        if (boldFormatted !== line) return <p key={i} style={{ margin: "0.2rem 0" }} dangerouslySetInnerHTML={{ __html: boldFormatted }} />;
         if (line.startsWith("- ") || line.startsWith("• ")) return (
           <div key={i} style={{ display: "flex", gap: "0.5rem", marginTop: "0.25rem" }}>
             <span style={{ color: "#06b6d4", flexShrink: 0 }}>•</span>
@@ -178,7 +180,7 @@ export default function AITutor({ initialTopic }: AITutorProps) {
         <div>
           <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#f0f9ff" }}>BioMedAI Tutor</div>
           <div style={{ fontSize: "0.78rem", color: "#67e8f9", opacity: 0.8 }}>
-            Powered by Groq · LLaMA 3 70B
+            Powered by Groq · LLaMA 3.3 70B
           </div>
         </div>
         <div style={{
@@ -374,7 +376,7 @@ export default function AITutor({ initialTopic }: AITutorProps) {
           </button>
         </div>
         <div style={{ fontSize: "0.72rem", color: "#475569", textAlign: "center", marginTop: "0.5rem" }}>
-          BioMedAI Tutor uses Groq · LLaMA 3 70B — answers may not always be perfectly accurate
+          BioMedAI Tutor uses Groq · LLaMA 3.3 70B — answers may not always be perfectly accurate
         </div>
       </div>
 
