@@ -4,7 +4,7 @@ interface HomePageProps {
   onNavigate: (page: string) => void;
 }
 
-const GRID_SVG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M0 0h40v40H0z'/%3E%3Cpath d='M0 0h1V40H0zM39 0h1V40H39zM0 0h40V1H0zM0 39h40v1H0z' fill='rgba(255,255,255,0.03)'/%3E%3C/g%3E%3C/svg%3E")`;
+const GRID_SVG = `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M0 0h40V40H0z'/%3E%3Cpath d='M0 0h1V40H0zM39 0h1V40H39zM0 0h40V1H0zM0 39h40v1H0z' fill='rgba(255,255,255,0.03)'/%3E%3C/g%3E%3C/svg%3E")`;
 
 const categories = [
   { name: 'Medical Imaging', color: 'from-cyan-500 to-blue-600', icon: '🩻' },
@@ -90,11 +90,11 @@ const allTopics = [
 
 export default function HomePage({ onNavigate }: HomePageProps) {
   return (
-    <div className="overflow-x-hidden">
+    <div className="w-full overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
         {/* Background layers */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-[#060b18] via-[#0d1832] to-[#060b18]" />
           <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-blue-600/10 rounded-full blur-3xl" />
@@ -102,7 +102,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="absolute inset-0 opacity-50" style={{ backgroundImage: GRID_SVG }} />
         </div>
 
-        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+        <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm mb-6">
             <span className="text-xs">⭐</span>
@@ -110,7 +110,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6">
             <span className="text-white">Master </span>
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               Biomedical
@@ -119,13 +119,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             <span className="text-white">Engineering</span>
           </h1>
 
-          <p className="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10">
+          <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-10 px-2">
             Explore MRI physics, tissue engineering, neural BCIs, biosensors, and more —
             guided by an AI tutor that answers your questions in real time.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <button
               onClick={() => onNavigate('courses')}
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-lg hover:opacity-90 transition-all shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
@@ -141,12 +141,12 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Category Pills */}
-          <div className="flex flex-wrap gap-2 justify-center">
+          <div className="w-full max-w-3xl mx-auto flex flex-wrap gap-2 justify-center">
             {categories.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => onNavigate('courses')}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm hover:bg-white/10 hover:text-white transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm hover:bg-white/10 hover:text-white transition-all whitespace-nowrap"
               >
                 <span>{cat.icon}</span>
                 {cat.name}
@@ -176,21 +176,21 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Featured Modules */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-20">
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h2 className="text-3xl font-bold text-white mb-2">Featured Modules</h2>
-            <p className="text-gray-400">Start your journey with these popular courses</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Featured Modules</h2>
+            <p className="text-gray-400 text-sm sm:text-base">Start your journey with these popular courses</p>
           </div>
           <button
             onClick={() => onNavigate('courses')}
-            className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors"
+            className="text-cyan-400 text-sm hover:text-cyan-300 transition-colors whitespace-nowrap ml-4"
           >
             View all →
           </button>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {featuredModules.map((mod) => (
             <div
               key={mod.title}
@@ -222,11 +222,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* How It Works */}
-      <section className="border-t border-white/5 bg-white/[0.01] py-20">
+      <section className="border-t border-white/5 bg-white/[0.01] py-16 sm:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-3">How It Works</h2>
-            <p className="text-gray-400 max-w-xl mx-auto">Everything you need to become proficient in biomedical engineering</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">How It Works</h2>
+            <p className="text-gray-400 max-w-xl mx-auto text-sm sm:text-base">Everything you need to become proficient in biomedical engineering</p>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {features.map((f) => (
@@ -243,15 +243,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-24 overflow-hidden">
+      <section className="relative py-20 sm:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-600/10 to-purple-600/10" />
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: GRID_SVG }} />
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-4">Join the Next Generation</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Join the Next Generation</h2>
           <p className="text-gray-400 text-lg mb-4">
             <span className="text-white font-semibold">The Future of Medicine Needs Engineers</span>
           </p>
-          <p className="text-gray-400 mb-8">
+          <p className="text-gray-400 mb-8 text-sm sm:text-base">
             Biomedical engineering bridges medicine and technology — from AI diagnostics to bionic limbs. Start building your expertise today.
           </p>
           <button
@@ -264,15 +264,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </section>
 
       {/* Topics Grid */}
-      <section className="border-t border-white/5 py-20">
+      <section className="border-t border-white/5 py-16 sm:py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl font-bold text-white mb-3 text-center">All Topics Covered</h2>
-          <p className="text-gray-400 text-center mb-10">Deep dives into every major biomedical engineering discipline</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 text-center">All Topics Covered</h2>
+          <p className="text-gray-400 text-center mb-10 text-sm sm:text-base">Deep dives into every major biomedical engineering discipline</p>
           <div className="flex flex-wrap gap-2 justify-center">
             {allTopics.map((topic) => (
               <span
                 key={topic}
-                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-sm hover:bg-white/10 hover:text-white transition-all cursor-default"
+                className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-sm hover:bg-white/10 hover:text-white transition-all cursor-default whitespace-nowrap"
               >
                 {topic}
               </span>
