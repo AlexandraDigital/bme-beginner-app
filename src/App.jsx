@@ -30,7 +30,7 @@ const STYLES = `
   .hero-p { color:rgba(255,255,255,0.45); font-size:1rem; max-width:520px; margin:0 auto 26px; line-height:1.65; }
   .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:28px; }
   .hero-tags { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
-  .hero-tag { padding:5px 11px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); font-size:0.75rem; }
+  .hero-tag { padding:5px 11px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); font-size:0.75rem; white-space:nowrap; }
   /* Stats */
   .stats-bar { border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.015); }
   .stats-grid { max-width:900px; margin:0 auto; padding:24px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; text-align:center; }
@@ -68,23 +68,36 @@ const STYLES = `
     .hamburger { display:flex; }
     .xp-badge { padding:3px 7px; }
     .xp-badge span:last-child { font-size:0.78rem; }
-    .hero-section { min-height:0 !important; height:auto !important; display:block !important; padding:80px 16px 36px !important; }
-    .hero-title { font-size:clamp(1.6rem,7.5vw,2.2rem) !important; }
-    .hero-p { font-size:0.88rem; }
-    .hero-badge { font-size:0.7rem; padding:4px 10px; }
+    .hero-section { min-height:0 !important; height:auto !important; display:block !important; padding:80px 16px 40px !important; }
+    .hero-content { text-align:center; }
+    .hero-title { font-size:clamp(1.8rem,8vw,2.4rem) !important; margin-bottom:12px; }
+    .hero-p { font-size:0.9rem; margin-bottom:20px; padding:0 4px; }
+    .hero-badge { font-size:0.7rem; padding:4px 10px; margin-bottom:14px; }
+    .hero-btns { flex-direction:column; align-items:stretch; gap:8px; margin-bottom:20px; }
+    .hero-btns .btn-primary, .hero-btns .btn-secondary { width:100%; text-align:center; padding:13px; }
+    .hero-tags { gap:6px; padding:0 4px; }
     .stats-grid { grid-template-columns:repeat(2,1fr); padding:18px 14px; gap:10px; }
-    .stat-val { font-size:1.3rem; }
+    .stat-val { font-size:1.4rem; }
+    .stat-lbl { font-size:0.72rem; }
     .module-grid { grid-template-columns:1fr; gap:10px; }
     .feature-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
     .lesson-title { white-space:normal; }
     .cta-title { font-size:1.3rem; }
     .tutor-wrap { padding:14px 12px; height:calc(100dvh - 56px); }
-    .hero-btns { flex-direction:column; align-items:stretch; gap:8px; }
-    .hero-btns .btn-primary, .hero-btns .btn-secondary { width:100%; text-align:center; padding:13px; }
     .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
-    .hero-title span { display:inline; }
     .mod-card { padding:14px; }
+    .section-title { font-size:1.25rem; }
   }
+
+  /* ── SMALL PHONES ≤ 390px ── */
+  @media (max-width: 390px) {
+    .hero-title { font-size:clamp(1.5rem,7vw,2rem) !important; }
+    .hero-badge { font-size:0.65rem; padding:3px 9px; }
+    .stat-val { font-size:1.1rem; }
+    .cta-title { font-size:1.1rem; }
+    .btn-primary, .btn-secondary { font-size:0.82rem; }
+  }
+
   /* ── LANDSCAPE MOBILE (short height) ── */
   @media (max-height: 500px) and (orientation: landscape) {
     .hero-section { min-height:0 !important; padding:70px 20px 24px !important; }
@@ -94,12 +107,14 @@ const STYLES = `
     .hero-badge { margin-bottom:10px; }
     .hero-tags { display:none; }
   }
+
   /* ── TABLET 769–1024px ── */
   @media (min-width: 769px) and (max-width: 1024px) {
     .nav-links { display:flex; }
     .hamburger { display:none; }
     .stats-grid { grid-template-columns:repeat(2,1fr); }
     .module-grid { grid-template-columns:repeat(2,1fr); }
+    .hero-title { font-size:clamp(2rem,4vw,3rem) !important; }
   }
 `;
 
@@ -439,12 +454,12 @@ function Home({xp,done,quizLog,setPage}){
 
       {/* Featured */}
       <section style={{maxWidth:1000,margin:"0 auto",padding:"48px 20px"}}>
-        <div className="section-header" style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:22,flexWrap:"wrap",gap:10}}>
+        <div className="section-header">
           <div>
             <h2 className="section-title">Featured Modules</h2>
             <p className="section-sub">Start your journey with these popular courses</p>
           </div>
-          <button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.82rem"}}>View all →</button>
+          <button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.82rem",whiteSpace:"nowrap"}}>View all →</button>
         </div>
         <div className="module-grid">
           {MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}
@@ -673,13 +688,16 @@ function Tutor({chat,saveChat}){
       const res=await fetch("/api/chat",{
         method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
-          model:"claude-sonnet-4-20250514",max_tokens:1000,
-          system:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough. Use occasional line breaks for readability.",
-          messages:next,
+          model:"llama-3.3-70b-versatile",
+          max_tokens:1000,
+          messages:[
+            {role:"system",content:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough. Use occasional line breaks for readability."},
+            ...next,
+          ],
         })
       });
       const data=await res.json();
-      const a={role:"assistant",content:data.content?.[0]?.text??"Error retrieving response."};
+      const a={role:"assistant",content:data.choices?.[0]?.message?.content??"Error retrieving response."};
       const final=[...next,a];setMsgs(final);saveChat(final);
     }catch{
       const final=[...next,{role:"assistant",content:"Connection error. Please try again."}];
