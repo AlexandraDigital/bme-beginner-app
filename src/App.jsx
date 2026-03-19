@@ -205,7 +205,7 @@ function ModCard({mod,done,onClick}){
     <div style={{display:"inline-flex",padding:"4px 10px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.75rem",fontWeight:700,marginBottom:10}}>{mod.level}</div>
     <div className="mod-emoji" style={{fontSize:"2rem",marginBottom:10}}>{mod.emoji}</div>
     <h3 style={{fontWeight:700,fontSize:"1.0rem",marginBottom:8,fontFamily:"'DM Sans',sans-serif"}}>{mod.title}</h3>
-    <div style={{height:5,background:"rgba(255,255,255,0.07)",borderRadius:3,marginBottom:8,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:3,transition:"width 0.4s"}}/></div>
+    <div style={{height:8,background:"rgba(255,255,255,0.07)",borderRadius:4,marginBottom:8,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:4,transition:"width 0.4s"}}/></div>
     <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.82rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length}</span><span>{pct}%</span></div>
   </div>);
 }
