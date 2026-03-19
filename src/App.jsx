@@ -50,8 +50,8 @@ const STYLES = `
   .page-section { padding:28px 20px; }
   .page-section-alt { padding:28px 20px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.01); }
   .content-wrap { max-width:940px; margin:0 auto; width:100%; }
-  .section-title { font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:3px; letter-spacing:-0.01em; }
-  .section-sub { color:rgba(255,255,255,0.38); font-size:0.74rem; }
+  .section-title { font-family:'DM Sans',sans-serif; font-size:1.2rem; font-weight:700; margin-bottom:5px; letter-spacing:-0.01em; }
+  .section-sub { color:rgba(255,255,255,0.38); font-size:0.86rem; }
   .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
 
   /* GRIDS - mobile-first: 2 col */
@@ -242,14 +242,14 @@ function Home({xp,done,quizLog,setPage}){
       </div>
     </section>
     <section className="page-section-alt"><div className="content-wrap">
-        <h2 className="section-title" style={{textAlign:"center",marginBottom:3}}>How It Works</h2>
-        <p className="section-sub" style={{textAlign:"center",marginBottom:14}}>Everything you need to master biomedical engineering</p>
+        <h2 className="section-title" style={{textAlign:"center",marginBottom:6}}>How It Works</h2>
+        <p className="section-sub" style={{textAlign:"center",marginBottom:22}}>Everything you need to master biomedical engineering</p>
         <div className="feature-grid">
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
-            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:9}}>
-              <div style={{width:22,height:22,borderRadius:7,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",marginBottom:4}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.82rem",fontFamily:"'DM Sans',sans-serif"}}>{f.t}</h3>
-              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.71rem",lineHeight:1.5}}>{f.d}</p>
+            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:14,padding:18}}>
+              <div style={{width:36,height:36,borderRadius:10,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.1rem",marginBottom:10}}>{f.e}</div>
+              <h3 style={{fontWeight:700,marginBottom:5,fontSize:"1.0rem",fontFamily:"'DM Sans',sans-serif"}}>{f.t}</h3>
+              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.84rem",lineHeight:1.55}}>{f.d}</p>
             </div>
           ))}
         </div>
