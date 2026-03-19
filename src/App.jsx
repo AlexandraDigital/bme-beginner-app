@@ -2,13 +2,17 @@ import { useState, useEffect, useRef, useCallback } from "react";
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@700;800&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { max-width: 100%; overflow-x: hidden; background: #060b18; }
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+  html, body { max-width:100%; overflow-x:hidden; background:#060b18; }
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.1); border-radius:2px; }
   @keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)} }
   @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+  /* BASE */
   .app-root { background:#060b18; min-height:100vh; color:white; font-family:'DM Sans',sans-serif; overflow-x:hidden; width:100%; }
+
+  /* NAV */
   .nav-bar { position:fixed; top:0; left:0; right:0; z-index:50; background:rgba(6,11,24,0.95); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.07); }
   .nav-inner { max-width:1100px; margin:0 auto; padding:0 16px; height:56px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
   .nav-btn { display:flex; align-items:center; gap:4px; padding:6px 10px; border-radius:8px; background:transparent; border:none; cursor:pointer; font-size:0.8rem; font-weight:500; transition:all 0.15s; white-space:nowrap; color:rgba(255,255,255,0.4); font-family:'DM Sans',sans-serif; }
@@ -23,39 +27,47 @@ const STYLES = `
   .nav-mobile-btn.active { background:rgba(34,211,238,0.08); color:#22d3ee; }
 
   /* HERO */
-  .hero-section { display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:72px 24px 36px; }
-  .hero-inner { position:relative; z-index:1; width:100%; max-width:940px; display:flex; align-items:center; gap:48px; flex-direction:column; }
+  .hero-section { display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:64px 20px 28px; }
+  .hero-inner { position:relative; z-index:1; width:100%; max-width:960px; display:flex; align-items:center; gap:40px; flex-direction:column; }
   .hero-content { width:100%; text-align:center; }
-  .hero-visual { display:none; flex-shrink:0; border-radius:18px; padding:22px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); }
-  .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.72rem; font-weight:500; margin-bottom:14px; }
-  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.5rem,2.2vw,2rem); font-weight:800; line-height:1.2; margin-bottom:12px; letter-spacing:-0.02em; word-break:break-word; }
+  .hero-visual { display:none; flex-shrink:0; border-radius:16px; padding:20px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); }
+  .hero-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.7rem; font-weight:500; margin-bottom:11px; }
+  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.35rem,4.8vw,1.75rem); font-weight:800; line-height:1.2; margin-bottom:9px; letter-spacing:-0.02em; }
   .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
-  .hero-p { color:rgba(255,255,255,0.45); font-size:0.88rem; max-width:440px; margin:0 auto 18px; line-height:1.6; }
-  .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:18px; }
-  .hero-tags { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
-  .hero-tag { padding:4px 11px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); font-size:0.72rem; white-space:nowrap; }
+  .hero-p { color:rgba(255,255,255,0.45); font-size:0.83rem; max-width:420px; margin:0 auto 14px; line-height:1.6; }
+  .hero-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:14px; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:5px; justify-content:center; }
+  .hero-tag { padding:3px 10px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.38); font-size:0.68rem; white-space:nowrap; }
 
   /* STATS */
   .stats-bar { border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.015); }
-  .stats-grid { max-width:760px; margin:0 auto; padding:18px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; }
-  .stat-val { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; }
-  .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.7rem; margin-top:2px; }
+  .stats-grid { max-width:760px; margin:0 auto; padding:14px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; }
+  .stat-val { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; line-height:1; }
+  .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.67rem; margin-top:3px; }
 
-  /* SECTIONS */
-  .section-title { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; margin-bottom:4px; }
-  .section-sub { color:rgba(255,255,255,0.38); font-size:0.78rem; }
-  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
-  .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
-  .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); gap:12px; }
-  .mod-card { border-radius:14px; padding:14px; cursor:pointer; transition:transform 0.2s; }
-  .mod-card:hover { transform:scale(1.025); }
-  .cta-title { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; margin-bottom:8px; word-break:break-word; }
+  /* SECTION LAYOUT */
+  .page-wrap { width:100%; }
+  .page-section { padding:28px 20px; }
+  .page-section-alt { padding:28px 20px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.01); }
+  .content-wrap { max-width:940px; margin:0 auto; width:100%; }
+  .section-title { font-family:'Syne',sans-serif; font-size:1.0rem; font-weight:800; margin-bottom:3px; }
+  .section-sub { color:rgba(255,255,255,0.38); font-size:0.74rem; }
+  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
 
-  /* LESSONS / QUIZ */
-  .lesson-row { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:11px; background:rgba(255,255,255,0.02); transition:all 0.18s; }
+  /* GRIDS - mobile-first: 2 col */
+  .module-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  .feature-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+
+  /* CARDS */
+  .mod-card { border-radius:12px; padding:11px; cursor:pointer; transition:transform 0.2s; }
+  .mod-card:hover { transform:scale(1.02); }
+  .cta-title { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; margin-bottom:8px; }
+
+  /* LESSON / QUIZ */
+  .lesson-row { display:flex; align-items:center; gap:10px; padding:11px 13px; border-radius:11px; background:rgba(255,255,255,0.02); transition:all 0.18s; }
   .lesson-row:hover { background:rgba(255,255,255,0.04); }
-  .lesson-title { font-size:0.85rem; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .opt-btn { padding:13px 14px; border-radius:11px; text-align:left; cursor:pointer; font-size:0.875rem; font-weight:500; transition:all 0.2s; line-height:1.45; width:100%; font-family:'DM Sans',sans-serif; }
+  .lesson-title { font-size:0.84rem; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .opt-btn { padding:12px 13px; border-radius:11px; text-align:left; cursor:pointer; font-size:0.875rem; font-weight:500; transition:all 0.2s; line-height:1.45; width:100%; font-family:'DM Sans',sans-serif; }
   .opt-btn:not(:disabled):hover { background:rgba(255,255,255,0.06) !important; border-color:rgba(255,255,255,0.2) !important; }
 
   /* TUTOR */
@@ -63,70 +75,70 @@ const STYLES = `
   .msg { animation:fadeIn 0.22s ease forwards; }
 
   /* BUTTONS */
-  .btn-primary { padding:9px 20px; border-radius:12px; background:linear-gradient(135deg,#22d3ee,#3b82f6); color:white; border:none; cursor:pointer; font-weight:600; font-size:0.86rem; box-shadow:0 0 28px rgba(34,211,238,0.2); font-family:'DM Sans',sans-serif; white-space:nowrap; }
-  .btn-secondary { padding:9px 20px; border-radius:12px; background:rgba(255,255,255,0.04); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:0.86rem; font-family:'DM Sans',sans-serif; white-space:nowrap; }
+  .btn-primary { padding:8px 18px; border-radius:10px; background:linear-gradient(135deg,#22d3ee,#3b82f6); color:white; border:none; cursor:pointer; font-weight:600; font-size:0.83rem; box-shadow:0 0 22px rgba(34,211,238,0.2); font-family:'DM Sans',sans-serif; white-space:nowrap; }
+  .btn-secondary { padding:8px 18px; border-radius:10px; background:rgba(255,255,255,0.04); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:0.83rem; font-family:'DM Sans',sans-serif; white-space:nowrap; }
 
-  /* MOBILE */
-  @media (max-width: 768px) {
-    .nav-links { display:none; }
-    .hamburger { display:flex; }
-    .hero-section { padding:66px 16px 28px; }
-    .hero-content { width:100%; }
-    .hero-title { font-size:clamp(1.4rem,6vw,1.9rem); line-height:1.2; margin-bottom:8px; }
-    .hero-p { font-size:0.82rem; margin-bottom:12px; }
-    .hero-badge { font-size:0.68rem; padding:4px 10px; margin-bottom:10px; }
-    .hero-btns { flex-direction:row; justify-content:center; gap:8px; margin-bottom:12px; }
-    .hero-btns .btn-primary, .hero-btns .btn-secondary { padding:8px 14px; font-size:0.79rem; }
-    .hero-tags { gap:5px; }
-    .hero-tag { font-size:0.67rem; padding:3px 9px; }
-    .stats-grid { grid-template-columns:repeat(2,1fr); padding:12px 16px; gap:8px; }
-    .stat-val { font-size:1.15rem; }
-    .stat-lbl { font-size:0.67rem; }
-    .module-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
-    .feature-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
-    .lesson-title { white-space:normal; }
-    .cta-title { font-size:1rem; }
-    .tutor-wrap { padding:14px 12px; }
-    .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
-    .mod-card { padding:10px; }
-    .mod-card .mod-emoji { font-size:1.3rem !important; margin-bottom:4px !important; }
-    .section-title { font-size:0.95rem; }
-  }
-
-  @media (max-width: 390px) {
-    .hero-title { font-size:clamp(1.25rem,5.5vw,1.7rem); }
-    .stat-val { font-size:1rem; }
-    .module-grid { grid-template-columns:repeat(2,1fr); gap:6px; }
-    .mod-card { padding:8px; }
-  }
-
-  @media (max-height: 500px) and (orientation: landscape) {
-    .hero-section { padding:62px 20px 16px; }
-    .hero-title { font-size:clamp(1rem,3vw,1.3rem); margin-bottom:5px; }
-    .hero-p { margin-bottom:8px; font-size:0.78rem; }
-    .hero-btns { margin-bottom:8px; }
-    .hero-tags { display:none; }
-  }
-
+  /* TABLET+ (769px) */
   @media (min-width: 769px) {
     .hero-inner { flex-direction:row; }
     .hero-content { flex:1; text-align:left; }
     .hero-p { margin-left:0; margin-right:0; }
     .hero-btns { justify-content:flex-start; }
     .hero-tags { justify-content:flex-start; }
-    .hero-visual { display:block; width:260px; }
+    .hero-visual { display:block; width:240px; }
+    .hero-title { font-size:clamp(1.5rem,2.3vw,1.95rem); }
+    .module-grid { grid-template-columns:repeat(3,1fr); gap:12px; }
+    .feature-grid { grid-template-columns:repeat(4,1fr); gap:12px; }
+    .page-section, .page-section-alt { padding:36px 24px; }
   }
+
+  /* TABLET MID (769-1024px) */
   @media (min-width: 769px) and (max-width: 1024px) {
-    .stats-grid { grid-template-columns:repeat(4,1fr); }
+    .hero-visual { width:220px; }
     .module-grid { grid-template-columns:repeat(2,1fr); }
-    .hero-title { font-size:clamp(1.5rem,2.4vw,1.9rem); }
-    .hero-visual { width:230px; }
   }
+
+  /* DESKTOP (1025px+) */
   @media (min-width: 1025px) {
-    .hero-title { font-size:clamp(1.8rem,2.2vw,2.2rem); }
     .hero-section { padding:80px 40px 44px; }
+    .hero-title { font-size:clamp(1.8rem,2.1vw,2.15rem); }
+    .module-grid { grid-template-columns:repeat(3,1fr); }
+    .page-section, .page-section-alt { padding:40px 24px; }
   }
-`;
+
+  /* MOBILE (≤768px) */
+  @media (max-width: 768px) {
+    .nav-links { display:none; }
+    .hamburger { display:flex; }
+    .hero-section { padding:58px 16px 22px; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); padding:12px 16px; gap:8px; }
+    .stat-val { font-size:1.05rem; }
+    .stat-lbl { font-size:0.64rem; }
+    .lesson-title { white-space:normal; }
+    .cta-title { font-size:0.98rem; }
+    .tutor-wrap { padding:14px 12px; }
+    .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
+    .mod-card .mod-emoji { font-size:1.25rem !important; margin-bottom:4px !important; }
+    .mod-card h3 { font-size:0.78rem !important; }
+  }
+
+  /* SMALL PHONES (≤390px) */
+  @media (max-width: 390px) {
+    .hero-title { font-size:clamp(1.2rem,5vw,1.45rem); }
+    .stat-val { font-size:0.95rem; }
+    .module-grid { gap:6px; }
+    .mod-card { padding:9px; }
+  }
+
+  /* LANDSCAPE PHONE */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero-section { padding:56px 20px 12px; }
+    .hero-title { font-size:1.05rem; margin-bottom:5px; }
+    .hero-p { margin-bottom:8px; font-size:0.76rem; }
+    .hero-btns { margin-bottom:8px; }
+    .hero-tags { display:none; }
+  }
+`
 
 const MODULES = [
   { id:"medical-imaging",title:"Medical Imaging",emoji:"🩻",level:"Intermediate",duration:"8 hours",color:"#22d3ee",grad:"linear-gradient(135deg,#0e7490,#1d4ed8)",
@@ -240,29 +252,27 @@ function Home({xp,done,quizLog,setPage}){
         <div key={l}><div className="stat-val" style={{background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</div><div className="stat-lbl">{l}</div></div>
       ))}
     </div></div>
-    <section style={{maxWidth:920,margin:"0 auto",padding:"24px 16px"}}>
+    <section className="page-section"><div className="content-wrap">
       <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap"}}>View all →</button></div>
       <div className="module-grid">{MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}</div>
-    </section>
-    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"24px 16px",background:"rgba(255,255,255,0.01)"}}>
-      <div style={{maxWidth:860,margin:"0 auto"}}>
-        <h2 className="section-title" style={{textAlign:"center",marginBottom:4}}>How It Works</h2>
-        <p className="section-sub" style={{textAlign:"center",marginBottom:16}}>Everything you need to master biomedical engineering</p>
+    </div></section>
+    <section className="page-section-alt"><div className="content-wrap">
+        <h2 className="section-title" style={{textAlign:"center",marginBottom:3}}>How It Works</h2>
+        <p className="section-sub" style={{textAlign:"center",marginBottom:14}}>Everything you need to master biomedical engineering</p>
         <div className="feature-grid">
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
             <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:12}}>
-              <div style={{width:30,height:30,borderRadius:8,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.9rem",marginBottom:6}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.8rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
-              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.72rem",lineHeight:1.5}}>{f.d}</p>
+              <div style={{width:28,height:28,borderRadius:8,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.85rem",marginBottom:6}}>{f.e}</div>
+              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.78rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
+              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.71rem",lineHeight:1.5}}>{f.d}</p>
             </div>
           ))}
         </div>
-      </div>
-    </section>
-    <section style={{padding:"28px 16px",textAlign:"center"}}>
+    </div></section>
+    <section className="page-section" style={{textAlign:"center"}}>
       <h2 className="cta-title">The Future of Medicine Needs Engineers</h2>
-      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 16px",maxWidth:420,fontSize:"0.82rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
-      <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"10px 24px",fontSize:"0.88rem"}}>Get Started Free →</button>
+      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 14px",maxWidth:400,fontSize:"0.8rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
+      <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"9px 22px",fontSize:"0.85rem"}}>Get Started Free →</button>
     </section>
   </div>);
 }
