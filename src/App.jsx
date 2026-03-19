@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 const STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@700;800&family=Orbitron:wght@700;800&display=swap');
   *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
   html, body { max-width:100%; overflow-x:hidden; background:#060b18; }
   ::-webkit-scrollbar { width:4px; }
@@ -14,7 +14,7 @@ const STYLES = `
 
   /* NAV */
   .nav-bar { position:fixed; top:0; left:0; right:0; z-index:50; background:rgba(6,11,24,0.95); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.07); }
-  .nav-inner { max-width:1100px; margin:0 auto; padding:0 16px; height:56px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .nav-inner { max-width:1100px; margin:0 auto; padding:0 20px; height:68px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
   .nav-btn { display:flex; align-items:center; gap:4px; padding:6px 10px; border-radius:8px; background:transparent; border:none; cursor:pointer; font-size:0.8rem; font-weight:500; transition:all 0.15s; white-space:nowrap; color:rgba(255,255,255,0.4); font-family:'DM Sans',sans-serif; }
   .nav-btn:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.8); }
   .nav-btn.active { background:rgba(34,211,238,0.1); color:#22d3ee; }
@@ -27,7 +27,7 @@ const STYLES = `
   .nav-mobile-btn.active { background:rgba(34,211,238,0.08); color:#22d3ee; }
 
   /* HERO */
-  .hero-section { display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:64px 20px 28px; }
+  .hero-section { display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:76px 20px 28px; }
   .hero-inner { position:relative; z-index:1; width:100%; max-width:960px; display:flex; align-items:center; gap:40px; flex-direction:column; }
   .hero-content { width:100%; text-align:center; }
   .hero-visual { display:none; flex-shrink:0; border-radius:16px; padding:20px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); }
@@ -184,7 +184,7 @@ function Nav({page,setPage,xp}){
   return(<nav className="nav-bar"><div className="nav-inner">
     <button onClick={()=>{setPage("home");setMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"none",border:"none",cursor:"pointer",padding:0,flexShrink:0}}>
       <div style={{width:32,height:32,borderRadius:9,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 16px rgba(34,211,238,0.22)"}}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg></div>
-      <span style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.95rem",letterSpacing:"-0.01em"}}><span style={{color:"white"}}>BioMed</span><span style={{color:"#22d3ee"}}>AI</span></span>
+      <span style={{fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:"0.88rem",letterSpacing:"0.05em"}}><span style={{color:"white"}}>BioMed</span><span style={{color:"#22d3ee"}}>AI</span></span>
     </button>
     <div className="nav-links">{navItems.map(([id,icon,lbl])=>(<button key={id} onClick={()=>setPage(id)} className={`nav-btn${page===id?" active":""}`}>{icon} {lbl}</button>))}</div>
     <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
@@ -220,7 +220,7 @@ function Home({xp,done,quizLog,setPage}){
         <div className="hero-content">
           <div className="hero-badge">⭐ AI-Powered Biomedical Engineering Platform</div>
           <h1 className="hero-title">Master <span className="gradient-text">Biomedical Engineering</span></h1>
-          <p className="hero-p">Explore MRI physics, tissue engineering, neural BCIs, and more — guided by an AI tutor in real time.</p>
+          <p style={{fontSize:"0.72rem",fontWeight:600,letterSpacing:"0.06em",textTransform:"uppercase",color:"rgba(255,255,255,0.28)",marginBottom:8}}>The future of medicine needs engineers</p><p className="hero-p">Explore MRI physics, tissue engineering, neural BCIs, and more — guided by an AI tutor in real time.</p>
           <div className="hero-btns">
             <button className="btn-primary" onClick={()=>setPage("courses")}>Explore Courses →</button>
             <button className="btn-secondary" onClick={()=>setPage("tutor")}>🤖 AI Tutor</button>
@@ -264,7 +264,6 @@ function Home({xp,done,quizLog,setPage}){
         </div>
     </div></section>
     <section className="page-section" style={{textAlign:"center"}}>
-      <h2 className="cta-title">The Future of Medicine Needs Engineers</h2>
       <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 14px",maxWidth:400,fontSize:"0.8rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
       <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"9px 22px",fontSize:"0.85rem"}}>Get Started Free →</button>
     </section>
