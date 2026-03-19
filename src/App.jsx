@@ -80,12 +80,6 @@ const STYLES = `
 
   /* TABLET+ (769px) */
   @media (min-width: 769px) {
-    .hero-inner { flex-direction:row; }
-    .hero-content { flex:1; text-align:left; }
-    .hero-p { margin-left:0; margin-right:0; }
-    .hero-btns { justify-content:flex-start; }
-    .hero-tags { justify-content:flex-start; }
-    .hero-visual { display:block; width:240px; }
     .hero-title { font-size:clamp(1.45rem,2.2vw,1.85rem); }
     .module-grid { grid-template-columns:repeat(3,1fr); gap:12px; }
     .feature-grid { grid-template-columns:repeat(4,1fr); gap:12px; }
