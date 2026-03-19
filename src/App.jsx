@@ -14,11 +14,11 @@ const STYLES = `
 
   /* NAV */
   .nav-bar { position:fixed; top:0; left:0; right:0; z-index:50; background:rgba(6,11,24,0.95); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.07); }
-  .nav-inner { max-width:1100px; margin:0 auto; padding:0 20px; height:68px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
-  .nav-btn { display:flex; align-items:center; gap:4px; padding:6px 10px; border-radius:8px; background:transparent; border:none; cursor:pointer; font-size:0.8rem; font-weight:500; transition:all 0.15s; white-space:nowrap; color:rgba(255,255,255,0.4); font-family:'DM Sans',sans-serif; }
+  .nav-inner { max-width:1100px; margin:0 auto; padding:0 20px; height:82px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .nav-btn { display:flex; align-items:center; gap:6px; padding:10px 16px; border-radius:10px; background:transparent; border:none; cursor:pointer; font-size:1.0rem; font-weight:600; transition:all 0.15s; white-space:nowrap; color:rgba(255,255,255,0.4); font-family:'DM Sans',sans-serif; }
   .nav-btn:hover { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.8); }
   .nav-btn.active { background:rgba(34,211,238,0.1); color:#22d3ee; }
-  .nav-links { display:flex; gap:2px; }
+  .nav-links { display:flex; gap:8px; }
   .xp-badge { display:flex; align-items:center; gap:4px; padding:3px 8px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); white-space:nowrap; }
   .hamburger { width:32px; height:32px; display:none; flex-direction:column; align-items:center; justify-content:center; gap:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:8px; cursor:pointer; flex-shrink:0; }
   .hamburger span { display:block; width:14px; height:1.5px; background:rgba(255,255,255,0.7); border-radius:2px; transition:all 0.2s; }
@@ -171,7 +171,7 @@ export default function App(){
   const saveChat=useCallback((msgs)=>{const t=msgs.slice(-100);setChat(t);db.set("bme_chat",t);},[]);
   if(!ready)return<div style={{background:"#060b18",minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{color:"#22d3ee",fontSize:"0.9rem"}}>Loading…</div></div>;
   const shared={xp,done,quizLog,chat,earnXp,completeLesson,logQuiz,saveChat,setPage};
-  return(<div className="app-root"><style>{STYLES}</style><Nav page={page} setPage={setPage} xp={xp}/><main style={{paddingTop:60}}>{page==="home"&&<Home {...shared}/>}{page==="courses"&&<Courses {...shared}/>}{page==="tutor"&&<Tutor chat={chat} saveChat={saveChat}/>}{page==="mindmap"&&<MindMap/>}</main></div>);
+  return(<div className="app-root"><style>{STYLES}</style><Nav page={page} setPage={setPage} xp={xp}/><main style={{paddingTop:82}}>{page==="home"&&<Home {...shared}/>}{page==="courses"&&<Courses {...shared}/>}{page==="tutor"&&<Tutor chat={chat} saveChat={saveChat}/>}{page==="mindmap"&&<MindMap/>}</main></div>);
 }
 
 function Nav({page,setPage,xp}){
@@ -183,8 +183,8 @@ function Nav({page,setPage,xp}){
   async function install(){if(!installPrompt)return;installPrompt.prompt();const{outcome}=await installPrompt.userChoice;if(outcome==="accepted")setInstalled(true);setInstallPrompt(null);}
   return(<nav className="nav-bar"><div className="nav-inner">
     <button onClick={()=>{setPage("home");setMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"none",border:"none",cursor:"pointer",padding:0,flexShrink:0}}>
-      <div style={{width:32,height:32,borderRadius:9,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 16px rgba(34,211,238,0.22)"}}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg></div>
-      <span style={{fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:"0.88rem",letterSpacing:"0.05em"}}><span style={{color:"white"}}>BioMed</span><span style={{color:"#22d3ee"}}>AI</span></span>
+      <div style={{width:44,height:44,borderRadius:12,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 0 20px rgba(34,211,238,0.28)"}}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/></svg></div>
+      <span style={{fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:"1.15rem",letterSpacing:"0.05em"}}><span style={{color:"white"}}>BioMed</span><span style={{color:"#22d3ee"}}>AI</span></span>
     </button>
     <div className="nav-links">{navItems.map(([id,icon,lbl])=>(<button key={id} onClick={()=>setPage(id)} className={`nav-btn${page===id?" active":""}`}>{icon} {lbl}</button>))}</div>
     <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
