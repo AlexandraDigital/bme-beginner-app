@@ -59,7 +59,7 @@ const STYLES = `
   .feature-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
 
   /* CARDS */
-  .mod-card { border-radius:12px; padding:9px; cursor:pointer; transition:transform 0.2s; }
+  .mod-card { border-radius:14px; padding:18px; cursor:pointer; transition:transform 0.2s; }
   .mod-card:hover { transform:scale(1.02); }
   .cta-title { font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:8px; letter-spacing:-0.01em; }
 
@@ -112,8 +112,8 @@ const STYLES = `
     .cta-title { font-size:0.98rem; }
     .tutor-wrap { padding:14px 12px; }
     .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
-    .mod-card .mod-emoji { font-size:1.25rem !important; margin-bottom:4px !important; }
-    .mod-card h3 { font-size:0.78rem !important; }
+    .mod-card .mod-emoji { font-size:1.6rem !important; margin-bottom:8px !important; }
+    .mod-card h3 { font-size:0.88rem !important; }
   }
 
   /* SMALL PHONES (≤390px) */
@@ -121,7 +121,7 @@ const STYLES = `
     .hero-title { font-size:clamp(2.1rem,7vw,2.7rem); }
     .stat-val { font-size:0.95rem; }
     .module-grid { gap:6px; }
-    .mod-card { padding:9px; }
+    .mod-card { padding:14px; }
   }
 
   /* LANDSCAPE PHONE */
@@ -202,11 +202,11 @@ function ModCard({mod,done,onClick}){
   const n=mod.lessons.filter(l=>done.includes(l.id)).length;
   const pct=Math.round(n/mod.lessons.length*100);
   return(<div onClick={onClick} className="mod-card" style={{border:`1px solid ${mod.color}22`,background:`linear-gradient(135deg,${mod.color}10,${mod.color}05)`}}>
-    <div style={{display:"inline-flex",padding:"3px 8px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.65rem",fontWeight:700,marginBottom:4}}>{mod.level}</div>
-    <div className="mod-emoji" style={{fontSize:"1.2rem",marginBottom:3}}>{mod.emoji}</div>
-    <h3 style={{fontWeight:700,fontSize:"0.82rem",marginBottom:4,fontFamily:"'DM Sans',sans-serif"}}>{mod.title}</h3>
-    <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:4,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
-    <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.68rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length}</span><span>{pct}%</span></div>
+    <div style={{display:"inline-flex",padding:"4px 10px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.75rem",fontWeight:700,marginBottom:10}}>{mod.level}</div>
+    <div className="mod-emoji" style={{fontSize:"2rem",marginBottom:10}}>{mod.emoji}</div>
+    <h3 style={{fontWeight:700,fontSize:"1.0rem",marginBottom:8,fontFamily:"'DM Sans',sans-serif"}}>{mod.title}</h3>
+    <div style={{height:5,background:"rgba(255,255,255,0.07)",borderRadius:3,marginBottom:8,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:3,transition:"width 0.4s"}}/></div>
+    <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.82rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length}</span><span>{pct}%</span></div>
   </div>);
 }
 
