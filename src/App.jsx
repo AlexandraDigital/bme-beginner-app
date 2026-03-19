@@ -32,7 +32,7 @@ const STYLES = `
   .hero-content { width:100%; text-align:center; }
   .hero-visual { display:none; flex-shrink:0; border-radius:16px; padding:20px; background:rgba(255,255,255,0.025); border:1px solid rgba(255,255,255,0.07); }
   .hero-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.7rem; font-weight:500; margin-bottom:11px; }
-  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.35rem,4.8vw,1.75rem); font-weight:800; line-height:1.2; margin-bottom:9px; letter-spacing:-0.02em; }
+  .hero-title { font-family:'DM Sans',sans-serif; font-size:clamp(1.3rem,4.5vw,1.7rem); font-weight:700; line-height:1.2; margin-bottom:9px; letter-spacing:-0.01em; }
   .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
   .hero-p { color:rgba(255,255,255,0.45); font-size:0.83rem; max-width:420px; margin:0 auto 14px; line-height:1.6; }
   .hero-btns { display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:14px; }
@@ -42,7 +42,7 @@ const STYLES = `
   /* STATS */
   .stats-bar { border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.015); }
   .stats-grid { max-width:760px; margin:0 auto; padding:14px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; }
-  .stat-val { font-family:'Syne',sans-serif; font-size:1.25rem; font-weight:800; line-height:1; }
+  .stat-val { font-family:'DM Sans',sans-serif; font-size:1.2rem; font-weight:700; line-height:1; }
   .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.67rem; margin-top:3px; }
 
   /* SECTION LAYOUT */
@@ -50,7 +50,7 @@ const STYLES = `
   .page-section { padding:28px 20px; }
   .page-section-alt { padding:28px 20px; border-top:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.01); }
   .content-wrap { max-width:940px; margin:0 auto; width:100%; }
-  .section-title { font-family:'Syne',sans-serif; font-size:1.0rem; font-weight:800; margin-bottom:3px; }
+  .section-title { font-family:'DM Sans',sans-serif; font-size:0.95rem; font-weight:700; margin-bottom:3px; letter-spacing:-0.01em; }
   .section-sub { color:rgba(255,255,255,0.38); font-size:0.74rem; }
   .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:14px; flex-wrap:wrap; gap:8px; }
 
@@ -61,7 +61,7 @@ const STYLES = `
   /* CARDS */
   .mod-card { border-radius:12px; padding:11px; cursor:pointer; transition:transform 0.2s; }
   .mod-card:hover { transform:scale(1.02); }
-  .cta-title { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; margin-bottom:8px; }
+  .cta-title { font-family:'DM Sans',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:8px; letter-spacing:-0.01em; }
 
   /* LESSON / QUIZ */
   .lesson-row { display:flex; align-items:center; gap:10px; padding:11px 13px; border-radius:11px; background:rgba(255,255,255,0.02); transition:all 0.18s; }
@@ -86,7 +86,7 @@ const STYLES = `
     .hero-btns { justify-content:flex-start; }
     .hero-tags { justify-content:flex-start; }
     .hero-visual { display:block; width:240px; }
-    .hero-title { font-size:clamp(1.5rem,2.3vw,1.95rem); }
+    .hero-title { font-size:clamp(1.45rem,2.2vw,1.85rem); }
     .module-grid { grid-template-columns:repeat(3,1fr); gap:12px; }
     .feature-grid { grid-template-columns:repeat(4,1fr); gap:12px; }
     .page-section, .page-section-alt { padding:36px 24px; }
@@ -101,7 +101,7 @@ const STYLES = `
   /* DESKTOP (1025px+) */
   @media (min-width: 1025px) {
     .hero-section { padding:80px 40px 44px; }
-    .hero-title { font-size:clamp(1.8rem,2.1vw,2.15rem); }
+    .hero-title { font-size:clamp(1.6rem,2.0vw,2.0rem); }
     .module-grid { grid-template-columns:repeat(3,1fr); }
     .page-section, .page-section-alt { padding:40px 24px; }
   }
@@ -124,7 +124,7 @@ const STYLES = `
 
   /* SMALL PHONES (≤390px) */
   @media (max-width: 390px) {
-    .hero-title { font-size:clamp(1.2rem,5vw,1.45rem); }
+    .hero-title { font-size:clamp(1.15rem,5vw,1.4rem); }
     .stat-val { font-size:0.95rem; }
     .module-grid { gap:6px; }
     .mod-card { padding:9px; }
@@ -210,7 +210,7 @@ function ModCard({mod,done,onClick}){
   return(<div onClick={onClick} className="mod-card" style={{border:`1px solid ${mod.color}22`,background:`linear-gradient(135deg,${mod.color}10,${mod.color}05)`}}>
     <div style={{display:"inline-flex",padding:"3px 8px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.65rem",fontWeight:700,marginBottom:6}}>{mod.level}</div>
     <div className="mod-emoji" style={{fontSize:"1.6rem",marginBottom:5}}>{mod.emoji}</div>
-    <h3 style={{fontWeight:700,fontSize:"0.85rem",marginBottom:6,fontFamily:"Syne,sans-serif"}}>{mod.title}</h3>
+    <h3 style={{fontWeight:700,fontSize:"0.85rem",marginBottom:6,fontFamily:"'DM Sans',sans-serif"}}>{mod.title}</h3>
     <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:5,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
     <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.68rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length}</span><span>{pct}%</span></div>
   </div>);
@@ -240,7 +240,7 @@ function Home({xp,done,quizLog,setPage}){
           {[[xp.toLocaleString(),"XP Earned","#facc15"],[`${done.length}/${total}`,"Lessons Done","#22d3ee"],[quizLog.length,"Quizzes","#a78bfa"],[`${pct}%`,"Progress","#34d399"]].map(([v,l,c])=>(
             <div key={l} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
               <span style={{fontSize:"0.75rem",color:"rgba(255,255,255,0.4)"}}>{l}</span>
-              <span style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"1.05rem",background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</span>
+              <span style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"1.0rem",background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</span>
             </div>
           ))}
           <button className="btn-primary" onClick={()=>setPage("courses")} style={{width:"100%",marginTop:14,textAlign:"center",display:"block"}}>Start Learning →</button>
@@ -263,7 +263,7 @@ function Home({xp,done,quizLog,setPage}){
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
             <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:12}}>
               <div style={{width:28,height:28,borderRadius:8,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.85rem",marginBottom:6}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.78rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
+              <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.76rem",fontFamily:"'DM Sans',sans-serif"}}>{f.t}</h3>
               <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.71rem",lineHeight:1.5}}>{f.d}</p>
             </div>
           ))}
@@ -284,7 +284,7 @@ function Courses({done,quizLog,completeLesson,logQuiz}){
   if(view==="quiz"&&activeMod)return<Quiz mod={activeMod} qs={quizState} setQs={setQuizState} logQuiz={logQuiz} onBack={()=>setView("module")} onDone={()=>{setView("module");setQuizState(null);}}/>;
   if(view==="module"&&activeMod){const mql=quizLog.filter(q=>q.moduleId===activeMod.id);return<ModDetail mod={activeMod} done={done} completeLesson={completeLesson} quizLog={mql} onBack={()=>setView("list")} onStartQuiz={()=>{setQuizState({idx:0,answers:[],score:0,selected:null,done:false});setView("quiz");}}/>;
   }
-  return(<div style={{maxWidth:920,margin:"0 auto",padding:"28px 20px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.3rem",fontWeight:800,marginBottom:4}}>All Courses</h1><p className="section-sub" style={{marginBottom:20}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
+  return(<div style={{maxWidth:920,margin:"0 auto",padding:"28px 20px"}}><h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.2rem",fontWeight:700,marginBottom:4}}>All Courses</h1><p className="section-sub" style={{marginBottom:20}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
 }
 
 function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
@@ -295,16 +295,16 @@ function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
     <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",marginBottom:18,fontSize:"0.82rem"}}>← Back to Courses</button>
     <div style={{borderRadius:16,border:`1px solid ${mod.color}2a`,padding:20,background:`linear-gradient(135deg,${mod.color}0d,${mod.color}06)`,marginBottom:18}}>
       <div style={{fontSize:"1.8rem",marginBottom:8}}>{mod.emoji}</div>
-      <h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.2rem",fontWeight:800,marginBottom:6}}>{mod.title}</h1>
+      <h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.15rem",fontWeight:700,marginBottom:6}}>{mod.title}</h1>
       <div style={{display:"flex",flexWrap:"wrap",gap:10,color:"rgba(255,255,255,0.38)",fontSize:"0.76rem",marginBottom:12}}><span>📖 {mod.lessons.length} lessons</span><span>⏱ {mod.duration}</span><span style={{color:mod.color,fontWeight:600}}>{mod.level}</span></div>
       <div style={{height:5,background:"rgba(255,255,255,0.07)",borderRadius:3,overflow:"hidden",marginBottom:5}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:3,transition:"width 0.5s"}}/></div>
       <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.74rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length} completed</span><span>{pct}%</span></div>
     </div>
-    <h2 style={{fontFamily:"Syne,sans-serif",fontWeight:700,fontSize:"0.9rem",marginBottom:10}}>Lessons</h2>
+    <h2 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"0.88rem",marginBottom:10}}>Lessons</h2>
     <div style={{display:"flex",flexDirection:"column",gap:7,marginBottom:20}}>
       {mod.lessons.map((l,i)=>{const isDone=done.includes(l.id);return(
         <div key={l.id} className="lesson-row" style={{border:`1px solid ${isDone?mod.color+"33":"rgba(255,255,255,0.06)"}`}}>
-          <div style={{width:24,height:24,borderRadius:"50%",background:isDone?`${mod.color}1a`:"rgba(255,255,255,0.04)",border:`1.5px solid ${isDone?mod.color:"rgba(255,255,255,0.12)"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.68rem",color:isDone?mod.color:"rgba(255,255,255,0.28)",flexShrink:0,fontFamily:"Syne,sans-serif",fontWeight:800}}>{isDone?"✓":i+1}</div>
+          <div style={{width:24,height:24,borderRadius:"50%",background:isDone?`${mod.color}1a`:"rgba(255,255,255,0.04)",border:`1.5px solid ${isDone?mod.color:"rgba(255,255,255,0.12)"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.68rem",color:isDone?mod.color:"rgba(255,255,255,0.28)",flexShrink:0,fontFamily:"'DM Sans',sans-serif",fontWeight:700}}>{isDone?"✓":i+1}</div>
           <div style={{flex:1,minWidth:0}}><div className="lesson-title" style={{color:isDone?"rgba(255,255,255,0.88)":"rgba(255,255,255,0.65)"}}>{l.title}</div><div style={{fontSize:"0.7rem",color:"rgba(255,255,255,0.28)",marginTop:1}}>{l.mins} min</div></div>
           {isDone?<span style={{fontSize:"0.7rem",color:mod.color,fontWeight:600,flexShrink:0}}>✓ Done</span>:<button onClick={()=>completeLesson(l.id)} style={{padding:"4px 10px",borderRadius:7,background:`${mod.color}12`,border:`1px solid ${mod.color}2e`,color:mod.color,fontSize:"0.7rem",cursor:"pointer",fontWeight:600,flexShrink:0,whiteSpace:"nowrap",fontFamily:"'DM Sans',sans-serif"}}>+10 XP</button>}
         </div>
@@ -320,13 +320,13 @@ function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
 function Quiz({mod,qs,setQs,logQuiz,onBack,onDone}){
   const q=mod.quiz[qs.idx];
   function pick(i){if(qs.selected!==null)return;const correct=i===q.a;const newAnswers=[...qs.answers,{sel:i,correct}];const newScore=qs.score+(correct?1:0);const last=newAnswers.length===mod.quiz.length;setQs(p=>({...p,selected:i}));setTimeout(()=>{if(last){const xp=25+newScore*5;logQuiz({moduleId:mod.id,score:newScore,total:mod.quiz.length,xp,date:new Date().toISOString()});setQs({...qs,selected:i,answers:newAnswers,score:newScore,done:true,xpEarned:xp});}else{setQs({idx:qs.idx+1,answers:newAnswers,score:newScore,selected:null,done:false});}},750);}
-  if(qs.done){const pct=Math.round(qs.score/mod.quiz.length*100);return(<div style={{maxWidth:500,margin:"0 auto",padding:"48px 20px",textAlign:"center"}}><div style={{fontSize:"2.8rem",marginBottom:12}}>{pct>=80?"🎉":pct>=60?"👍":"📚"}</div><h2 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:7}}>Quiz Complete!</h2><div style={{fontFamily:"Syne,sans-serif",fontSize:"2.6rem",fontWeight:800,background:`linear-gradient(135deg,${mod.color},white)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:5}}>{pct}%</div><p style={{color:"rgba(255,255,255,0.45)",marginBottom:8,fontSize:"0.85rem"}}>{qs.score}/{mod.quiz.length} correct</p><div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"6px 14px",borderRadius:20,background:"rgba(250,204,21,0.1)",border:"1px solid rgba(250,204,21,0.2)",color:"#facc15",marginBottom:26,fontSize:"0.83rem",fontWeight:600}}>⚡ +{qs.xpEarned} XP earned!</div><div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}><button onClick={onDone} style={{padding:"11px 20px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>Back to Module</button><button onClick={()=>setQs({idx:0,answers:[],score:0,selected:null,done:false})} style={{padding:"11px 20px",borderRadius:10,background:"rgba(255,255,255,0.05)",color:"white",border:"1px solid rgba(255,255,255,0.1)",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>Retake</button></div></div>);}
+  if(qs.done){const pct=Math.round(qs.score/mod.quiz.length*100);return(<div style={{maxWidth:500,margin:"0 auto",padding:"48px 20px",textAlign:"center"}}><div style={{fontSize:"2.8rem",marginBottom:12}}>{pct>=80?"🎉":pct>=60?"👍":"📚"}</div><h2 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.3rem",fontWeight:700,marginBottom:7}}>Quiz Complete!</h2><div style={{fontFamily:"'DM Sans',sans-serif",fontSize:"2.4rem",fontWeight:700,background:`linear-gradient(135deg,${mod.color},white)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:5}}>{pct}%</div><p style={{color:"rgba(255,255,255,0.45)",marginBottom:8,fontSize:"0.85rem"}}>{qs.score}/{mod.quiz.length} correct</p><div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"6px 14px",borderRadius:20,background:"rgba(250,204,21,0.1)",border:"1px solid rgba(250,204,21,0.2)",color:"#facc15",marginBottom:26,fontSize:"0.83rem",fontWeight:600}}>⚡ +{qs.xpEarned} XP earned!</div><div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}><button onClick={onDone} style={{padding:"11px 20px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>Back to Module</button><button onClick={()=>setQs({idx:0,answers:[],score:0,selected:null,done:false})} style={{padding:"11px 20px",borderRadius:10,background:"rgba(255,255,255,0.05)",color:"white",border:"1px solid rgba(255,255,255,0.1)",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>Retake</button></div></div>);}
   return(<div style={{maxWidth:600,margin:"0 auto",padding:"28px 16px"}}>
     <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",marginBottom:18,fontSize:"0.82rem"}}>← Back</button>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Question {qs.idx+1} of {mod.quiz.length}</span><div style={{display:"flex",gap:4}}>{mod.quiz.map((_,i)=>(<div key={i} style={{width:7,height:7,borderRadius:"50%",background:i<qs.idx?mod.color:i===qs.idx?`${mod.color}70`:"rgba(255,255,255,0.1)",transition:"all 0.3s"}}/>))}</div></div>
     <div style={{height:3,background:"rgba(255,255,255,0.05)",borderRadius:2,marginBottom:20,overflow:"hidden"}}><div style={{height:"100%",width:`${qs.idx/mod.quiz.length*100}%`,background:mod.grad,borderRadius:2,transition:"width 0.3s"}}/></div>
     <div style={{borderRadius:14,background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",padding:18,marginBottom:12}}><p style={{fontSize:"0.93rem",fontWeight:600,lineHeight:1.55}}>{q.q}</p></div>
-    <div style={{display:"flex",flexDirection:"column",gap:8}}>{q.o.map((opt,i)=>{let bg="rgba(255,255,255,0.02)",bdr="rgba(255,255,255,0.07)",clr="rgba(255,255,255,0.78)";if(qs.selected!==null){if(i===q.a){bg="rgba(52,211,153,0.1)";bdr="#34d399";clr="#34d399";}else if(i===qs.selected&&qs.selected!==q.a){bg="rgba(248,113,113,0.1)";bdr="#f87171";clr="#f87171";}}return(<button key={i} onClick={()=>pick(i)} disabled={qs.selected!==null} className="opt-btn" style={{background:bg,border:`1px solid ${bdr}`,color:clr,cursor:qs.selected!==null?"default":"pointer"}}><span style={{opacity:0.45,marginRight:8,fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.75rem"}}>{String.fromCharCode(65+i)}.</span>{opt}</button>);})}</div>
+    <div style={{display:"flex",flexDirection:"column",gap:8}}>{q.o.map((opt,i)=>{let bg="rgba(255,255,255,0.02)",bdr="rgba(255,255,255,0.07)",clr="rgba(255,255,255,0.78)";if(qs.selected!==null){if(i===q.a){bg="rgba(52,211,153,0.1)";bdr="#34d399";clr="#34d399";}else if(i===qs.selected&&qs.selected!==q.a){bg="rgba(248,113,113,0.1)";bdr="#f87171";clr="#f87171";}}return(<button key={i} onClick={()=>pick(i)} disabled={qs.selected!==null} className="opt-btn" style={{background:bg,border:`1px solid ${bdr}`,color:clr,cursor:qs.selected!==null?"default":"pointer"}}><span style={{opacity:0.45,marginRight:8,fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"0.72rem"}}>{String.fromCharCode(65+i)}.</span>{opt}</button>);})}</div>
   </div>);
 }
 
@@ -339,9 +339,9 @@ function Tutor({chat,saveChat}){
   async function send(){if(!input.trim()||busy)return;const u={role:"user",content:input.trim()};const next=[...msgs,u];setMsgs(next);setInput("");setBusy(true);try{const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:1000,messages:[{role:"system",content:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough."},...next]})});const data=await res.json();const a={role:"assistant",content:data.choices?.[0]?.message?.content??"Error retrieving response."};const final=[...next,a];setMsgs(final);saveChat(final);}catch{const final=[...next,{role:"assistant",content:"Connection error. Please try again."}];setMsgs(final);}finally{setBusy(false);}}
   const prompts=["Explain MRI physics simply","How do cochlear implants work?","What is CRISPR in BME?","CT vs PET scans?"];
   return(<div className="tutor-wrap">
-    <div style={{marginBottom:12,flexShrink:0}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.2rem",fontWeight:800,marginBottom:2}}>🤖 AI Tutor</h1><p style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Ask anything • Conversation saved automatically</p></div>
+    <div style={{marginBottom:12,flexShrink:0}}><h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.1rem",fontWeight:700,marginBottom:2}}>🤖 AI Tutor</h1><p style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Ask anything • Conversation saved automatically</p></div>
     <div style={{flex:1,overflowY:"auto",display:"flex",flexDirection:"column",gap:12,paddingBottom:8,minHeight:0}}>
-      {msgs.length===0&&<div style={{textAlign:"center",paddingTop:40}}><div style={{fontSize:"2.2rem",marginBottom:12}}>🧬</div><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:700,marginBottom:6,fontSize:"0.95rem"}}>Ask me anything about BME</h3><p style={{color:"rgba(255,255,255,0.3)",fontSize:"0.78rem",marginBottom:18}}>Your personal Biomedical Engineering tutor</p><div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:"0 10px"}}>{prompts.map(p=>(<button key={p} onClick={()=>setInput(p)} style={{padding:"7px 12px",borderRadius:20,background:"rgba(34,211,238,0.07)",border:"1px solid rgba(34,211,238,0.18)",color:"#22d3ee",fontSize:"0.74rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{p}</button>))}</div></div>}
+      {msgs.length===0&&<div style={{textAlign:"center",paddingTop:40}}><div style={{fontSize:"2.2rem",marginBottom:12}}>🧬</div><h3 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,marginBottom:6,fontSize:"0.9rem"}}>Ask me anything about BME</h3><p style={{color:"rgba(255,255,255,0.3)",fontSize:"0.78rem",marginBottom:18}}>Your personal Biomedical Engineering tutor</p><div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:"0 10px"}}>{prompts.map(p=>(<button key={p} onClick={()=>setInput(p)} style={{padding:"7px 12px",borderRadius:20,background:"rgba(34,211,238,0.07)",border:"1px solid rgba(34,211,238,0.18)",color:"#22d3ee",fontSize:"0.74rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{p}</button>))}</div></div>}
       {msgs.map((m,i)=>(<div key={i} className="msg" style={{display:"flex",gap:8,justifyContent:m.role==="user"?"flex-end":"flex-start"}}>{m.role==="assistant"&&<div style={{width:28,height:28,borderRadius:8,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0,marginTop:2}}>🤖</div>}<div style={{maxWidth:"82%",padding:"10px 13px",fontSize:"0.855rem",lineHeight:1.6,borderRadius:m.role==="user"?"14px 14px 3px 14px":"14px 14px 14px 3px",background:m.role==="user"?"linear-gradient(135deg,rgba(34,211,238,0.12),rgba(59,130,246,0.12))":"rgba(255,255,255,0.035)",border:`1px solid ${m.role==="user"?"rgba(34,211,238,0.18)":"rgba(255,255,255,0.06)"}`,color:"rgba(255,255,255,0.88)",whiteSpace:"pre-wrap",wordBreak:"break-word"}}>{m.content}</div></div>))}
       {busy&&<div style={{display:"flex",gap:8}}><div style={{width:28,height:28,borderRadius:8,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0}}>🤖</div><div style={{padding:"10px 14px",borderRadius:"14px 14px 14px 3px",background:"rgba(255,255,255,0.035)",border:"1px solid rgba(255,255,255,0.06)",display:"flex",gap:5,alignItems:"center"}}>{[0,1,2].map(j=><div key={j} style={{width:5,height:5,borderRadius:"50%",background:"#22d3ee",animation:`bounce 1s ${j*0.18}s infinite`}}/>)}</div></div>}
       <div ref={bottomRef}/>
@@ -358,5 +358,5 @@ function Tutor({chat,saveChat}){
 
 function MindMap(){
   const topics=[{cat:"Medical Imaging",color:"#22d3ee",items:["MRI Physics","CT Reconstruction","Ultrasound","PET/SPECT","X-Ray","Fluoroscopy","Contrast Agents","Image Segmentation"]},{cat:"Biomechanics",color:"#34d399",items:["Young's Modulus","Bone Fracture","Joint Kinematics","Gait Analysis","Prosthetics","Orthotics","Fluid Mechanics","Viscoelasticity"]},{cat:"Tissue Engineering",color:"#a78bfa",items:["Stem Cells","Scaffolds","Bioprinting","Organoids","Bioreactors","Growth Factors","CRISPR","Biocompatibility"]},{cat:"Neural Engineering",color:"#60a5fa",items:["Action Potentials","EEG/ECoG","BCIs","DBS Therapy","Cochlear Implants","Retinal Implants","Neural Probes","Optogenetics"]},{cat:"Biosensors & Devices",color:"#fb923c",items:["Glucose Sensors","Wearables","Lab-on-Chip","Microfluidics","Impedance Spectroscopy","Optical Biosensors","Point-of-Care","FDA Regulation"]},{cat:"Bioinformatics",color:"#f472b6",items:["Genomics","Proteomics","Protein Folding","Sequence Alignment","ML in BME","Drug Discovery","Systems Biology","CRISPR/Cas9"]},{cat:"Rehab Engineering",color:"#facc15",items:["Exoskeletons","Powered Prosthetics","Functional Stimulation","AFOs","Motor Rehab","EMG Control","Upper Limb","Lower Limb"]},{cat:"Regulatory & Ethics",color:"#94a3b8",items:["FDA PMA","510(k) Clearance","ISO 13485","Clinical Trials","Bioethics","Data Privacy","IP in BME","Post-Market"]}];
-  return(<div style={{maxWidth:1060,margin:"0 auto",padding:"28px 16px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.3rem",fontWeight:800,marginBottom:4}}>🗺️ Mind Map</h1><p className="section-sub" style={{marginBottom:20}}>All biomedical engineering topics at a glance</p><div className="module-grid">{topics.map(t=>(<div key={t.cat} style={{borderRadius:12,border:`1px solid ${t.color}20`,background:`${t.color}06`,padding:14}}><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.85rem",color:t.color,marginBottom:8}}>{t.cat}</h3><div style={{display:"flex",flexWrap:"wrap",gap:5}}>{t.items.map(item=>(<span key={item} style={{padding:"3px 9px",borderRadius:20,background:`${t.color}10`,border:`1px solid ${t.color}25`,color:"rgba(255,255,255,0.62)",fontSize:"0.7rem"}}>{item}</span>))}</div></div>))}</div></div>);
+  return(<div style={{maxWidth:1060,margin:"0 auto",padding:"28px 16px"}}><h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.2rem",fontWeight:700,marginBottom:4}}>🗺️ Mind Map</h1><p className="section-sub" style={{marginBottom:20}}>All biomedical engineering topics at a glance</p><div className="module-grid">{topics.map(t=>(<div key={t.cat} style={{borderRadius:12,border:`1px solid ${t.color}20`,background:`${t.color}06`,padding:14}}><h3 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"0.82rem",color:t.color,marginBottom:8}}>{t.cat}</h3><div style={{display:"flex",flexWrap:"wrap",gap:5}}>{t.items.map(item=>(<span key={item} style={{padding:"3px 9px",borderRadius:20,background:`${t.color}10`,border:`1px solid ${t.color}25`,color:"rgba(255,255,255,0.62)",fontSize:"0.7rem"}}>{item}</span>))}</div></div>))}</div></div>);
 }
