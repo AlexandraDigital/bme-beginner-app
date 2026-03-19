@@ -230,8 +230,8 @@ function Home({xp,done,quizLog,setPage}){
           </div>
         </div>
         <div className="hero-visual">
-          <div style={{fontSize:"0.65rem",color:"rgba(255,255,255,0.35)",fontWeight:700,letterSpacing:"0.08em",marginBottom:14,textTransform:"uppercase"}}>Your Progress</div>
-          {[[xp.toLocaleString(),"XP Earned","#facc15"],[`${done.length}/${total}`,"Lessons Done","#22d3ee"],[quizLog.length,"Quizzes","#a78bfa"],[`${pct}%`,"Progress","#34d399"]].map(([v,l,c])=>(
+          <div style={{fontSize:"0.6rem",color:"rgba(255,255,255,0.35)",fontWeight:700,letterSpacing:"0.1em",marginBottom:12,textTransform:"uppercase"}}>Your Starting Point</div>
+          {[["0","XP Earned","#facc15"],[`0/${total}`,"Lessons Done","#22d3ee"],["0","Quizzes Done","#a78bfa"],["0%","Progress","#34d399"]].map(([v,l,c])=>(
             <div key={l} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
               <span style={{fontSize:"0.75rem",color:"rgba(255,255,255,0.4)"}}>{l}</span>
               <span style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"1.0rem",background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</span>
@@ -259,19 +259,13 @@ function Home({xp,done,quizLog,setPage}){
       <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap"}}>View all →</button></div>
       <div className="module-grid">{MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}</div>
     </div></section>
-    <div className="stats-bar"><div className="stats-grid">
-      {[[xp.toLocaleString(),"XP Earned","#facc15"],[`${done.length}/${total}`,"Lessons Done","#22d3ee"],[quizLog.length,"Quizzes Taken","#a78bfa"],[`${pct}%`,"Progress","#34d399"]].map(([v,l,c])=>(
-        <div key={l}><div className="stat-val" style={{background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</div><div className="stat-lbl">{l}</div></div>
-      ))}
-    </div></div>
-    <section style={{padding:"22px 20px",borderTop:"1px solid rgba(255,255,255,0.05)",borderBottom:"1px solid rgba(255,255,255,0.05)",background:"linear-gradient(135deg,rgba(34,211,238,0.04) 0%,rgba(96,165,250,0.04) 50%,rgba(167,139,250,0.04) 100%)",textAlign:"center"}}>
-      <div style={{maxWidth:560,margin:"0 auto"}}>
+
+    <section className="page-section" style={{textAlign:"center",background:"linear-gradient(135deg,rgba(34,211,238,0.04) 0%,rgba(96,165,250,0.04) 50%,rgba(167,139,250,0.04) 100%)"}}><div className="content-wrap" style={{maxWidth:560}}>
         <p style={{fontSize:"0.65rem",fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",color:"rgba(34,211,238,0.55)",marginBottom:6}}>Why It Matters</p>
         <h2 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"clamp(1rem,3vw,1.3rem)",letterSpacing:"-0.01em",marginBottom:8,lineHeight:1.25}}>The Future of Medicine<br/><span style={{background:"linear-gradient(90deg,#22d3ee,#60a5fa)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>Needs Engineers</span></h2>
         <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.78rem",lineHeight:1.6,marginBottom:14}}>Biomedical engineering bridges medicine and technology.<br/>Start building your expertise today.</p>
         <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"8px 20px",fontSize:"0.82rem"}}>Get Started Free →</button>
-      </div>
-    </section>
+    </div></section>
   </div>);
 }
 
