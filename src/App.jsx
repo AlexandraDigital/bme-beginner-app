@@ -8,7 +8,7 @@ const STYLES = `
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
   @keyframes bounce { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)} }
   @keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
-  .app-root { background:#060b18; min-height:100vh; color:white; font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+  .app-root { background:#060b18; min-height:100vh; color:white; font-family:'DM Sans',sans-serif; overflow-x:hidden; width:100%; }
   /* Nav */
   .nav-bar { position:fixed; top:0; left:0; right:0; z-index:50; background:rgba(6,11,24,0.95); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.07); }
   .nav-inner { max-width:1100px; margin:0 auto; padding:0 16px; height:56px; display:flex; align-items:center; justify-content:space-between; gap:6px; }
@@ -26,7 +26,8 @@ const STYLES = `
   .hero-section { min-height:85vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:60px 20px 40px; }
   .hero-content { position:relative; z-index:1; max-width:780px; width:100%; text-align:center; margin:0 auto; }
   .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.75rem; font-weight:500; margin-bottom:20px; }
-  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.8rem); font-weight:800; line-height:1.1; margin-bottom:16px; letter-spacing:-0.025em; max-width:100%; overflow-wrap:break-word; }
+  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,4vw,3.8rem); font-weight:800; line-height:1.15; margin-bottom:16px; letter-spacing:-0.02em; width:100%; overflow-wrap:break-word; word-break:break-word; }
+  .hero-title .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline; }
   .hero-p { color:rgba(255,255,255,0.45); font-size:1rem; max-width:520px; margin:0 auto 26px; line-height:1.65; }
   .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:28px; }
   .hero-tags { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
@@ -68,14 +69,15 @@ const STYLES = `
     .hamburger { display:flex; }
     .xp-badge { padding:3px 7px; }
     .xp-badge span:last-child { font-size:0.78rem; }
-    .hero-section { min-height:0 !important; height:auto !important; display:block !important; padding:80px 16px 40px !important; }
-    .hero-content { text-align:center; }
-    .hero-title { font-size:clamp(1.8rem,8vw,2.4rem) !important; margin-bottom:12px; }
-    .hero-p { font-size:0.9rem; margin-bottom:20px; padding:0 4px; }
+    .hero-section { min-height:0 !important; height:auto !important; display:block !important; padding:80px 16px 36px !important; overflow:hidden !important; }
+    .hero-content { text-align:center; width:100% !important; max-width:100% !important; padding:0; }
+    .hero-title { font-size:clamp(1.6rem,7vw,2.2rem) !important; line-height:1.2 !important; margin-bottom:12px; letter-spacing:-0.01em !important; }
+    .hero-p { font-size:0.88rem; margin-bottom:18px; padding:0 4px; }
     .hero-badge { font-size:0.7rem; padding:4px 10px; margin-bottom:14px; }
-    .hero-btns { flex-direction:column; align-items:stretch; gap:8px; margin-bottom:20px; }
+    .hero-btns { flex-direction:column; align-items:stretch; gap:8px; margin-bottom:18px; }
     .hero-btns .btn-primary, .hero-btns .btn-secondary { width:100%; text-align:center; padding:13px; }
-    .hero-tags { gap:6px; padding:0 4px; }
+    .hero-tags { gap:5px; padding:0 2px; }
+    .hero-tag { font-size:0.72rem; padding:4px 9px; }
     .stats-grid { grid-template-columns:repeat(2,1fr); padding:18px 14px; gap:10px; }
     .stat-val { font-size:1.4rem; }
     .stat-lbl { font-size:0.72rem; }
@@ -86,22 +88,30 @@ const STYLES = `
     .tutor-wrap { padding:14px 12px; height:calc(100dvh - 56px); }
     .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
     .mod-card { padding:14px; }
-    .section-title { font-size:1.25rem; }
+    .section-title { font-size:1.2rem; }
   }
 
-  /* ── SMALL PHONES ≤ 390px ── */
-  @media (max-width: 390px) {
-    .hero-title { font-size:clamp(1.5rem,7vw,2rem) !important; }
+  /* ── SMALL PHONES ≤ 430px ── */
+  @media (max-width: 430px) {
+    .hero-title { font-size:clamp(1.4rem,6.5vw,1.9rem) !important; }
     .hero-badge { font-size:0.65rem; padding:3px 9px; }
+    .stat-val { font-size:1.2rem; }
+    .cta-title { font-size:1.15rem; }
+    .btn-primary, .btn-secondary { font-size:0.85rem; }
+    .hero-tags { gap:4px; }
+    .hero-tag { font-size:0.68rem; padding:3px 8px; }
+  }
+
+  /* ── VERY SMALL PHONES ≤ 360px ── */
+  @media (max-width: 360px) {
+    .hero-title { font-size:1.35rem !important; }
     .stat-val { font-size:1.1rem; }
-    .cta-title { font-size:1.1rem; }
-    .btn-primary, .btn-secondary { font-size:0.82rem; }
   }
 
   /* ── LANDSCAPE MOBILE (short height) ── */
   @media (max-height: 500px) and (orientation: landscape) {
     .hero-section { min-height:0 !important; padding:70px 20px 24px !important; }
-    .hero-title { font-size:clamp(1.4rem,4vw,2rem) !important; margin-bottom:8px; }
+    .hero-title { font-size:clamp(1.2rem,3.5vw,1.8rem) !important; margin-bottom:8px; }
     .hero-p { margin-bottom:14px; font-size:0.85rem; }
     .hero-btns { margin-bottom:14px; flex-direction:row; }
     .hero-badge { margin-bottom:10px; }
@@ -114,7 +124,7 @@ const STYLES = `
     .hamburger { display:none; }
     .stats-grid { grid-template-columns:repeat(2,1fr); }
     .module-grid { grid-template-columns:repeat(2,1fr); }
-    .hero-title { font-size:clamp(2rem,4vw,3rem) !important; }
+    .hero-title { font-size:clamp(1.8rem,3.5vw,2.8rem) !important; }
   }
 `;
 
@@ -414,15 +424,15 @@ function Home({xp,done,quizLog,setPage}){
   const pct=total?Math.round(done.length/total*100):0;
 
   return(
-    <div>
+    <div style={{overflowX:"hidden",width:"100%"}}>
       {/* Hero */}
       <section className="hero-section">
-        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 70% 50% at 30% 20%,rgba(34,211,238,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 70% 80%,rgba(59,130,246,0.06) 0%,transparent 60%)"}}/>
+        <div style={{position:"absolute",inset:0,background:"radial-gradient(ellipse 70% 50% at 30% 20%,rgba(34,211,238,0.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 70% 80%,rgba(59,130,246,0.06) 0%,transparent 60%)",overflow:"hidden"}}/>
         <div className="hero-content">
           <div className="hero-badge">⭐ AI-Powered Biomedical Engineering Platform</div>
           <h1 className="hero-title">
             <span>Master </span>
-            <span style={{background:"linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Biomedical</span>
+            <span className="gradient-text">Biomedical</span>
             <br/><span>Engineering</span>
           </h1>
           <p className="hero-p">
