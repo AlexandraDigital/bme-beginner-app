@@ -21,77 +21,84 @@ const STYLES = `
   .nav-mobile-menu { border-top:1px solid rgba(255,255,255,0.06); background:rgba(6,11,24,0.98); padding:8px 12px 12px; }
   .nav-mobile-btn { display:flex; align-items:center; gap:10px; width:100%; padding:11px 12px; border-radius:10px; background:transparent; border:none; cursor:pointer; font-size:0.9rem; font-weight:500; text-align:left; margin-bottom:2px; color:rgba(255,255,255,0.6); font-family:'DM Sans',sans-serif; }
   .nav-mobile-btn.active { background:rgba(34,211,238,0.08); color:#22d3ee; }
-  .hero-section { min-height:82vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:70px 24px 48px; }
-  .hero-content { position:relative; z-index:1; max-width:700px; width:100%; text-align:center; margin:0 auto; overflow:hidden; }
-  .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.75rem; font-weight:500; margin-bottom:20px; }
-  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,3.2rem); font-weight:800; line-height:1.18; margin-bottom:16px; letter-spacing:-0.02em; width:100%; overflow-wrap:break-word; word-break:break-word; overflow:hidden; }
-  .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; max-width:100%; }
-  .hero-p { color:rgba(255,255,255,0.45); font-size:1rem; max-width:500px; margin:0 auto 26px; line-height:1.65; }
-  .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:28px; }
+
+  /* HERO */
+  .hero-section { min-height:76vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; padding:80px 24px 56px; }
+  .hero-content { position:relative; z-index:1; max-width:640px; width:100%; text-align:center; margin:0 auto; }
+  .hero-badge { display:inline-flex; align-items:center; gap:8px; padding:5px 14px; border-radius:20px; background:rgba(34,211,238,0.07); border:1px solid rgba(34,211,238,0.18); color:#22d3ee; font-size:0.72rem; font-weight:500; margin-bottom:18px; }
+  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1.6rem,2.6vw,2.4rem); font-weight:800; line-height:1.22; margin-bottom:14px; letter-spacing:-0.02em; word-break:break-word; }
+  .gradient-text { background:linear-gradient(90deg,#22d3ee 0%,#60a5fa 50%,#a78bfa 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; display:inline-block; }
+  .hero-p { color:rgba(255,255,255,0.45); font-size:0.92rem; max-width:480px; margin:0 auto 22px; line-height:1.65; }
+  .hero-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:24px; }
   .hero-tags { display:flex; flex-wrap:wrap; gap:7px; justify-content:center; }
-  .hero-tag { padding:5px 11px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); font-size:0.75rem; white-space:nowrap; }
+  .hero-tag { padding:4px 11px; border-radius:20px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.4); font-size:0.72rem; white-space:nowrap; }
+
+  /* STATS */
   .stats-bar { border-top:1px solid rgba(255,255,255,0.05); border-bottom:1px solid rgba(255,255,255,0.05); background:rgba(255,255,255,0.015); }
-  .stats-grid { max-width:900px; margin:0 auto; padding:24px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:16px; text-align:center; }
-  .stat-val { font-family:'Syne',sans-serif; font-size:1.8rem; font-weight:800; }
-  .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.75rem; margin-top:3px; }
-  .section-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; margin-bottom:4px; }
-  .section-sub { color:rgba(255,255,255,0.38); font-size:0.82rem; }
-  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:22px; flex-wrap:wrap; gap:10px; }
-  .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; }
-  .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px; }
-  .mod-card { border-radius:16px; padding:20px; cursor:pointer; transition:transform 0.2s; }
+  .stats-grid { max-width:800px; margin:0 auto; padding:20px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center; }
+  .stat-val { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; }
+  .stat-lbl { color:rgba(255,255,255,0.35); font-size:0.72rem; margin-top:3px; }
+
+  /* SECTIONS */
+  .section-title { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:800; margin-bottom:4px; }
+  .section-sub { color:rgba(255,255,255,0.38); font-size:0.8rem; }
+  .section-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
+  .module-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+  .feature-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+  .mod-card { border-radius:14px; padding:18px; cursor:pointer; transition:transform 0.2s; }
   .mod-card:hover { transform:scale(1.025); }
-  .cta-title { font-family:'Syne',sans-serif; font-size:1.7rem; font-weight:800; margin-bottom:10px; overflow-wrap:break-word; }
+  .cta-title { font-family:'Syne',sans-serif; font-size:1.35rem; font-weight:800; margin-bottom:10px; word-break:break-word; }
+
+  /* LESSONS / QUIZ */
   .lesson-row { display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:11px; background:rgba(255,255,255,0.02); transition:all 0.18s; }
   .lesson-row:hover { background:rgba(255,255,255,0.04); }
   .lesson-title { font-size:0.85rem; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .opt-btn { padding:13px 14px; border-radius:11px; text-align:left; cursor:pointer; font-size:0.875rem; font-weight:500; transition:all 0.2s; line-height:1.45; width:100%; font-family:'DM Sans',sans-serif; }
   .opt-btn:not(:disabled):hover { background:rgba(255,255,255,0.06) !important; border-color:rgba(255,255,255,0.2) !important; }
+
+  /* TUTOR */
   .tutor-wrap { max-width:760px; margin:0 auto; padding:28px 20px; display:flex; flex-direction:column; height:calc(100dvh - 56px); }
   .msg { animation:fadeIn 0.22s ease forwards; }
-  .btn-primary { padding:12px 22px; border-radius:12px; background:linear-gradient(135deg,#22d3ee,#3b82f6); color:white; border:none; cursor:pointer; font-weight:600; font-size:0.9rem; box-shadow:0 0 28px rgba(34,211,238,0.2); font-family:'DM Sans',sans-serif; white-space:nowrap; }
-  .btn-secondary { padding:12px 22px; border-radius:12px; background:rgba(255,255,255,0.04); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:0.9rem; font-family:'DM Sans',sans-serif; white-space:nowrap; }
 
+  /* BUTTONS */
+  .btn-primary { padding:10px 20px; border-radius:12px; background:linear-gradient(135deg,#22d3ee,#3b82f6); color:white; border:none; cursor:pointer; font-weight:600; font-size:0.88rem; box-shadow:0 0 28px rgba(34,211,238,0.2); font-family:'DM Sans',sans-serif; white-space:nowrap; }
+  .btn-secondary { padding:10px 20px; border-radius:12px; background:rgba(255,255,255,0.04); color:white; border:1px solid rgba(255,255,255,0.1); cursor:pointer; font-weight:600; font-size:0.88rem; font-family:'DM Sans',sans-serif; white-space:nowrap; }
+
+  /* MOBILE */
   @media (max-width: 768px) {
     .nav-links { display:none; }
     .hamburger { display:flex; }
-    .hero-section { min-height:0 !important; height:auto !important; display:block !important; padding:72px 16px 32px !important; }
-    .hero-content { text-align:center; width:100% !important; max-width:100% !important; padding:0; }
-    .hero-title { font-size:clamp(1.6rem,7vw,2.4rem) !important; line-height:1.2 !important; margin-bottom:10px; }
-    .hero-p { font-size:0.85rem; margin-bottom:16px; }
-    .hero-badge { font-size:0.7rem; padding:4px 10px; margin-bottom:12px; }
-    .hero-btns { flex-direction:row !important; justify-content:center !important; flex-wrap:wrap !important; gap:8px !important; margin-bottom:16px; }
-    .hero-btns .btn-primary, .hero-btns .btn-secondary { padding:10px 16px !important; font-size:0.82rem !important; width:auto !important; }
+    .hero-section { min-height:auto; padding:72px 16px 36px; }
+    .hero-content { width:100%; }
+    .hero-title { font-size:clamp(1.5rem,6.5vw,2.2rem); line-height:1.22; margin-bottom:10px; }
+    .hero-p { font-size:0.83rem; margin-bottom:14px; }
+    .hero-badge { font-size:0.68rem; padding:4px 10px; margin-bottom:12px; }
+    .hero-btns { flex-direction:row; justify-content:center; gap:8px; margin-bottom:14px; }
+    .hero-btns .btn-primary, .hero-btns .btn-secondary { padding:9px 15px; font-size:0.8rem; }
     .hero-tags { gap:5px; }
-    .hero-tag { font-size:0.7rem; padding:4px 9px; }
-    .stats-grid { grid-template-columns:repeat(2,1fr); padding:16px 14px; gap:10px; }
-    .stat-val { font-size:1.3rem; }
-    .stat-lbl { font-size:0.7rem; }
+    .hero-tag { font-size:0.68rem; padding:3px 9px; }
+    .stats-grid { grid-template-columns:repeat(2,1fr); padding:14px; gap:8px; }
+    .stat-val { font-size:1.2rem; }
+    .stat-lbl { font-size:0.68rem; }
     .module-grid { grid-template-columns:1fr; gap:10px; }
     .feature-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
     .lesson-title { white-space:normal; }
-    .cta-title { font-size:1.2rem; }
+    .cta-title { font-size:1.1rem; }
     .tutor-wrap { padding:14px 12px; }
     .section-header { flex-direction:column; align-items:flex-start; gap:4px; }
     .mod-card { padding:14px; }
-    .section-title { font-size:1.1rem; }
+    .section-title { font-size:1rem; }
   }
 
   @media (max-width: 390px) {
-    .hero-title { font-size:clamp(1.4rem,6.5vw,2rem) !important; }
-    .stat-val { font-size:1.1rem; }
-    .cta-title { font-size:1.1rem; }
-  }
-
-  @media (max-width: 360px) {
-    .hero-title { font-size:1.3rem !important; }
+    .hero-title { font-size:clamp(1.35rem,6vw,1.9rem); }
     .stat-val { font-size:1rem; }
   }
 
   @media (max-height: 500px) and (orientation: landscape) {
-    .hero-section { min-height:0 !important; padding:68px 20px 20px !important; }
-    .hero-title { font-size:clamp(1rem,3vw,1.4rem) !important; margin-bottom:6px; }
-    .hero-p { margin-bottom:10px; font-size:0.82rem; }
+    .hero-section { padding:68px 20px 20px; }
+    .hero-title { font-size:clamp(1rem,3vw,1.4rem); margin-bottom:6px; }
+    .hero-p { margin-bottom:10px; font-size:0.8rem; }
     .hero-btns { margin-bottom:10px; }
     .hero-tags { display:none; }
   }
@@ -99,7 +106,7 @@ const STYLES = `
   @media (min-width: 769px) and (max-width: 1024px) {
     .stats-grid { grid-template-columns:repeat(4,1fr); }
     .module-grid { grid-template-columns:repeat(2,1fr); }
-    .hero-title { font-size:clamp(1.8rem,3vw,2.6rem) !important; }
+    .hero-title { font-size:clamp(1.6rem,2.8vw,2.2rem); }
   }
 `;
 
@@ -171,11 +178,11 @@ function ModCard({mod,done,onClick}){
   const n=mod.lessons.filter(l=>done.includes(l.id)).length;
   const pct=Math.round(n/mod.lessons.length*100);
   return(<div onClick={onClick} className="mod-card" style={{border:`1px solid ${mod.color}22`,background:`linear-gradient(135deg,${mod.color}10,${mod.color}05)`}}>
-    <div style={{display:"inline-flex",padding:"3px 10px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.72rem",fontWeight:700,marginBottom:10}}>{mod.level}</div>
-    <div style={{fontSize:"1.9rem",marginBottom:8}}>{mod.emoji}</div>
-    <h3 style={{fontWeight:700,fontSize:"0.95rem",marginBottom:10,fontFamily:"Syne,sans-serif"}}>{mod.title}</h3>
+    <div style={{display:"inline-flex",padding:"3px 10px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.7rem",fontWeight:700,marginBottom:8}}>{mod.level}</div>
+    <div style={{fontSize:"1.7rem",marginBottom:6}}>{mod.emoji}</div>
+    <h3 style={{fontWeight:700,fontSize:"0.9rem",marginBottom:8,fontFamily:"Syne,sans-serif"}}>{mod.title}</h3>
     <div style={{height:3,background:"rgba(255,255,255,0.07)",borderRadius:2,marginBottom:6,overflow:"hidden"}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:2,transition:"width 0.4s"}}/></div>
-    <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.72rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length} lessons</span><span>{pct}%</span></div>
+    <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.7rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length} lessons</span><span>{pct}%</span></div>
   </div>);
 }
 
@@ -203,29 +210,29 @@ function Home({xp,done,quizLog,setPage}){
         <div key={l}><div className="stat-val" style={{background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</div><div className="stat-lbl">{l}</div></div>
       ))}
     </div></div>
-    <section style={{maxWidth:1000,margin:"0 auto",padding:"48px 20px"}}>
-      <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.82rem",whiteSpace:"nowrap"}}>View all →</button></div>
+    <section style={{maxWidth:960,margin:"0 auto",padding:"40px 20px"}}>
+      <div className="section-header"><div><h2 className="section-title">Featured Modules</h2><p className="section-sub">Start your journey with these popular courses</p></div><button onClick={()=>setPage("courses")} style={{background:"none",border:"none",color:"#22d3ee",cursor:"pointer",fontSize:"0.8rem",whiteSpace:"nowrap"}}>View all →</button></div>
       <div className="module-grid">{MODULES.slice(0,3).map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>setPage("courses")}/>)}</div>
     </section>
-    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"48px 20px",background:"rgba(255,255,255,0.01)"}}>
-      <div style={{maxWidth:920,margin:"0 auto"}}>
+    <section style={{borderTop:"1px solid rgba(255,255,255,0.05)",padding:"40px 20px",background:"rgba(255,255,255,0.01)"}}>
+      <div style={{maxWidth:880,margin:"0 auto"}}>
         <h2 className="section-title" style={{textAlign:"center",marginBottom:5}}>How It Works</h2>
-        <p className="section-sub" style={{textAlign:"center",marginBottom:28}}>Everything you need to master biomedical engineering</p>
+        <p className="section-sub" style={{textAlign:"center",marginBottom:24}}>Everything you need to master biomedical engineering</p>
         <div className="feature-grid">
           {[{e:"🤖",t:"AI Tutor",d:"Ask anything, get expert explanations instantly.",g:"#22d3ee,#3b82f6"},{e:"📚",t:"Structured Courses",d:"Beginner, Intermediate & Advanced tracks.",g:"#34d399,#0d9488"},{e:"🧪",t:"Interactive Quizzes",d:"125+ questions with detailed breakdowns.",g:"#a78bfa,#7c3aed"},{e:"⚡",t:"Track Progress",d:"Earn XP, complete lessons, grow your stats.",g:"#fb923c,#ef4444"}].map(f=>(
-            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:14,padding:16}}>
-              <div style={{width:40,height:40,borderRadius:10,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.1rem",marginBottom:10}}>{f.e}</div>
-              <h3 style={{fontWeight:700,marginBottom:4,fontSize:"0.88rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
-              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.78rem",lineHeight:1.5}}>{f.d}</p>
+            <div key={f.t} style={{background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",borderRadius:12,padding:14}}>
+              <div style={{width:36,height:36,borderRadius:9,background:`linear-gradient(135deg,${f.g})`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1rem",marginBottom:8}}>{f.e}</div>
+              <h3 style={{fontWeight:700,marginBottom:3,fontSize:"0.85rem",fontFamily:"Syne,sans-serif"}}>{f.t}</h3>
+              <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.76rem",lineHeight:1.5}}>{f.d}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-    <section style={{padding:"60px 20px",textAlign:"center"}}>
+    <section style={{padding:"56px 20px",textAlign:"center"}}>
       <h2 className="cta-title">The Future of Medicine Needs Engineers</h2>
-      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 24px",maxWidth:460,fontSize:"0.88rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
-      <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"13px 28px",fontSize:"0.95rem"}}>Get Started Free →</button>
+      <p style={{color:"rgba(255,255,255,0.4)",margin:"0 auto 22px",maxWidth:440,fontSize:"0.85rem",padding:"0 10px"}}>Biomedical engineering bridges medicine and technology. Start building your expertise today.</p>
+      <button className="btn-primary" onClick={()=>setPage("courses")} style={{padding:"11px 26px",fontSize:"0.9rem"}}>Get Started Free →</button>
     </section>
   </div>);
 }
@@ -237,7 +244,7 @@ function Courses({done,quizLog,completeLesson,logQuiz}){
   if(view==="quiz"&&activeMod)return<Quiz mod={activeMod} qs={quizState} setQs={setQuizState} logQuiz={logQuiz} onBack={()=>setView("module")} onDone={()=>{setView("module");setQuizState(null);}}/>;
   if(view==="module"&&activeMod){const mql=quizLog.filter(q=>q.moduleId===activeMod.id);return<ModDetail mod={activeMod} done={done} completeLesson={completeLesson} quizLog={mql} onBack={()=>setView("list")} onStartQuiz={()=>{setQuizState({idx:0,answers:[],score:0,selected:null,done:false});setView("quiz");}}/>;
   }
-  return(<div style={{maxWidth:1000,margin:"0 auto",padding:"36px 20px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.6rem",fontWeight:800,marginBottom:5}}>All Courses</h1><p className="section-sub" style={{marginBottom:24}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
+  return(<div style={{maxWidth:960,margin:"0 auto",padding:"36px 20px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:5}}>All Courses</h1><p className="section-sub" style={{marginBottom:24}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
 }
 
 function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
@@ -247,13 +254,13 @@ function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
   return(<div style={{maxWidth:760,margin:"0 auto",padding:"28px 16px"}}>
     <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",marginBottom:18,fontSize:"0.82rem"}}>← Back to Courses</button>
     <div style={{borderRadius:16,border:`1px solid ${mod.color}2a`,padding:20,background:`linear-gradient(135deg,${mod.color}0d,${mod.color}06)`,marginBottom:18}}>
-      <div style={{fontSize:"2rem",marginBottom:8}}>{mod.emoji}</div>
-      <h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.3rem",fontWeight:800,marginBottom:6}}>{mod.title}</h1>
-      <div style={{display:"flex",flexWrap:"wrap",gap:10,color:"rgba(255,255,255,0.38)",fontSize:"0.78rem",marginBottom:12}}><span>📖 {mod.lessons.length} lessons</span><span>⏱ {mod.duration}</span><span style={{color:mod.color,fontWeight:600}}>{mod.level}</span></div>
+      <div style={{fontSize:"1.8rem",marginBottom:8}}>{mod.emoji}</div>
+      <h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.2rem",fontWeight:800,marginBottom:6}}>{mod.title}</h1>
+      <div style={{display:"flex",flexWrap:"wrap",gap:10,color:"rgba(255,255,255,0.38)",fontSize:"0.76rem",marginBottom:12}}><span>📖 {mod.lessons.length} lessons</span><span>⏱ {mod.duration}</span><span style={{color:mod.color,fontWeight:600}}>{mod.level}</span></div>
       <div style={{height:5,background:"rgba(255,255,255,0.07)",borderRadius:3,overflow:"hidden",marginBottom:5}}><div style={{height:"100%",width:`${pct}%`,background:mod.grad,borderRadius:3,transition:"width 0.5s"}}/></div>
-      <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.75rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length} completed</span><span>{pct}%</span></div>
+      <div style={{display:"flex",justifyContent:"space-between",fontSize:"0.74rem",color:"rgba(255,255,255,0.35)"}}><span>{n}/{mod.lessons.length} completed</span><span>{pct}%</span></div>
     </div>
-    <h2 style={{fontFamily:"Syne,sans-serif",fontWeight:700,fontSize:"0.95rem",marginBottom:10}}>Lessons</h2>
+    <h2 style={{fontFamily:"Syne,sans-serif",fontWeight:700,fontSize:"0.9rem",marginBottom:10}}>Lessons</h2>
     <div style={{display:"flex",flexDirection:"column",gap:7,marginBottom:20}}>
       {mod.lessons.map((l,i)=>{const isDone=done.includes(l.id);return(
         <div key={l.id} className="lesson-row" style={{border:`1px solid ${isDone?mod.color+"33":"rgba(255,255,255,0.06)"}`}}>
@@ -264,8 +271,8 @@ function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
       );})}
     </div>
     <div style={{borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.07)",padding:16,display:"flex",justifyContent:"space-between",alignItems:"center",gap:14,flexWrap:"wrap"}}>
-      <div><h3 style={{fontWeight:700,marginBottom:3,fontSize:"0.92rem"}}>📝 Module Quiz</h3><p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.76rem"}}>{mod.quiz.length} questions • Up to {mod.quiz.length*5+25} XP</p>{best!==null&&<p style={{color:mod.color,fontSize:"0.76rem",marginTop:2}}>Best: {best}%</p>}{quizLog.length>0&&<p style={{color:"rgba(255,255,255,0.25)",fontSize:"0.72rem"}}>Taken {quizLog.length}×</p>}</div>
-      <button onClick={onStartQuiz} style={{padding:"9px 16px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.82rem",whiteSpace:"nowrap",fontFamily:"'DM Sans',sans-serif"}}>{quizLog.length>0?"Retake Quiz":"Start Quiz"} →</button>
+      <div><h3 style={{fontWeight:700,marginBottom:3,fontSize:"0.9rem"}}>📝 Module Quiz</h3><p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.74rem"}}>{mod.quiz.length} questions • Up to {mod.quiz.length*5+25} XP</p>{best!==null&&<p style={{color:mod.color,fontSize:"0.74rem",marginTop:2}}>Best: {best}%</p>}{quizLog.length>0&&<p style={{color:"rgba(255,255,255,0.25)",fontSize:"0.7rem"}}>Taken {quizLog.length}×</p>}</div>
+      <button onClick={onStartQuiz} style={{padding:"9px 16px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.8rem",whiteSpace:"nowrap",fontFamily:"'DM Sans',sans-serif"}}>{quizLog.length>0?"Retake Quiz":"Start Quiz"} →</button>
     </div>
   </div>);
 }
@@ -273,12 +280,12 @@ function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
 function Quiz({mod,qs,setQs,logQuiz,onBack,onDone}){
   const q=mod.quiz[qs.idx];
   function pick(i){if(qs.selected!==null)return;const correct=i===q.a;const newAnswers=[...qs.answers,{sel:i,correct}];const newScore=qs.score+(correct?1:0);const last=newAnswers.length===mod.quiz.length;setQs(p=>({...p,selected:i}));setTimeout(()=>{if(last){const xp=25+newScore*5;logQuiz({moduleId:mod.id,score:newScore,total:mod.quiz.length,xp,date:new Date().toISOString()});setQs({...qs,selected:i,answers:newAnswers,score:newScore,done:true,xpEarned:xp});}else{setQs({idx:qs.idx+1,answers:newAnswers,score:newScore,selected:null,done:false});}},750);}
-  if(qs.done){const pct=Math.round(qs.score/mod.quiz.length*100);return(<div style={{maxWidth:500,margin:"0 auto",padding:"48px 20px",textAlign:"center"}}><div style={{fontSize:"3rem",marginBottom:12}}>{pct>=80?"🎉":pct>=60?"👍":"📚"}</div><h2 style={{fontFamily:"Syne,sans-serif",fontSize:"1.7rem",fontWeight:800,marginBottom:7}}>Quiz Complete!</h2><div style={{fontFamily:"Syne,sans-serif",fontSize:"3rem",fontWeight:800,background:`linear-gradient(135deg,${mod.color},white)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:5}}>{pct}%</div><p style={{color:"rgba(255,255,255,0.45)",marginBottom:8,fontSize:"0.88rem"}}>{qs.score}/{mod.quiz.length} correct</p><div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"6px 14px",borderRadius:20,background:"rgba(250,204,21,0.1)",border:"1px solid rgba(250,204,21,0.2)",color:"#facc15",marginBottom:26,fontSize:"0.85rem",fontWeight:600}}>⚡ +{qs.xpEarned} XP earned!</div><div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}><button onClick={onDone} style={{padding:"11px 20px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.875rem",fontFamily:"'DM Sans',sans-serif"}}>Back to Module</button><button onClick={()=>setQs({idx:0,answers:[],score:0,selected:null,done:false})} style={{padding:"11px 20px",borderRadius:10,background:"rgba(255,255,255,0.05)",color:"white",border:"1px solid rgba(255,255,255,0.1)",cursor:"pointer",fontWeight:700,fontSize:"0.875rem",fontFamily:"'DM Sans',sans-serif"}}>Retake</button></div></div>);}
+  if(qs.done){const pct=Math.round(qs.score/mod.quiz.length*100);return(<div style={{maxWidth:500,margin:"0 auto",padding:"48px 20px",textAlign:"center"}}><div style={{fontSize:"2.8rem",marginBottom:12}}>{pct>=80?"🎉":pct>=60?"👍":"📚"}</div><h2 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:7}}>Quiz Complete!</h2><div style={{fontFamily:"Syne,sans-serif",fontSize:"2.6rem",fontWeight:800,background:`linear-gradient(135deg,${mod.color},white)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",marginBottom:5}}>{pct}%</div><p style={{color:"rgba(255,255,255,0.45)",marginBottom:8,fontSize:"0.85rem"}}>{qs.score}/{mod.quiz.length} correct</p><div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"6px 14px",borderRadius:20,background:"rgba(250,204,21,0.1)",border:"1px solid rgba(250,204,21,0.2)",color:"#facc15",marginBottom:26,fontSize:"0.83rem",fontWeight:600}}>⚡ +{qs.xpEarned} XP earned!</div><div style={{display:"flex",gap:10,justifyContent:"center",flexWrap:"wrap"}}><button onClick={onDone} style={{padding:"11px 20px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>Back to Module</button><button onClick={()=>setQs({idx:0,answers:[],score:0,selected:null,done:false})} style={{padding:"11px 20px",borderRadius:10,background:"rgba(255,255,255,0.05)",color:"white",border:"1px solid rgba(255,255,255,0.1)",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>Retake</button></div></div>);}
   return(<div style={{maxWidth:600,margin:"0 auto",padding:"28px 16px"}}>
     <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",marginBottom:18,fontSize:"0.82rem"}}>← Back</button>
-    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{color:"rgba(255,255,255,0.35)",fontSize:"0.76rem"}}>Question {qs.idx+1} of {mod.quiz.length}</span><div style={{display:"flex",gap:4}}>{mod.quiz.map((_,i)=>(<div key={i} style={{width:7,height:7,borderRadius:"50%",background:i<qs.idx?mod.color:i===qs.idx?`${mod.color}70`:"rgba(255,255,255,0.1)",transition:"all 0.3s"}}/>))}</div></div>
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}><span style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Question {qs.idx+1} of {mod.quiz.length}</span><div style={{display:"flex",gap:4}}>{mod.quiz.map((_,i)=>(<div key={i} style={{width:7,height:7,borderRadius:"50%",background:i<qs.idx?mod.color:i===qs.idx?`${mod.color}70`:"rgba(255,255,255,0.1)",transition:"all 0.3s"}}/>))}</div></div>
     <div style={{height:3,background:"rgba(255,255,255,0.05)",borderRadius:2,marginBottom:20,overflow:"hidden"}}><div style={{height:"100%",width:`${qs.idx/mod.quiz.length*100}%`,background:mod.grad,borderRadius:2,transition:"width 0.3s"}}/></div>
-    <div style={{borderRadius:14,background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",padding:20,marginBottom:12}}><p style={{fontSize:"0.97rem",fontWeight:600,lineHeight:1.55}}>{q.q}</p></div>
+    <div style={{borderRadius:14,background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",padding:18,marginBottom:12}}><p style={{fontSize:"0.93rem",fontWeight:600,lineHeight:1.55}}>{q.q}</p></div>
     <div style={{display:"flex",flexDirection:"column",gap:8}}>{q.o.map((opt,i)=>{let bg="rgba(255,255,255,0.02)",bdr="rgba(255,255,255,0.07)",clr="rgba(255,255,255,0.78)";if(qs.selected!==null){if(i===q.a){bg="rgba(52,211,153,0.1)";bdr="#34d399";clr="#34d399";}else if(i===qs.selected&&qs.selected!==q.a){bg="rgba(248,113,113,0.1)";bdr="#f87171";clr="#f87171";}}return(<button key={i} onClick={()=>pick(i)} disabled={qs.selected!==null} className="opt-btn" style={{background:bg,border:`1px solid ${bdr}`,color:clr,cursor:qs.selected!==null?"default":"pointer"}}><span style={{opacity:0.45,marginRight:8,fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.75rem"}}>{String.fromCharCode(65+i)}.</span>{opt}</button>);})}</div>
   </div>);
 }
@@ -292,9 +299,9 @@ function Tutor({chat,saveChat}){
   async function send(){if(!input.trim()||busy)return;const u={role:"user",content:input.trim()};const next=[...msgs,u];setMsgs(next);setInput("");setBusy(true);try{const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:1000,messages:[{role:"system",content:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough."},...next]})});const data=await res.json();const a={role:"assistant",content:data.choices?.[0]?.message?.content??"Error retrieving response."};const final=[...next,a];setMsgs(final);saveChat(final);}catch{const final=[...next,{role:"assistant",content:"Connection error. Please try again."}];setMsgs(final);}finally{setBusy(false);}}
   const prompts=["Explain MRI physics simply","How do cochlear implants work?","What is CRISPR in BME?","CT vs PET scans?"];
   return(<div className="tutor-wrap">
-    <div style={{marginBottom:12,flexShrink:0}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:2}}>🤖 AI Tutor</h1><p style={{color:"rgba(255,255,255,0.35)",fontSize:"0.76rem"}}>Ask anything • Conversation saved automatically</p></div>
+    <div style={{marginBottom:12,flexShrink:0}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.2rem",fontWeight:800,marginBottom:2}}>🤖 AI Tutor</h1><p style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Ask anything • Conversation saved automatically</p></div>
     <div style={{flex:1,overflowY:"auto",display:"flex",flexDirection:"column",gap:12,paddingBottom:8,minHeight:0}}>
-      {msgs.length===0&&<div style={{textAlign:"center",paddingTop:40}}><div style={{fontSize:"2.5rem",marginBottom:12}}>🧬</div><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:700,marginBottom:6,fontSize:"1rem"}}>Ask me anything about BME</h3><p style={{color:"rgba(255,255,255,0.3)",fontSize:"0.8rem",marginBottom:18}}>Your personal Biomedical Engineering tutor</p><div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:"0 10px"}}>{prompts.map(p=>(<button key={p} onClick={()=>setInput(p)} style={{padding:"7px 12px",borderRadius:20,background:"rgba(34,211,238,0.07)",border:"1px solid rgba(34,211,238,0.18)",color:"#22d3ee",fontSize:"0.76rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{p}</button>))}</div></div>}
+      {msgs.length===0&&<div style={{textAlign:"center",paddingTop:40}}><div style={{fontSize:"2.2rem",marginBottom:12}}>🧬</div><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:700,marginBottom:6,fontSize:"0.95rem"}}>Ask me anything about BME</h3><p style={{color:"rgba(255,255,255,0.3)",fontSize:"0.78rem",marginBottom:18}}>Your personal Biomedical Engineering tutor</p><div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:"0 10px"}}>{prompts.map(p=>(<button key={p} onClick={()=>setInput(p)} style={{padding:"7px 12px",borderRadius:20,background:"rgba(34,211,238,0.07)",border:"1px solid rgba(34,211,238,0.18)",color:"#22d3ee",fontSize:"0.74rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{p}</button>))}</div></div>}
       {msgs.map((m,i)=>(<div key={i} className="msg" style={{display:"flex",gap:8,justifyContent:m.role==="user"?"flex-end":"flex-start"}}>{m.role==="assistant"&&<div style={{width:28,height:28,borderRadius:8,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0,marginTop:2}}>🤖</div>}<div style={{maxWidth:"82%",padding:"10px 13px",fontSize:"0.855rem",lineHeight:1.6,borderRadius:m.role==="user"?"14px 14px 3px 14px":"14px 14px 14px 3px",background:m.role==="user"?"linear-gradient(135deg,rgba(34,211,238,0.12),rgba(59,130,246,0.12))":"rgba(255,255,255,0.035)",border:`1px solid ${m.role==="user"?"rgba(34,211,238,0.18)":"rgba(255,255,255,0.06)"}`,color:"rgba(255,255,255,0.88)",whiteSpace:"pre-wrap",wordBreak:"break-word"}}>{m.content}</div></div>))}
       {busy&&<div style={{display:"flex",gap:8}}><div style={{width:28,height:28,borderRadius:8,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0}}>🤖</div><div style={{padding:"10px 14px",borderRadius:"14px 14px 14px 3px",background:"rgba(255,255,255,0.035)",border:"1px solid rgba(255,255,255,0.06)",display:"flex",gap:5,alignItems:"center"}}>{[0,1,2].map(j=><div key={j} style={{width:5,height:5,borderRadius:"50%",background:"#22d3ee",animation:`bounce 1s ${j*0.18}s infinite`}}/>)}</div></div>}
       <div ref={bottomRef}/>
@@ -311,5 +318,5 @@ function Tutor({chat,saveChat}){
 
 function MindMap(){
   const topics=[{cat:"Medical Imaging",color:"#22d3ee",items:["MRI Physics","CT Reconstruction","Ultrasound","PET/SPECT","X-Ray","Fluoroscopy","Contrast Agents","Image Segmentation"]},{cat:"Biomechanics",color:"#34d399",items:["Young's Modulus","Bone Fracture","Joint Kinematics","Gait Analysis","Prosthetics","Orthotics","Fluid Mechanics","Viscoelasticity"]},{cat:"Tissue Engineering",color:"#a78bfa",items:["Stem Cells","Scaffolds","Bioprinting","Organoids","Bioreactors","Growth Factors","CRISPR","Biocompatibility"]},{cat:"Neural Engineering",color:"#60a5fa",items:["Action Potentials","EEG/ECoG","BCIs","DBS Therapy","Cochlear Implants","Retinal Implants","Neural Probes","Optogenetics"]},{cat:"Biosensors & Devices",color:"#fb923c",items:["Glucose Sensors","Wearables","Lab-on-Chip","Microfluidics","Impedance Spectroscopy","Optical Biosensors","Point-of-Care","FDA Regulation"]},{cat:"Bioinformatics",color:"#f472b6",items:["Genomics","Proteomics","Protein Folding","Sequence Alignment","ML in BME","Drug Discovery","Systems Biology","CRISPR/Cas9"]},{cat:"Rehab Engineering",color:"#facc15",items:["Exoskeletons","Powered Prosthetics","Functional Stimulation","AFOs","Motor Rehab","EMG Control","Upper Limb","Lower Limb"]},{cat:"Regulatory & Ethics",color:"#94a3b8",items:["FDA PMA","510(k) Clearance","ISO 13485","Clinical Trials","Bioethics","Data Privacy","IP in BME","Post-Market"]}];
-  return(<div style={{maxWidth:1100,margin:"0 auto",padding:"36px 16px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.6rem",fontWeight:800,marginBottom:4}}>🗺️ Mind Map</h1><p className="section-sub" style={{marginBottom:24}}>All biomedical engineering topics at a glance</p><div className="module-grid">{topics.map(t=>(<div key={t.cat} style={{borderRadius:14,border:`1px solid ${t.color}20`,background:`${t.color}06`,padding:16}}><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.88rem",color:t.color,marginBottom:10}}>{t.cat}</h3><div style={{display:"flex",flexWrap:"wrap",gap:5}}>{t.items.map(item=>(<span key={item} style={{padding:"3px 9px",borderRadius:20,background:`${t.color}10`,border:`1px solid ${t.color}25`,color:"rgba(255,255,255,0.62)",fontSize:"0.73rem"}}>{item}</span>))}</div></div>))}</div></div>);
+  return(<div style={{maxWidth:1060,margin:"0 auto",padding:"36px 16px"}}><h1 style={{fontFamily:"Syne,sans-serif",fontSize:"1.4rem",fontWeight:800,marginBottom:4}}>🗺️ Mind Map</h1><p className="section-sub" style={{marginBottom:24}}>All biomedical engineering topics at a glance</p><div className="module-grid">{topics.map(t=>(<div key={t.cat} style={{borderRadius:12,border:`1px solid ${t.color}20`,background:`${t.color}06`,padding:14}}><h3 style={{fontFamily:"Syne,sans-serif",fontWeight:800,fontSize:"0.85rem",color:t.color,marginBottom:8}}>{t.cat}</h3><div style={{display:"flex",flexWrap:"wrap",gap:5}}>{t.items.map(item=>(<span key={item} style={{padding:"3px 9px",borderRadius:20,background:`${t.color}10`,border:`1px solid ${t.color}25`,color:"rgba(255,255,255,0.62)",fontSize:"0.7rem"}}>{item}</span>))}</div></div>))}</div></div>);
 }
