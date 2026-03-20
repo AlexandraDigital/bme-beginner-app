@@ -23,10 +23,8 @@ jobs:
           cache: npm
       - run: npm install
       - run: npm run build
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+        env:
+          VITE_GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
   deploy:
     needs: build
