@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { lessons as lessonContent } from './lessons.ts';
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@700;800&family=Orbitron:wght@700;800&display=swap');
@@ -175,6 +176,34 @@ const MODULES = [
 
 const db={async get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},async set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
 
+const LESSON_MAP={
+  'ph-1':'physics-mechanics','ph-2':'physics-mechanics','ph-3':'biomechanics',
+  'ph-4':'physics-em','ph-5':'physics-em','ph-6':'medical-imaging-physics',
+  'bc-1':'biology-cells','bc-2':'anatomy','bc-3':'physiology',
+  'bc-4':'chemistry-basics','bc-5':'organic-chem','bc-6':'biochemistry',
+  'ma-1':'math-calculus','ma-2':'math-calculus','ma-3':'diff-equations',
+  'ma-4':'linear-algebra','ma-5':'linear-algebra','ma-6':'programming-intro',
+  'sk-1':'programming-intro','sk-2':'programming-intro','sk-3':'units-measurement',
+  'sk-4':'bme-intro','sk-5':'bme-intro',
+  'bs-1':'signals-intro','bs-2':'biochemistry','bs-3':'signals-intro',
+  'bs-4':'biomaterials','bs-5':'bme-intro',
+  'bi-1':'crispr-gene-therapy','bi-2':'crispr-gene-therapy','bi-3':'bio-molecules',
+  'bi-4':'crispr-gene-therapy','bi-5':'programming-intro',
+  'mi-1':'medical-imaging-physics','mi-2':'medical-imaging-physics','mi-3':'medical-imaging-physics',
+  'mi-4':'medical-imaging-physics','mi-5':'medical-imaging-physics','mi-6':'medical-imaging-physics',
+  'bm-1':'biomechanics','bm-2':'biomechanics','bm-3':'biomechanics',
+  'bm-4':'biomechanics','bm-5':'computational-biomechanics',
+  'te-1':'biomaterials','te-2':'biology-cells','te-3':'biomaterials',
+  'te-4':'biochemistry','te-5':'computational-biomechanics',
+  'ne-1':'hodgkin-huxley-bioelectronics','ne-2':'hodgkin-huxley-bioelectronics',
+  'ne-3':'hodgkin-huxley-bioelectronics','ne-4':'hodgkin-huxley-bioelectronics',
+  'ne-5':'hodgkin-huxley-bioelectronics',
+  'sp-1':'signals-intro','sp-2':'signals-intro','sp-3':'signals-intro',
+  'sp-4':'hodgkin-huxley-bioelectronics','sp-5':'programming-intro',
+  'dd-1':'nanomedicine-drug-delivery','dd-2':'nanomedicine-drug-delivery',
+  'dd-3':'nanomedicine-drug-delivery','dd-4':'nanomedicine-drug-delivery','dd-5':'bme-intro',
+};
+
 export default function App(){
   const[page,setPage]=useState("home");
   const[xp,setXp]=useState(0);
@@ -281,13 +310,15 @@ function Courses({done,quizLog,completeLesson,logQuiz}){
   const[view,setView]=useState("list");
   const[activeMod,setActiveMod]=useState(null);
   const[quizState,setQuizState]=useState(null);
+  const[activeLesson,setActiveLesson]=useState(null);
   if(view==="quiz"&&activeMod)return<Quiz mod={activeMod} qs={quizState} setQs={setQuizState} logQuiz={logQuiz} onBack={()=>setView("module")} onDone={()=>{setView("module");setQuizState(null);}}/>;
-  if(view==="module"&&activeMod){const mql=quizLog.filter(q=>q.moduleId===activeMod.id);return<ModDetail mod={activeMod} done={done} completeLesson={completeLesson} quizLog={mql} onBack={()=>setView("list")} onStartQuiz={()=>{setQuizState({idx:0,answers:[],score:0,selected:null,done:false});setView("quiz");}}/>;
+  if(view==="lesson"&&activeMod&&activeLesson)return<LessonView lesson={activeLesson} mod={activeMod} done={done} completeLesson={completeLesson} onBack={()=>{setView("module");setActiveLesson(null);}}/>;
+  if(view==="module"&&activeMod){const mql=quizLog.filter(q=>q.moduleId===activeMod.id);return<ModDetail mod={activeMod} done={done} completeLesson={completeLesson} quizLog={mql} onBack={()=>setView("list")} onStartQuiz={()=>{setQuizState({idx:0,answers:[],score:0,selected:null,done:false});setView("quiz");}} onLessonClick={(l)=>{setActiveLesson(l);setView("lesson");}}/>;
   }
   return(<div style={{maxWidth:920,margin:"0 auto",padding:"28px 20px"}}><h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.2rem",fontWeight:700,marginBottom:4}}>All Courses</h1><p className="section-sub" style={{marginBottom:20}}>Select a module to start learning and earning XP</p><div className="module-grid">{MODULES.map(m=><ModCard key={m.id} mod={m} done={done} onClick={()=>{setActiveMod(m);setView("module");}}/>)}</div></div>);
 }
 
-function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
+function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz,onLessonClick}){
   const n=mod.lessons.filter(l=>done.includes(l.id)).length;
   const pct=Math.round(n/mod.lessons.length*100);
   const best=quizLog.length?Math.max(...quizLog.map(q=>Math.round(q.score/q.total*100))):null;
@@ -303,10 +334,10 @@ function ModDetail({mod,done,completeLesson,quizLog,onBack,onStartQuiz}){
     <h2 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"0.88rem",marginBottom:10}}>Lessons</h2>
     <div style={{display:"flex",flexDirection:"column",gap:7,marginBottom:20}}>
       {mod.lessons.map((l,i)=>{const isDone=done.includes(l.id);return(
-        <div key={l.id} className="lesson-row" style={{border:`1px solid ${isDone?mod.color+"33":"rgba(255,255,255,0.06)"}`}}>
+        <div key={l.id} className="lesson-row" style={{border:`1px solid ${isDone?mod.color+"33":"rgba(255,255,255,0.06)"}`,cursor:"pointer"}} onClick={()=>onLessonClick(l)}>
           <div style={{width:24,height:24,borderRadius:"50%",background:isDone?`${mod.color}1a`:"rgba(255,255,255,0.04)",border:`1.5px solid ${isDone?mod.color:"rgba(255,255,255,0.12)"}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.68rem",color:isDone?mod.color:"rgba(255,255,255,0.28)",flexShrink:0,fontFamily:"'DM Sans',sans-serif",fontWeight:700}}>{isDone?"✓":i+1}</div>
           <div style={{flex:1,minWidth:0}}><div className="lesson-title" style={{color:isDone?"rgba(255,255,255,0.88)":"rgba(255,255,255,0.65)"}}>{l.title}</div><div style={{fontSize:"0.7rem",color:"rgba(255,255,255,0.28)",marginTop:1}}>{l.mins} min</div></div>
-          {isDone?<span style={{fontSize:"0.7rem",color:mod.color,fontWeight:600,flexShrink:0}}>✓ Done</span>:<button onClick={()=>completeLesson(l.id)} style={{padding:"4px 10px",borderRadius:7,background:`${mod.color}12`,border:`1px solid ${mod.color}2e`,color:mod.color,fontSize:"0.7rem",cursor:"pointer",fontWeight:600,flexShrink:0,whiteSpace:"nowrap",fontFamily:"'DM Sans',sans-serif"}}>+10 XP</button>}
+          {isDone?<span style={{fontSize:"0.7rem",color:mod.color,fontWeight:600,flexShrink:0}}>✓ Done</span>:<button onClick={(e)=>{e.stopPropagation();completeLesson(l.id);}} style={{padding:"4px 10px",borderRadius:7,background:`${mod.color}12`,border:`1px solid ${mod.color}2e`,color:mod.color,fontSize:"0.7rem",cursor:"pointer",fontWeight:600,flexShrink:0,whiteSpace:"nowrap",fontFamily:"'DM Sans',sans-serif"}}>+10 XP</button>}
         </div>
       );})}
     </div>
@@ -392,6 +423,87 @@ function Tutor({chat,saveChat}){
         <textarea value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}}} placeholder="Ask about MRI, BCIs, biosensors…" rows={2} style={{flex:1,background:"none",border:"none",color:"white",resize:"none",fontSize:"0.875rem",outline:"none",lineHeight:1.5,fontFamily:"'DM Sans',sans-serif",minHeight:42}}/>
         <button onClick={send} disabled={busy||!input.trim()} style={{width:36,height:36,borderRadius:9,flexShrink:0,background:input.trim()&&!busy?"linear-gradient(135deg,#22d3ee,#3b82f6)":"rgba(255,255,255,0.04)",border:"none",cursor:input.trim()&&!busy?"pointer":"default",color:"white",fontSize:"1rem",display:"flex",alignItems:"center",justifyContent:"center",transition:"all 0.2s"}}>→</button>
       </div>
+    </div>
+  </div>);
+}
+
+
+function LessonView({lesson,mod,done,completeLesson,onBack}){
+  const contentId=LESSON_MAP[lesson.id];
+  const c=contentId?lessonContent.find(l=>l.id===contentId):null;
+  const isDone=done.includes(lesson.id);
+  const[quizState,setQuizState]=useState(null);
+  const quizzes=c?.quizzes||[];
+  function pickAnswer(i){
+    if(quizState?.selected!==null)return;
+    const correct=i===quizzes[quizState.idx].answer;
+    setTimeout(()=>{
+      if(quizState.idx+1>=quizzes.length){setQuizState(p=>({...p,selected:i,done:true}));}
+      else{setQuizState(p=>({...p,idx:p.idx+1,selected:null,score:p.score+(correct?1:0)}));}
+    },700);
+    setQuizState(p=>({...p,selected:i,score:p.score+(correct?1:0)}));
+  }
+  return(<div style={{maxWidth:760,margin:"0 auto",padding:"28px 16px"}}>
+    <button onClick={onBack} style={{display:"flex",alignItems:"center",gap:7,background:"none",border:"none",color:"rgba(255,255,255,0.4)",cursor:"pointer",marginBottom:18,fontSize:"0.82rem"}}>← Back to Module</button>
+    <div style={{borderRadius:16,border:`1px solid ${mod.color}2a`,padding:20,background:`linear-gradient(135deg,${mod.color}0d,${mod.color}06)`,marginBottom:20}}>
+      <div style={{fontSize:"1.8rem",marginBottom:8}}>{c?.icon||mod.emoji}</div>
+      <div style={{display:"inline-flex",padding:"4px 10px",borderRadius:20,background:`${mod.color}18`,border:`1px solid ${mod.color}44`,color:mod.color,fontSize:"0.75rem",fontWeight:700,marginBottom:10}}>{mod.title}</div>
+      <h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.15rem",fontWeight:700,marginBottom:6}}>{lesson.title}</h1>
+      <div style={{display:"flex",gap:10,color:"rgba(255,255,255,0.38)",fontSize:"0.76rem"}}>
+        <span>⏱ {lesson.mins} min</span>
+        {c&&<span style={{color:mod.color,fontWeight:600,textTransform:"capitalize"}}>{c.tier}</span>}
+        {c&&<span>⚡ {c.xpReward} XP</span>}
+      </div>
+    </div>
+    {c?(<>
+      <div style={{borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.07)",padding:18,marginBottom:14}}>
+        <h2 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"0.88rem",fontWeight:700,marginBottom:8,color:"rgba(255,255,255,0.5)"}}>📖 Overview</h2>
+        <p style={{color:"rgba(255,255,255,0.75)",fontSize:"0.86rem",lineHeight:1.75}}>{c.description}</p>
+      </div>
+      <div style={{borderRadius:14,background:`${mod.color}08`,border:`1px solid ${mod.color}22`,padding:16,marginBottom:14}}>
+        <h2 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"0.88rem",fontWeight:700,marginBottom:6,color:mod.color}}>💡 Key Idea</h2>
+        <p style={{color:"rgba(255,255,255,0.88)",fontSize:"0.86rem",lineHeight:1.65,fontStyle:"italic"}}>{c.keyIdea}</p>
+      </div>
+      <div style={{borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.07)",padding:16,marginBottom:14}}>
+        <h2 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"0.88rem",fontWeight:700,marginBottom:6,color:"rgba(255,255,255,0.5)"}}>🔬 Real-World Example</h2>
+        <p style={{color:"rgba(255,255,255,0.72)",fontSize:"0.85rem",lineHeight:1.7}}>{c.example}</p>
+      </div>
+      {c.video&&<div style={{borderRadius:14,overflow:"hidden",marginBottom:14,position:"relative",paddingTop:"56.25%"}}>
+        <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${c.video}`} title={lesson.title} frameBorder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowFullScreen style={{position:"absolute",top:0,left:0,width:"100%",height:"100%"}}/>
+      </div>}
+      {quizzes.length>0&&!quizState&&<div style={{marginBottom:14}}>
+        <button onClick={()=>setQuizState({idx:0,selected:null,score:0,done:false})} style={{width:"100%",padding:"12px 16px",borderRadius:12,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.85rem",fontFamily:"'DM Sans',sans-serif"}}>📝 Practice Quiz ({quizzes.length} questions)</button>
+      </div>}
+      {quizState&&!quizState.done&&(()=>{const q=quizzes[quizState.idx];return(
+        <div style={{marginBottom:14}}>
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:8,fontSize:"0.74rem",color:"rgba(255,255,255,0.35)"}}><span>Question {quizState.idx+1}/{quizzes.length}</span></div>
+          <div style={{borderRadius:14,background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",padding:16,marginBottom:10}}>
+            <p style={{fontSize:"0.9rem",fontWeight:600,lineHeight:1.55}}>{q.question}</p>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:8}}>
+            {q.options.map((opt,i)=>{let bg="rgba(255,255,255,0.02)",bdr="rgba(255,255,255,0.07)",clr="rgba(255,255,255,0.78)";if(quizState.selected!==null){if(i===q.answer){bg="rgba(52,211,153,0.1)";bdr="#34d399";clr="#34d399";}else if(i===quizState.selected&&quizState.selected!==q.answer){bg="rgba(248,113,113,0.1)";bdr="#f87171";clr="#f87171";}}return(<button key={i} onClick={()=>pickAnswer(i)} disabled={quizState.selected!==null} className="opt-btn" style={{background:bg,border:`1px solid ${bdr}`,color:clr,cursor:quizState.selected!==null?"default":"pointer"}}><span style={{opacity:0.45,marginRight:8,fontWeight:700,fontSize:"0.72rem"}}>{String.fromCharCode(65+i)}.</span>{opt}</button>);})}
+          </div>
+          {quizState.selected!==null&&<div style={{marginTop:10,padding:"10px 14px",borderRadius:10,background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",fontSize:"0.8rem",color:"rgba(255,255,255,0.6)",lineHeight:1.6}}>{q.explanation}</div>}
+        </div>
+      );})()}
+      {quizState?.done&&<div style={{borderRadius:14,background:"rgba(255,255,255,0.025)",border:"1px solid rgba(255,255,255,0.07)",padding:20,marginBottom:14,textAlign:"center"}}>
+        <div style={{fontSize:"2rem",marginBottom:8}}>{quizState.score===quizzes.length?"🎉":quizState.score>=quizzes.length*0.6?"👍":"📚"}</div>
+        <h3 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,marginBottom:4}}>Quiz Complete!</h3>
+        <p style={{color:"rgba(255,255,255,0.45)",fontSize:"0.85rem",marginBottom:12}}>{quizState.score}/{quizzes.length} correct</p>
+        <button onClick={()=>setQuizState({idx:0,selected:null,score:0,done:false})} style={{padding:"8px 16px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.8rem",fontFamily:"'DM Sans',sans-serif"}}>Retake</button>
+      </div>}
+    </>):(
+      <div style={{borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.07)",padding:24,marginBottom:14,textAlign:"center"}}>
+        <div style={{fontSize:"1.8rem",marginBottom:8}}>📚</div>
+        <p style={{color:"rgba(255,255,255,0.45)",fontSize:"0.86rem",lineHeight:1.6}}>Detailed lesson content coming soon.<br/>Use the AI Tutor to explore this topic!</p>
+      </div>
+    )}
+    <div style={{borderRadius:14,background:"rgba(255,255,255,0.02)",border:"1px solid rgba(255,255,255,0.07)",padding:16,display:"flex",justifyContent:"space-between",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+      <div>
+        <h3 style={{fontWeight:700,marginBottom:2,fontSize:"0.9rem"}}>{isDone?"✅ Lesson Complete!":"Mark as Complete"}</h3>
+        <p style={{color:"rgba(255,255,255,0.38)",fontSize:"0.74rem"}}>{isDone?"You've already completed this lesson":"+10 XP for completing this lesson"}</p>
+      </div>
+      {!isDone&&<button onClick={()=>{completeLesson(lesson.id);onBack();}} style={{padding:"9px 16px",borderRadius:10,background:mod.grad,color:"white",border:"none",cursor:"pointer",fontWeight:700,fontSize:"0.8rem",whiteSpace:"nowrap",fontFamily:"'DM Sans',sans-serif"}}>Complete +10 XP ⚡</button>}
     </div>
   </div>);
 }
