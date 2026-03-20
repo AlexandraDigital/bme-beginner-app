@@ -364,18 +364,19 @@ function Tutor({chat,saveChat}){
         })
       });
       const data=await res.json();
-      let content;
+      let content,isError=false;
       if(!res.ok||data.error){
         content=data.error?.message||"The AI tutor is temporarily unavailable. Please try again shortly.";
+        isError=true;
       }else{
         content=data.choices?.[0]?.message?.content||"No response received. Please try again.";
       }
-      const a={role:"assistant",content};
+      const a={role:"assistant",content,...(isError&&{isError:true})};
       const final=[...next,a];
       setMsgs(final);
       saveChat(final);
     }catch{
-      const final=[...next,{role:"assistant",content:"Connection error. Please check your internet and try again."}];
+      const final=[...next,{role:"assistant",content:"Connection error. Please check your internet and try again.",isError:true}];
       setMsgs(final);
       saveChat(final);
     }finally{
@@ -387,7 +388,7 @@ function Tutor({chat,saveChat}){
     <div style={{marginBottom:12,flexShrink:0}}><h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.1rem",fontWeight:700,marginBottom:2}}>🤖 AI Tutor</h1><p style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Ask anything • Conversation saved automatically</p></div>
     <div style={{flex:1,overflowY:"auto",display:"flex",flexDirection:"column",gap:12,paddingBottom:8,minHeight:0}}>
       {msgs.length===0&&<div style={{textAlign:"center",paddingTop:40}}><div style={{fontSize:"2.2rem",marginBottom:12}}>🧬</div><h3 style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,marginBottom:6,fontSize:"0.9rem"}}>Ask me anything about BME</h3><p style={{color:"rgba(255,255,255,0.3)",fontSize:"0.78rem",marginBottom:18}}>Your personal Biomedical Engineering tutor</p><div style={{display:"flex",flexWrap:"wrap",gap:6,justifyContent:"center",padding:"0 10px"}}>{prompts.map(p=>(<button key={p} onClick={()=>setInput(p)} style={{padding:"7px 12px",borderRadius:20,background:"rgba(34,211,238,0.07)",border:"1px solid rgba(34,211,238,0.18)",color:"#22d3ee",fontSize:"0.74rem",cursor:"pointer",fontFamily:"'DM Sans',sans-serif"}}>{p}</button>))}</div></div>}
-      {msgs.map((m,i)=>(<div key={i} className="msg" style={{display:"flex",gap:8,justifyContent:m.role==="user"?"flex-end":"flex-start"}}>{m.role==="assistant"&&<div style={{width:28,height:28,borderRadius:8,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0,marginTop:2}}>🤖</div>}<div style={{maxWidth:"82%",padding:"10px 13px",fontSize:"0.855rem",lineHeight:1.6,borderRadius:m.role==="user"?"14px 14px 3px 14px":"14px 14px 14px 3px",background:m.role==="user"?"linear-gradient(135deg,rgba(34,211,238,0.12),rgba(59,130,246,0.12))":"rgba(255,255,255,0.035)",border:`1px solid ${m.role==="user"?"rgba(34,211,238,0.18)":"rgba(255,255,255,0.06)"}`,color:"rgba(255,255,255,0.88)",whiteSpace:"pre-wrap",wordBreak:"break-word"}}>{m.content}</div></div>))}
+      {msgs.map((m,i)=>(<div key={i} className="msg" style={{display:"flex",gap:8,justifyContent:m.role==="user"?"flex-end":"flex-start"}}>{m.role==="assistant"&&<div style={{width:28,height:28,borderRadius:8,background:m.isError?"rgba(248,113,113,0.12)":"linear-gradient(135deg,#22d3ee,#3b82f6)",border:m.isError?"1px solid rgba(248,113,113,0.25)":"none",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0,marginTop:2}}>{m.isError?"⚠️":"🤖"}</div>}<div style={{maxWidth:"82%",padding:"10px 13px",fontSize:"0.855rem",lineHeight:1.6,borderRadius:m.role==="user"?"14px 14px 3px 14px":"14px 14px 14px 3px",background:m.role==="user"?"linear-gradient(135deg,rgba(34,211,238,0.12),rgba(59,130,246,0.12))":m.isError?"rgba(248,113,113,0.07)":"rgba(255,255,255,0.035)",border:`1px solid ${m.role==="user"?"rgba(34,211,238,0.18)":m.isError?"rgba(248,113,113,0.18)":"rgba(255,255,255,0.06)"}`,color:"rgba(255,255,255,0.88)",whiteSpace:"pre-wrap",wordBreak:"break-word"}}>{m.content}</div></div>))}
       {busy&&<div style={{display:"flex",gap:8}}><div style={{width:28,height:28,borderRadius:8,background:"linear-gradient(135deg,#22d3ee,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"0.75rem",flexShrink:0}}>🤖</div><div style={{padding:"10px 14px",borderRadius:"14px 14px 14px 3px",background:"rgba(255,255,255,0.035)",border:"1px solid rgba(255,255,255,0.06)",display:"flex",gap:5,alignItems:"center"}}>{[0,1,2].map(j=><div key={j} style={{width:5,height:5,borderRadius:"50%",background:"#22d3ee",animation:`bounce 1s ${j*0.18}s infinite`}}/>)}</div></div>}
       <div ref={bottomRef}/>
     </div>
