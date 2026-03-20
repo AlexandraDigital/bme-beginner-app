@@ -1554,7 +1554,7 @@ export const lessons: Lesson[] = [
         ],
         answer: 1,
         explanation:
-          'Spike sorting first threshold-detects candidate spikes, aligns them, and extracts waveforms (e.g., 64 samples each). PCA rotates into directions of maximum variance — the first 2-3 PCs capture most waveform shape variability. Clustering algorithms (k-means, Gaussian mixture) then separate clusters in PC space, each cluster representing a single neuron's spike waveform template.',
+          'Spike sorting first threshold-detects candidate spikes, aligns them, and extracts waveforms (e.g., 64 samples each). PCA rotates into directions of maximum variance — the first 2-3 PCs capture most waveform shape variability. Clustering algorithms (k-means, Gaussian mixture) then separate clusters in PC space, each cluster representing a single neuron\'s spike waveform template.',
       },
       {
         question: 'Which patch-clamp configuration provides the highest signal quality for measuring whole-cell ionic currents?',
