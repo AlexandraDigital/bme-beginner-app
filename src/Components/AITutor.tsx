@@ -65,12 +65,10 @@ export default function AITutor({ initialTopic }: AITutorProps) {
     setError(null);
 
     try {
-      const GROQ_KEY = import.meta.env.VITE_GROQ_API_KEY;
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${GROQ_KEY}`,
         },
         body: JSON.stringify({
           model: MODEL,
