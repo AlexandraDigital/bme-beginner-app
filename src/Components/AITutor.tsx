@@ -10,6 +10,7 @@ interface AITutorProps {
 }
 
 const MODEL = "llama-3.3-70b-versatile";
+const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const SYSTEM_PROMPT = `You are BioMedAI Tutor, an expert biomedical engineering educator. 
 You help students understand biomedical engineering concepts from beginner through graduate level.
@@ -65,10 +66,14 @@ export default function AITutor({ initialTopic }: AITutorProps) {
     setError(null);
 
     try {
-      const response = await fetch("/api/chat", {
+      const apiKey = import.meta.env.VITE_GROQ_API_KEY;
+      if (!apiKey) throw new Error("API key not configured.");
+
+      const response = await fetch(GROQ_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: MODEL,
@@ -106,13 +111,11 @@ export default function AITutor({ initialTopic }: AITutorProps) {
   };
 
   const formatMessage = (content: string) => {
-    // Basic markdown-like formatting
     return content
       .split("\n")
       .map((line, i) => {
         if (line.startsWith("### ")) return <h3 key={i} style={{ color: "#67e8f9", fontWeight: 700, marginTop: "0.75rem", fontSize: "1.05rem" }}>{line.slice(4)}</h3>;
         if (line.startsWith("## ")) return <h2 key={i} style={{ color: "#67e8f9", fontWeight: 700, marginTop: "1rem", fontSize: "1.15rem" }}>{line.slice(3)}</h2>;
-        // Inline bold: replace **text** anywhere in line
         const boldFormatted = line.replace(/\*\*(.+?)\*\*/g, '<strong style="color:#f0f9ff">$1</strong>');
         if (boldFormatted !== line) return <p key={i} style={{ margin: "0.2rem 0" }} dangerouslySetInnerHTML={{ __html: boldFormatted }} />;
         if (line.startsWith("- ") || line.startsWith("\u2022 ")) return (
@@ -234,7 +237,6 @@ export default function AITutor({ initialTopic }: AITutorProps) {
             gap: "0.75rem",
             alignItems: "flex-start",
           }}>
-            {/* Avatar */}
             <div style={{
               width: 36, height: 36, borderRadius: "50%", flexShrink: 0,
               background: msg.role === "user"
@@ -245,8 +247,6 @@ export default function AITutor({ initialTopic }: AITutorProps) {
             }}>
               {msg.role === "user" ? "👤" : "🧬"}
             </div>
-
-            {/* Bubble */}
             <div style={{
               maxWidth: "75%",
               background: msg.role === "user"
