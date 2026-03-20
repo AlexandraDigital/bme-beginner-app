@@ -15,7 +15,6 @@ export interface Lesson {
   keyIdea: string;
   example: string;
   video?: string;
-  videoUrl?: string;
   quizzes: QuizQuestion[];
   connections?: string[];
   xpReward?: number;
@@ -1498,7 +1497,7 @@ export const lessons: Lesson[] = [
           'Beam hardening occurs because X-ray beams are polychromatic — lower-energy photons are preferentially absorbed, hardening the remaining beam. Between dense objects, the beam hardens non-uniformly, causing dark streaks and a "cupping" artifact. Metal artifact reduction (MAR) algorithms interpolate projections in the affected regions to suppress this.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=djAxjtN_7VE',
+    video: 'djAxjtN_7VE',
   },
   {
     id: 'hodgkin-huxley-bioelectronics',
@@ -1574,7 +1573,7 @@ export const lessons: Lesson[] = [
           'Whole-cell configuration ruptures the membrane patch under the pipette, providing electrical access to the entire cell interior. This allows voltage-clamp of the whole-cell membrane and measurement of total ionic currents (INa, IK, ICa). Access resistance (Ra ~5–20 MΩ) causes series resistance errors that must be compensated. Cell-attached and inside-out patches measure single-channel currents from a small membrane area.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=oa6rvUJlg7o',
+    video: 'oa6rvUJlg7o',
   },
   {
     id: 'computational-biomechanics',
@@ -1650,7 +1649,7 @@ export const lessons: Lesson[] = [
           'CT Hounsfield units (HU) are linearly related to tissue density. Empirical relations convert HU → ash density → elastic modulus (e.g., for cortical bone E ≈ 6,950·ρash^1.49 MPa, Morgan et al.). Each element receives a local E value based on the CT voxel data it maps to, giving a continuous, spatially heterogeneous material distribution that captures osteoporotic regions, trabeculae density gradients, and cortical-cancellous transitions.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=GHjopp47vvQ',
+    video: 'GHjopp47vvQ',
   },
   {
     id: 'nanomedicine-drug-delivery',
@@ -1726,7 +1725,7 @@ export const lessons: Lesson[] = [
           'The therapeutic index (or therapeutic window) TI = TD₅₀/ED₅₀ (or LD₅₀/ED₅₀ in animals) measures how much the toxic dose exceeds the effective dose. Drugs with narrow TI (e.g., digoxin, warfarin, aminoglycosides) require careful therapeutic drug monitoring and PK/PD modeling to stay above the minimum effective concentration while avoiding toxicity.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=AeGGBFbzSuo',
+    video: 'AeGGBFbzSuo',
   },
   {
     id: 'crispr-gene-therapy',
@@ -1802,7 +1801,7 @@ export const lessons: Lesson[] = [
           'LNPs (lipid nanoparticles) efficiently reach the liver (as in FDA-approved inclisiran) but poorly transfect brain, lung, or muscle. AAV vectors can target CNS (AAV9) or muscle (AAV1/6) but have limited packaging capacity (~4.7 kb — insufficient for the full SpCas9 ~4.2 kb + sgRNA + promoters). Pre-existing anti-AAV antibodies in humans limit re-dosing. Smaller Cas9 orthologs (SaCas9, CjCas9) and split-intein systems address packaging constraints.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=jAhjPd4uNFY',
+    video: 'jAhjPd4uNFY',
   },
   {
     id: 'organ-on-chip-bioprinting',
@@ -1878,7 +1877,7 @@ export const lessons: Lesson[] = [
           'Vascular endothelial cells are mechanosensors. Physiological arterial shear stress (0.5–2.5 Pa) activates mechanosensors (PECAM-1, VE-cadherin, integrins, PIEZO1 ion channels), triggering KLF2/KLF4 transcription factors that upregulate eNOS (NO production → vasodilation), suppress inflammation (lower NF-κB, VCAM-1, ICAM-1), and elongate cells in the flow direction. Disturbed flow (oscillatory, low shear < 0.4 Pa at bifurcations) is pro-atherogenic — upregulates oxidative stress and inflammatory adhesion molecules.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=ck__9QKSD0A',
+    video: 'ck__9QKSD0A',
   },
   {
     id: 'brain-computer-interfaces',
@@ -1954,6 +1953,6 @@ export const lessons: Lesson[] = [
           'Dimensionality reduction (PCA, GPFA, LFADS) of motor cortex population activity reveals that despite recording from 100s of neurons, the effective dimensionality of movement-related activity is ~10–20. This "neural manifold" reflects the circuit-level constraints on coordinated muscle activation patterns. Decoders that project to/from the manifold (latent factor models) are more robust to neuron turnover and recording non-stationarities, and generalize better — critical for stable long-term BCI performance.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=lMVB5aeH3wM',
+    video: 'lMVB5aeH3wM',
   },
 ];
