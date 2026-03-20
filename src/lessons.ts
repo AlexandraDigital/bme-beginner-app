@@ -15,9 +15,10 @@ export interface Lesson {
   keyIdea: string;
   example: string;
   video?: string;
+  videoUrl?: string;
   quizzes: QuizQuestion[];
-  connections: string[];
-  xpReward: number;
+  connections?: string[];
+  xpReward?: number;
 }
 
 export const lessons: Lesson[] = [
