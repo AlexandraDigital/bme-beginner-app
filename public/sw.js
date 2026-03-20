@@ -1,4 +1,4 @@
-const CACHE = "bme-v4";
+const CACHE = "bme-v5";
 const BASE = "/bme-beginner-app";
 
 // Install — cache the shell
