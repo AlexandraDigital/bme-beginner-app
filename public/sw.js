@@ -1,13 +1,9 @@
-const CACHE = "bme-v5";
+const CACHE = "bme-v6";
 const BASE = "/bme-beginner-app";
 
-// Install — cache the shell
+// Install — DO NOT pre-cache index.html (it has content-hashed JS refs that change every build)
 self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open(CACHE).then(cache =>
-      cache.addAll([BASE + "/", BASE + "/index.html"])
-    ).then(() => self.skipWaiting())
-  );
+  e.waitUntil(self.skipWaiting());
 });
 
 // Activate — clear old caches
@@ -19,27 +15,47 @@ self.addEventListener("activate", e => {
   );
 });
 
-// Fetch — cache-first for assets, network-first for API calls
+// Fetch strategy:
+// - Navigation (HTML): NETWORK-FIRST, cache the response as offline fallback
+// - /assets/ (content-hashed JS/CSS): CACHE-FIRST (safe, these never change)
+// - Everything else: NETWORK-FIRST
 self.addEventListener("fetch", e => {
-  // Never intercept API calls
-  if (e.request.url.includes("/api/") || e.request.url.includes("groq") || e.request.url.includes("anthropic")) return;
+  const url = e.request.url;
 
+  // Never intercept API calls
+  if (url.includes("/api/") || url.includes("groq") || url.includes("anthropic")) return;
+
+  // Content-hashed assets — safe to cache-first
+  if (url.includes("/assets/")) {
+    e.respondWith(
+      caches.match(e.request).then(cached => {
+        if (cached) return cached;
+        return fetch(e.request).then(res => {
+          if (res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE).then(cache => cache.put(e.request, clone));
+          }
+          return res;
+        });
+      })
+    );
+    return;
+  }
+
+  // Navigation requests and everything else — NETWORK-FIRST
   e.respondWith(
-    caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(res => {
-        // Cache successful GET responses (assets, fonts, etc.)
-        if (e.request.method === "GET" && res.status === 200) {
-          const clone = res.clone();
-          caches.open(CACHE).then(cache => cache.put(e.request, clone));
-        }
-        return res;
-      }).catch(() => {
-        // Offline fallback — return cached shell for navigation
-        if (e.request.mode === "navigate") {
-          return caches.match(BASE + "/index.html") || caches.match(BASE + "/");
-        }
-      });
+    fetch(e.request).then(res => {
+      // Cache successful navigation responses as offline fallback
+      if (e.request.mode === "navigate" && res.status === 200) {
+        const clone = res.clone();
+        caches.open(CACHE).then(cache => cache.put(e.request, clone));
+      }
+      return res;
+    }).catch(() => {
+      // Offline fallback — return last cached version of the page
+      if (e.request.mode === "navigate") {
+        return caches.match(e.request) || caches.match(BASE + "/") || caches.match(BASE + "/index.html");
+      }
     })
   );
 });
