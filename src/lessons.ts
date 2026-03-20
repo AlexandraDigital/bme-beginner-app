@@ -36,7 +36,7 @@ export const lessons: Lesson[] = [
       'BME applies engineering principles to solve medical problems and improve patient outcomes.',
     example:
       'BME engineers designed the artificial heart valve, a mechanical device that replaces damaged cardiac valves and can last decades inside the human body.',
-    video: 'ht1fyLgBJQk',
+    video: 'vxOz2Co_Rhk',
     connections: ['physics-mechanics', 'biology-cells', 'chemistry-basics'],
     xpReward: 10,
     quizzes: [
@@ -627,7 +627,7 @@ export const lessons: Lesson[] = [
       'Biological cells are electrochemical systems — the body runs on ion gradients and transmembrane voltage differences.',
     example:
       'Modeling a neuron\'s membrane as an RC circuit (resistor-capacitor) — the Hodgkin-Huxley model — explains how action potentials propagate along nerve fibers at speeds up to 120 m/s.',
-    video: 'X_crE-unkFk',
+    video: 'E2hL5JocrRQ',
     connections: ['bioelectronics', 'medical-imaging', 'signals-intro'],
     xpReward: 20,
     quizzes: [
@@ -1725,7 +1725,7 @@ export const lessons: Lesson[] = [
           'The therapeutic index (or therapeutic window) TI = TD₅₀/ED₅₀ (or LD₅₀/ED₅₀ in animals) measures how much the toxic dose exceeds the effective dose. Drugs with narrow TI (e.g., digoxin, warfarin, aminoglycosides) require careful therapeutic drug monitoring and PK/PD modeling to stay above the minimum effective concentration while avoiding toxicity.',
       },
     ],
-    video: 'AeGGBFbzSuo',
+    video: 'LGRumgHZzBQ',
   },
   {
     id: 'crispr-gene-therapy',
@@ -1877,7 +1877,7 @@ export const lessons: Lesson[] = [
           'Vascular endothelial cells are mechanosensors. Physiological arterial shear stress (0.5–2.5 Pa) activates mechanosensors (PECAM-1, VE-cadherin, integrins, PIEZO1 ion channels), triggering KLF2/KLF4 transcription factors that upregulate eNOS (NO production → vasodilation), suppress inflammation (lower NF-κB, VCAM-1, ICAM-1), and elongate cells in the flow direction. Disturbed flow (oscillatory, low shear < 0.4 Pa at bifurcations) is pro-atherogenic — upregulates oxidative stress and inflammatory adhesion molecules.',
       },
     ],
-    video: 'ck__9QKSD0A',
+    video: 'f28jcvg1EcU',
   },
   {
     id: 'brain-computer-interfaces',
@@ -1953,6 +1953,6 @@ export const lessons: Lesson[] = [
           'Dimensionality reduction (PCA, GPFA, LFADS) of motor cortex population activity reveals that despite recording from 100s of neurons, the effective dimensionality of movement-related activity is ~10–20. This "neural manifold" reflects the circuit-level constraints on coordinated muscle activation patterns. Decoders that project to/from the manifold (latent factor models) are more robust to neuron turnover and recording non-stationarities, and generalize better — critical for stable long-term BCI performance.',
       },
     ],
-    video: 'lMVB5aeH3wM',
+    video: 'xMxJYhUg0pc',
   },
 ];
