@@ -346,7 +346,42 @@ function Tutor({chat,saveChat}){
   const[busy,setBusy]=useState(false);
   const bottomRef=useRef(null);
   useEffect(()=>{bottomRef.current?.scrollIntoView({behavior:"smooth"});},[msgs,busy]);
-  async function send(){if(!input.trim()||busy)return;const u={role:"user",content:input.trim()};const next=[...msgs,u];setMsgs(next);setInput("");setBusy(true);try{const res=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:1000,messages:[{role:"system",content:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough."},...next]})});const data=await res.json();const a={role:"assistant",content:data.choices?.[0]?.message?.content??"Error retrieving response."};const final=[...next,a];setMsgs(final);saveChat(final);}catch{const final=[...next,{role:"assistant",content:"Connection error. Please try again."}];setMsgs(final);}finally{setBusy(false);}}
+  async function send(){
+    if(!input.trim()||busy)return;
+    const u={role:"user",content:input.trim()};
+    const next=[...msgs,u];
+    setMsgs(next);
+    setInput("");
+    setBusy(true);
+    try{
+      const res=await fetch("/api/chat",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model:"llama-3.3-70b-versatile",
+          max_tokens:1000,
+          messages:[{role:"system",content:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough."},...next]
+        })
+      });
+      const data=await res.json();
+      let content;
+      if(!res.ok||data.error){
+        content=data.error?.message||"The AI tutor is temporarily unavailable. Please try again shortly.";
+      }else{
+        content=data.choices?.[0]?.message?.content||"No response received. Please try again.";
+      }
+      const a={role:"assistant",content};
+      const final=[...next,a];
+      setMsgs(final);
+      saveChat(final);
+    }catch{
+      const final=[...next,{role:"assistant",content:"Connection error. Please check your internet and try again."}];
+      setMsgs(final);
+      saveChat(final);
+    }finally{
+      setBusy(false);
+    }
+  }
   const prompts=["Explain MRI physics simply","How do cochlear implants work?","What is CRISPR in BME?","CT vs PET scans?"];
   return(<div className="tutor-wrap">
     <div style={{marginBottom:12,flexShrink:0}}><h1 style={{fontFamily:"'DM Sans',sans-serif",fontSize:"1.1rem",fontWeight:700,marginBottom:2}}>🤖 AI Tutor</h1><p style={{color:"rgba(255,255,255,0.35)",fontSize:"0.74rem"}}>Ask anything • Conversation saved automatically</p></div>

@@ -3,6 +3,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  if (!process.env.GROQ_API_KEY) {
+    return res.status(500).json({ error: { message: "API key not configured. Please add GROQ_API_KEY to your environment variables." } });
+  }
+
   try {
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -16,6 +20,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     res.status(response.status).json(data);
   } catch (err) {
-    res.status(500).json({ error: "API request failed" });
+    res.status(500).json({ error: { message: "API request failed. Please try again." } });
   }
 }
