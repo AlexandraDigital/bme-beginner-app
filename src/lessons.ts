@@ -556,6 +556,7 @@ export const lessons: Lesson[] = [
       'Precise measurement is the foundation of all engineering and scientific work — unit errors in medicine can be fatal.',
     example:
       'Measuring blood pressure requires understanding both mmHg (the clinical standard) and Pascals (the SI unit), and converting between them (1 mmHg = 133.3 Pa) when calibrating pressure transducers.',
+    video: 'iZCFOyHlnmQ',
     connections: ['physics-em', 'biomechanics', 'medical-devices'],
     xpReward: 10,
     quizzes: [
@@ -779,6 +780,7 @@ export const lessons: Lesson[] = [
       'Metabolism is the coordinated network of chemical reactions that converts nutrients into energy and structural materials for the cell.',
     example:
       'Lactate accumulates in tissues during anaerobic respiration (when oxygen supply is insufficient), and continuous lactate monitoring in ICU patients provides early warning of septic shock and organ failure.',
+    video: 'ST1UWnenOo0',
     connections: ['physiology', 'tissue-engineering', 'drug-delivery'],
     xpReward: 20,
     quizzes: [
@@ -1183,6 +1185,7 @@ export const lessons: Lesson[] = [
       'Biological tissues are not rigid — they are viscoelastic, nonlinear, anisotropic materials whose mechanical behavior depends on loading rate, direction, and history.',
     example:
       'Bone implants must match cortical bone stiffness (~20 GPa) to prevent "stress shielding" — where a stiffer metal implant carries the load instead of bone, causing the surrounding bone to resorb and weaken.',
+    video: 'GkC5q6mcohk',
     connections: ['medical-devices', 'tissue-engineering', 'biomaterials'],
     xpReward: 20,
     quizzes: [
@@ -1261,6 +1264,7 @@ export const lessons: Lesson[] = [
       'Biocompatibility means a material performs its intended function without causing a toxic, injurious, or immunological response in the host.',
     example:
       'Titanium alloy (Ti-6Al-4V) is used in bone screws and dental implants because it combines high strength (~900 MPa), low density (4.4 g/cm³), and a stable titanium oxide surface layer that is naturally biocompatible.',
+    video: '-jw8osY5QJM',
     connections: ['tissue-engineering', 'medical-devices', 'drug-delivery'],
     xpReward: 20,
     quizzes: [
@@ -1344,6 +1348,7 @@ export const lessons: Lesson[] = [
       'Biological signals are inherently noise-corrupted — signal processing filters and transforms them to extract the clinically meaningful information.',
     example:
       'ECG signals are contaminated by 60 Hz power line interference, motion artifact, and baseline wander. Bandpass filtering (0.5–40 Hz) removes these noise sources to reveal clear, measurable cardiac waveforms.',
+    video: '1futkjAOTOo',
     connections: ['bioelectronics', 'medical-imaging'],
     xpReward: 20,
     quizzes: [
