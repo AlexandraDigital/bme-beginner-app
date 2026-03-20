@@ -100,7 +100,7 @@ const STYLES = `
     .page-section, .page-section-alt { padding:40px 24px; }
   }
 
-  /* MOBILE (≤768px) */
+  /* MOBILE (<=768px) */
   @media (max-width: 768px) {
     .nav-links { display:none; }
     .hamburger { display:flex; }
@@ -116,7 +116,7 @@ const STYLES = `
     .mod-card h3 { font-size:0.88rem !important; }
   }
 
-  /* SMALL PHONES (≤390px) */
+  /* SMALL PHONES (<=390px) */
   @media (max-width: 390px) {
     .hero-title { font-size:clamp(2.1rem,7vw,2.7rem); }
     .stat-val { font-size:0.95rem; }
@@ -164,7 +164,7 @@ const MODULES = [
     quiz:[{q:"The three pillars of tissue engineering are:",o:["Genes, proteins, lipids","Cells, scaffolds, growth factors","Neurons, myocytes, osteoblasts","Polymers, metals, ceramics"],a:1},{q:"Totipotent stem cells can become:",o:["Blood cells only","Any somatic cell","Any cell type including extraembryonic","Bone and cartilage only"],a:2},{q:"Ideal biodegradable scaffolds should:",o:["Remain permanently in the body","Degrade as new tissue forms","Conduct electricity","Generate heat"],a:1},{q:"Bioreactors in tissue engineering provide:",o:["Genetic modification tools","Controlled mechanical/biochemical stimuli","Nuclear imaging","Drug delivery only"],a:1},{q:"Organoids are best defined as:",o:["Synthetic polymers","3D mini-organs grown in vitro from stem cells","Gene editing tools","Mechanical implants"],a:1}]},
   { id:"neural-engineering",title:"Neural Engineering",emoji:"🧠",level:"Advanced",duration:"8 hours",color:"#60a5fa",grad:"linear-gradient(135deg,#1e3a8a,#3730a3)",
     lessons:[{id:"ne-1",title:"Neuroscience for Engineers",mins:60},{id:"ne-2",title:"Neural Electrodes & Recording",mins:85},{id:"ne-3",title:"Brain-Computer Interfaces (BCIs)",mins:90},{id:"ne-4",title:"Deep Brain Stimulation",mins:70},{id:"ne-5",title:"Cochlear & Retinal Implants",mins:65}],
-    quiz:[{q:"Action potentials are driven by:",o:["Ca²⁺ channels only","Na⁺/K⁺ ion dynamics","Magnetic fields","Light activation"],a:1},{q:"EEG measures:",o:["Individual neuron spikes","Aggregate scalp electrical activity","Blood oxygenation","Glucose metabolism"],a:1},{q:"BCIs are classified as:",o:["Only implanted devices","Only non-invasive","Invasive, partially-invasive, or non-invasive","Only wireless"],a:2},{q:"DBS most commonly treats:",o:["Alzheimer's disease","Parkinson's disease","Epilepsy only","Narcolepsy"],a:1},{q:"Cochlear implants work by:",o:["Amplifying sound mechanically","Electrically stimulating the auditory nerve","Replacing the ossicles","Using optical pulses"],a:1}]},
+    quiz:[{q:"Action potentials are driven by:",o:["Ca2+ channels only","Na+/K+ ion dynamics","Magnetic fields","Light activation"],a:1},{q:"EEG measures:",o:["Individual neuron spikes","Aggregate scalp electrical activity","Blood oxygenation","Glucose metabolism"],a:1},{q:"BCIs are classified as:",o:["Only implanted devices","Only non-invasive","Invasive, partially-invasive, or non-invasive","Only wireless"],a:2},{q:"DBS most commonly treats:",o:["Alzheimer's disease","Parkinson's disease","Epilepsy only","Narcolepsy"],a:1},{q:"Cochlear implants work by:",o:["Amplifying sound mechanically","Electrically stimulating the auditory nerve","Replacing the ossicles","Using optical pulses"],a:1}]},
   { id:"signal-processing",title:"Biomedical Signal Processing",emoji:"📊",level:"Advanced",duration:"9 hours",color:"#f43f5e",grad:"linear-gradient(135deg,#881337,#be123c)",
     lessons:[{id:"sp-1",title:"Signals & Systems Overview",mins:55},{id:"sp-2",title:"Fourier & Frequency Analysis",mins:90},{id:"sp-3",title:"Filtering & Noise Reduction",mins:85},{id:"sp-4",title:"ECG & EEG Signal Analysis",mins:80},{id:"sp-5",title:"Machine Learning for Biosignals",mins:75}],
     quiz:[{q:"The Fourier transform converts a signal from:",o:["Frequency to time domain","Time to frequency domain","Amplitude to phase","Digital to analog"],a:1},{q:"Aliasing occurs when the sampling rate is:",o:["Greater than twice the max frequency","Equal to the signal frequency","Less than twice the max frequency","Infinite"],a:2},{q:"A bandpass filter:",o:["Removes all frequencies","Passes only a range of frequencies","Amplifies all signals","Removes DC offset only"],a:1},{q:"ECG QRS complex represents:",o:["Atrial depolarization","Ventricular repolarization","Ventricular depolarization","SA node firing"],a:2},{q:"SNR stands for:",o:["System Network Ratio","Signal-to-Noise Ratio","Sample Number Rate","Spectral Normalization Range"],a:1}]},
@@ -246,16 +246,6 @@ function Home({xp,done,quizLog,setPage}){
           <div className="hero-tags">
             {["🩻 Medical Imaging","🦴 Biomechanics","🧬 Tissue Engineering","🧠 Neural Engineering","📡 Biosensors","💻 Bioinformatics"].map(t=>(<span key={t} className="hero-tag">{t}</span>))}
           </div>
-        </div>
-        <div className="hero-visual">
-          <div style={{fontSize:"0.6rem",color:"rgba(255,255,255,0.35)",fontWeight:700,letterSpacing:"0.1em",marginBottom:12,textTransform:"uppercase"}}>Your Starting Point</div>
-          {[["0","XP Earned","#facc15"],[`0/${total}`,"Lessons Done","#22d3ee"],["0","Quizzes Done","#a78bfa"],["0%","Progress","#34d399"]].map(([v,l,c])=>(
-            <div key={l} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:"1px solid rgba(255,255,255,0.05)"}}>
-              <span style={{fontSize:"0.75rem",color:"rgba(255,255,255,0.4)"}}>{l}</span>
-              <span style={{fontFamily:"'DM Sans',sans-serif",fontWeight:700,fontSize:"1.0rem",background:`linear-gradient(135deg,${c},rgba(255,255,255,0.9))`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>{v}</span>
-            </div>
-          ))}
-          <button className="btn-primary" onClick={()=>setPage("courses")} style={{width:"100%",marginTop:14,textAlign:"center",display:"block"}}>Start Learning →</button>
         </div>
       </div>
     </section>
@@ -340,6 +330,8 @@ function Quiz({mod,qs,setQs,logQuiz,onBack,onDone}){
   </div>);
 }
 
+const GROQ_API_URL="https://api.groq.com/openai/v1/chat/completions";
+
 function Tutor({chat,saveChat}){
   const[msgs,setMsgs]=useState(chat);
   const[input,setInput]=useState("");
@@ -354,9 +346,11 @@ function Tutor({chat,saveChat}){
     setInput("");
     setBusy(true);
     try{
-      const res=await fetch("/api/chat",{
+      const apiKey=import.meta.env.VITE_GROQ_API_KEY;
+      if(!apiKey){throw new Error("API key not configured");}
+      const res=await fetch(GROQ_API_URL,{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
+        headers:{"Content-Type":"application/json","Authorization":`Bearer ${apiKey}`},
         body:JSON.stringify({
           model:"llama-3.3-70b-versatile",
           max_tokens:1000,
@@ -375,8 +369,8 @@ function Tutor({chat,saveChat}){
       const final=[...next,a];
       setMsgs(final);
       saveChat(final);
-    }catch{
-      const final=[...next,{role:"assistant",content:"Connection error. Please check your internet and try again.",isError:true}];
+    }catch(err){
+      const final=[...next,{role:"assistant",content:err.message==="API key not configured"?"AI tutor is not configured. Please add the VITE_GROQ_API_KEY secret to GitHub Actions.":"Connection error. Please check your internet and try again.",isError:true}];
       setMsgs(final);
       saveChat(final);
     }finally{
