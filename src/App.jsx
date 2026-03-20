@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { lessons as lessonContent } from './lessons.ts';
+import { lessons as lessonContent } from './lessons';
 
 const STYLES = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Syne:wght@700;800&family=Orbitron:wght@700;800&display=swap');
