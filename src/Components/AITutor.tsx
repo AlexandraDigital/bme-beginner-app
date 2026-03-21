@@ -9,9 +9,6 @@ interface AITutorProps {
   initialTopic?: string;
 }
 
-const MODEL = "llama-3.3-70b-versatile";
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-
 const SYSTEM_PROMPT = `You are BioMedAI Tutor, an expert biomedical engineering educator. 
 You help students understand biomedical engineering concepts from beginner through graduate level.
 Topics include: biophysics, biomechanics, bioelectronics, medical imaging, biomaterials, 
@@ -66,33 +63,24 @@ export default function AITutor({ initialTopic }: AITutorProps) {
     setError(null);
 
     try {
-      const apiKey = import.meta.env.VITE_GROQ_API_KEY;
-      if (!apiKey) throw new Error("API key not configured.");
-
-      const response = await fetch(GROQ_API_URL, {
+      const response = await fetch("/api/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: MODEL,
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             ...newMessages.map((m) => ({ role: m.role, content: m.content })),
           ],
-          max_tokens: 1024,
-          temperature: 0.7,
         }),
       });
 
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
-        throw new Error(errData?.error?.message ?? `API error: ${response.status}`);
+        throw new Error(errData?.error ?? `Server error: ${response.status}`);
       }
 
       const data = await response.json();
-      const reply = data.choices?.[0]?.message?.content ?? "No response received.";
+      const reply = data.reply ?? "No response received.";
 
       setMessages([...newMessages, { role: "assistant", content: reply }]);
     } catch (err: unknown) {
