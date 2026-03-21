@@ -10,7 +10,6 @@ interface AITutorProps {
 }
 
 const MODEL = "llama-3.3-70b-versatile";
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 const SYSTEM_PROMPT = `You are BioMedAI Tutor, an expert biomedical engineering educator. 
 You help students understand biomedical engineering concepts from beginner through graduate level.
@@ -66,14 +65,10 @@ export default function AITutor({ initialTopic }: AITutorProps) {
     setError(null);
 
     try {
-      const apiKey = import.meta.env.VITE_GROQ_API_KEY;
-      if (!apiKey) throw new Error("API key not configured.");
-
-      const response = await fetch(GROQ_API_URL, {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
         },
         body: JSON.stringify({
           model: MODEL,
