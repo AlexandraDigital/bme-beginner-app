@@ -361,8 +361,6 @@ function Quiz({mod,qs,setQs,logQuiz,onBack,onDone}){
   </div>);
 }
 
-const GROQ_API_URL="https://api.groq.com/openai/v1/chat/completions";
-
 function Tutor({chat,saveChat}){
   const[msgs,setMsgs]=useState(chat);
   const[input,setInput]=useState("");
@@ -377,31 +375,27 @@ function Tutor({chat,saveChat}){
     setInput("");
     setBusy(true);
     try{
-      const apiKey=import.meta.env.VITE_GROQ_API_KEY;
-      if(!apiKey){throw new Error("API key not configured");}
-      const res=await fetch(GROQ_API_URL,{
+      const res=await fetch("/api/chat",{
         method:"POST",
-        headers:{"Content-Type":"application/json","Authorization":`Bearer ${apiKey}`},
+        headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
-          model:"llama-3.3-70b-versatile",
-          max_tokens:1000,
           messages:[{role:"system",content:"You are an expert Biomedical Engineering tutor. Explain concepts clearly using analogies and clinical context. Be concise but thorough."},...next]
         })
       });
       const data=await res.json();
       let content,isError=false;
       if(!res.ok||data.error){
-        content=data.error?.message||"The AI tutor is temporarily unavailable. Please try again shortly.";
+        content=data.error||"The AI tutor is temporarily unavailable. Please try again shortly.";
         isError=true;
       }else{
-        content=data.choices?.[0]?.message?.content||"No response received. Please try again.";
+        content=data.reply||"No response received. Please try again.";
       }
       const a={role:"assistant",content,...(isError&&{isError:true})};
       const final=[...next,a];
       setMsgs(final);
       saveChat(final);
     }catch(err){
-      const final=[...next,{role:"assistant",content:err.message==="API key not configured"?"AI tutor is not configured. Please add the VITE_GROQ_API_KEY secret to GitHub Actions.":"Connection error. Please check your internet and try again.",isError:true}];
+      const final=[...next,{role:"assistant",content:"Connection error. Please check your internet and try again.",isError:true}];
       setMsgs(final);
       saveChat(final);
     }finally{
