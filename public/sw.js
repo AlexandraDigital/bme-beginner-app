@@ -1,5 +1,4 @@
-const CACHE = "bme-v7";
-const BASE = "/bme-beginner-app";
+const CACHE = "bme-v8";
 
 // Install — skip waiting immediately so new SW takes over fast
 self.addEventListener("install", e => {
