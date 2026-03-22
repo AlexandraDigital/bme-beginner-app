@@ -228,7 +228,19 @@ function Nav({page,setPage,xp}){
   const[showInstallTip,setShowInstallTip]=useState(false);
   const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
   const navItems=[["home","🧠","Home"],["courses","📚","Courses"],["mindmap","🗺️","Mind Map"],["tutor","🤖","AI Tutor"]];
-  useEffect(()=>{const handler=e=>{e.preventDefault();setInstallPrompt(e);};window.addEventListener("beforeinstallprompt",handler);window.addEventListener("appinstalled",()=>setInstalled(true));if(window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone)setInstalled(true);return()=>window.removeEventListener("beforeinstallprompt",handler);},[]);
+  useEffect(()=>{
+    // Pick up the prompt if it fired before React mounted (captured in index.html)
+    if(window.__deferredInstall){
+      setInstallPrompt(window.__deferredInstall);
+      window.__deferredInstall=null;
+    }
+    // Also listen for it firing after React mounts
+    const handler=e=>{e.preventDefault();setInstallPrompt(e);};
+    window.addEventListener("beforeinstallprompt",handler);
+    window.addEventListener("appinstalled",()=>setInstalled(true));
+    if(window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone)setInstalled(true);
+    return()=>window.removeEventListener("beforeinstallprompt",handler);
+  },[]);
   async function install(){if(installPrompt&&!isIOS){installPrompt.prompt();const{outcome}=await installPrompt.userChoice;if(outcome==="accepted")setInstalled(true);setInstallPrompt(null);}else{setShowInstallTip(p=>!p);}}
   return(<nav className="nav-bar"><div className="nav-inner">
     <button onClick={()=>{setPage("home");setMenuOpen(false);}} style={{display:"flex",alignItems:"center",gap:8,background:"none",border:"none",cursor:"pointer",padding:0,flexShrink:0}}>
