@@ -1,4 +1,5 @@
 import React from 'react';
+import InstallButton from './InstallButton';
 
 interface HomePageProps {
   onNavigate: (page: string) => void;
@@ -125,7 +126,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <button
               onClick={() => onNavigate('courses')}
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-lg hover:opacity-90 transition-all shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-105"
@@ -138,6 +139,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             >
               🤖 Talk to AI Tutor
             </button>
+          </div>
+
+          {/* Install Button */}
+          <div className="flex justify-center mb-10">
+            <InstallButton />
           </div>
 
           {/* Category Pills */}
