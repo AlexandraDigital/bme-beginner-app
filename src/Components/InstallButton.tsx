@@ -6,19 +6,33 @@ declare global {
   }
 }
 
-type Platform = 'chrome' | 'ios-safari' | 'ios-other' | 'android-other' | 'firefox' | 'other';
+type Platform =
+  | 'chrome'
+  | 'ios-safari'
+  | 'ios-other'
+  | 'samsung-internet'
+  | 'android-other'
+  | 'firefox'
+  | 'other';
 
 function detectPlatform(): Platform {
   const ua = navigator.userAgent;
   const isIOS = /iphone|ipad|ipod/i.test(ua);
   const isAndroid = /android/i.test(ua);
-  const isChrome = /chrome\/\d/i.test(ua) && !/edg\//i.test(ua) && !/opr\//i.test(ua);
+  const isSamsung = /samsungbrowser/i.test(ua);
+  // Chrome UA must exclude Samsung, Edge, Opera
+  const isChrome =
+    /chrome\/\d/i.test(ua) &&
+    !/edg\//i.test(ua) &&
+    !/opr\//i.test(ua) &&
+    !/samsungbrowser/i.test(ua);
   const isEdge = /edg\//i.test(ua);
   const isFirefox = /firefox\//i.test(ua);
-  const isSafari = /safari\//i.test(ua) && !isChrome && !isEdge;
+  const isSafari = /safari\//i.test(ua) && !isChrome && !isEdge && !isSamsung;
 
   if (isIOS && isSafari) return 'ios-safari';
   if (isIOS) return 'ios-other';
+  if (isSamsung) return 'samsung-internet';
   if (isAndroid && !isChrome && !isEdge) return 'android-other';
   if (isChrome || isEdge) return 'chrome';
   if (isFirefox) return 'firefox';
@@ -55,7 +69,6 @@ export default function InstallButton() {
       setHasPrompt(true);
     };
     window.addEventListener('beforeinstallprompt', handler as EventListener);
-
     window.addEventListener('appinstalled', () => setInstalled(true));
 
     return () => window.removeEventListener('beforeinstallprompt', handler as EventListener);
@@ -77,67 +90,92 @@ export default function InstallButton() {
         if (outcome === 'accepted') setInstalled(true);
         promptRef.current = null;
         setHasPrompt(false);
+        return;
       } catch {
-        setShowModal(true);
+        // fall through to modal
       }
-    } else {
-      setShowModal(true);
     }
+    setShowModal(true);
   };
 
-  const LIVE_URL = 'https://alexandradigital.github.io/bme-beginner-app/';
+  const LIVE_URL = 'https://bme-beginner-app.pages.dev/';
 
   const modalContent = () => {
-    if (platform === 'ios-safari') {
-      return (
-        <div className="space-y-3 text-sm text-gray-300">
-          <p className="font-semibold text-white text-base">Add to Home Screen on iOS</p>
-          <ol className="space-y-2 list-none">
-            <li>1. Tap the <strong className="text-white">Share</strong> icon <span className="text-lg">⎙</span> at the bottom of Safari</li>
-            <li>2. Scroll down and tap <strong className="text-white">"Add to Home Screen"</strong></li>
-            <li>3. Tap <strong className="text-white">Add</strong> in the top-right corner</li>
-          </ol>
-        </div>
-      );
+    switch (platform) {
+      case 'ios-safari':
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Add to Home Screen on iOS</p>
+            <ol className="space-y-2 list-none">
+              <li>1. Tap the <strong className="text-white">Share</strong> icon <span className="text-lg">⎙</span> at the bottom of Safari</li>
+              <li>2. Scroll down and tap <strong className="text-white">"Add to Home Screen"</strong></li>
+              <li>3. Tap <strong className="text-white">Add</strong> in the top-right corner</li>
+            </ol>
+          </div>
+        );
+
+      case 'ios-other':
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Open in Safari to Install</p>
+            <p>iOS only allows installation from <strong className="text-white">Safari</strong>. Open this page in Safari, then tap Share → Add to Home Screen.</p>
+            <a href={LIVE_URL} target="_blank" rel="noopener noreferrer"
+              className="block text-center mt-2 px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/30 transition-all">
+              Open in Safari ↗
+            </a>
+          </div>
+        );
+
+      case 'samsung-internet':
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Install on Samsung Internet</p>
+            <ol className="space-y-2 list-none">
+              <li>1. Tap the <strong className="text-white">menu icon</strong> (≡) at the bottom</li>
+              <li>2. Tap <strong className="text-white">"Add page to"</strong></li>
+              <li>3. Tap <strong className="text-white">"Home screen"</strong></li>
+            </ol>
+            <p className="text-xs text-gray-500 pt-1">Or open in Chrome for an easier install experience.</p>
+          </div>
+        );
+
+      case 'android-other':
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Install on Android</p>
+            <p>Open this page in <strong className="text-white">Chrome</strong>, then tap the menu (⋮) → <strong>"Add to Home screen"</strong>.</p>
+            <a href={LIVE_URL} target="_blank" rel="noopener noreferrer"
+              className="block text-center mt-2 px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/30 transition-all">
+              Open in Chrome ↗
+            </a>
+          </div>
+        );
+
+      case 'firefox':
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Install in Firefox</p>
+            <p>Look for the <strong className="text-white">house icon</strong> (🏠) in the address bar and click it, or use the Firefox menu → <strong>Install</strong>.</p>
+          </div>
+        );
+
+      case 'chrome':
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Install BioMedAI</p>
+            <p>Tap the <strong className="text-white">install icon (⊕)</strong> in the address bar, or use the browser menu (⋮) → <strong>"Add to Home screen"</strong>.</p>
+            <p className="text-xs text-gray-500">If you don't see the option, try reloading the page once.</p>
+          </div>
+        );
+
+      default:
+        return (
+          <div className="space-y-3 text-sm text-gray-300">
+            <p className="font-semibold text-white text-base">Install BioMedAI</p>
+            <p>Open this page in <strong className="text-white">Chrome</strong> or <strong className="text-white">Edge</strong>, then look for the install option in the browser menu.</p>
+          </div>
+        );
     }
-    if (platform === 'ios-other') {
-      return (
-        <div className="space-y-3 text-sm text-gray-300">
-          <p className="font-semibold text-white text-base">Open in Safari to Install</p>
-          <p>iOS only allows installation from <strong className="text-white">Safari</strong>. Please open this page in Safari, then tap Share → Add to Home Screen.</p>
-          <a href={LIVE_URL} target="_blank" rel="noopener noreferrer"
-            className="block text-center mt-2 px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/30 transition-all">
-            Open in Safari ↗
-          </a>
-        </div>
-      );
-    }
-    if (platform === 'firefox') {
-      return (
-        <div className="space-y-3 text-sm text-gray-300">
-          <p className="font-semibold text-white text-base">Install in Firefox</p>
-          <p>Look for the <strong className="text-white">house icon</strong> (🏠) in the address bar and click it, or use the Firefox menu → <strong>Install</strong>.</p>
-        </div>
-      );
-    }
-    if (platform === 'android-other') {
-      return (
-        <div className="space-y-3 text-sm text-gray-300">
-          <p className="font-semibold text-white text-base">Install on Android</p>
-          <p>Open this page in <strong className="text-white">Chrome</strong>, then tap the menu (⋮) → <strong>"Add to Home screen"</strong>.</p>
-          <a href={LIVE_URL} target="_blank" rel="noopener noreferrer"
-            className="block text-center mt-2 px-4 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/30 transition-all">
-            Open in Chrome ↗
-          </a>
-        </div>
-      );
-    }
-    return (
-      <div className="space-y-3 text-sm text-gray-300">
-        <p className="font-semibold text-white text-base">Install BioMedAI</p>
-        <p>In <strong className="text-white">Chrome or Edge</strong>: click the install icon (⊕) in the address bar or use the browser menu → <strong>"Install BioMedAI"</strong>.</p>
-      </div>
-    );
   };
 
   return (
@@ -148,7 +186,7 @@ export default function InstallButton() {
           className="px-6 py-3 rounded-xl bg-white/5 border border-white/20 text-white font-semibold hover:bg-white/10 transition-all flex items-center gap-2 text-sm sm:text-base"
         >
           <span>📲</span>
-          Install App
+          {hasPrompt ? 'Install App' : 'Install App'}
         </button>
         <a
           href={LIVE_URL}

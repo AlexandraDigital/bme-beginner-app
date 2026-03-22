@@ -2,21 +2,21 @@
   "name": "BioMedAI",
   "short_name": "BioMedAI",
   "description": "AI-Powered Biomedical Engineering Learning Platform",
-  "start_url": "/bme-beginner-app/",
-  "scope": "/bme-beginner-app/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#060b18",
   "theme_color": "#060b18",
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/bme-beginner-app/icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/bme-beginner-app/icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
